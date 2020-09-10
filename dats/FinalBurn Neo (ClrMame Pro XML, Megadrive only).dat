@@ -1546,6 +1546,13 @@
 		<rom name="bram stoker's dracula (usa).bin" size="1048576" crc="077084a6"/>
 		<driver status="good"/>
 	</game>
+	<game name="bravebtl">
+		<description>Brave Battle Saga - Legend of the Magic Warrior (Ch) [Piko Int. English Translation 2017]</description>
+		<year>1996</year>
+		<manufacturer>&lt;unlicensed&gt; Chuanpu</manufacturer>
+		<rom name="brave battle saga - legend of the magic warrior.md" size="2097152" crc="f4554624"/>
+		<driver status="good"/>
+	</game>
 	<game name="bretth">
 		<description>Brett Hull Hockey '95 (USA)</description>
 		<year>1994</year>
@@ -1904,10 +1911,10 @@
 		<driver status="good"/>
 	</game>
 	<game name="cavestory">
-		<description>Cave Story Doukutsu (HB, v0.5.2) [Homebrew]</description>
-		<year>2004</year>
+		<description>Cave Story Doukutsu (HB, v0.6.0) [Homebrew]</description>
+		<year>2020-07-29</year>
 		<manufacturer>Studio Pixel</manufacturer>
-		<rom name="Cave Story Doukutsu (v0.5.2).bin" size="4079616" crc="292080ae"/>
+		<rom name="Cave Story Doukutsu (v0.6.0).bin" size="4194304" crc="1bb47dd2"/>
 		<driver status="good"/>
 	</game>
 	<game name="centur">
@@ -4451,6 +4458,13 @@
 		<rom name="fifa soccer 2000 gold edition (pirate) (unl).bin" size="2097152" crc="647df504"/>
 		<driver status="good"/>
 	</game>
+	<game name="fifa2020" cloneof="fifa95" romof="fifa95">
+		<description>FIFA Soccer 2020 (Hack, v2.3)</description>
+		<year>2020</year>
+		<manufacturer>TA Marcos</manufacturer>
+		<rom name="FIFA Soccer 2020 v2.3.bin" size="2173824" crc="2ee94b2e"/>
+		<driver status="good"/>
+	</game>
 	<game name="fifa95">
 		<description>FIFA Soccer 95 (Euro, USA)</description>
 		<year>1994</year>
@@ -5070,10 +5084,10 @@
 		<driver status="good"/>
 	</game>
 	<game name="goldnax3nc" cloneof="goldnax3" romof="goldnax3">
-		<description>Golden Axe III - New Character (Ver. 8) (Hack)</description>
-		<year>2013</year>
+		<description>Golden Axe III - New Character (Ver. 9) (Hack)</description>
+		<year>2020-06-08</year>
 		<manufacturer>Ti</manufacturer>
-		<rom name="GoldenAxeIII_New Character_Hack.bin" size="2097152" crc="b157f06c"/>
+		<rom name="GoldenAxeIII_New Character_Hack.bin" size="2097152" crc="29a27509"/>
 		<driver status="good"/>
 	</game>
 	<game name="goofy">
@@ -7307,6 +7321,13 @@
 		<year>1991</year>
 		<manufacturer>Sega</manufacturer>
 		<rom name="mpr-14242.bin" size="1048576" crc="16113a72"/>
+		<driver status="good"/>
+	</game>
+	<game name="mb2277">
+		<description>Metal Blast 2277 (HB) [Homebrew]</description>
+		<year>2019</year>
+		<manufacturer>T-Arts Studio</manufacturer>
+		<rom name="metal blast 2277 (rev01-2019)(t-arts studio).bin" size="2647322" crc="dfd4fe49"/>
 		<driver status="good"/>
 	</game>
 	<game name="metalfng">
@@ -9803,6 +9824,13 @@
 		<year>1995</year>
 		<manufacturer>Psygnosis</manufacturer>
 		<rom name="prince of persia 2 - the shadow and the flame (euro) (prototype).bin" size="2097152" crc="3ab44d46"/>
+		<driver status="good"/>
+	</game>
+	<game name="pringles">
+		<description>Pringles the Game (HB) [Homebrew]</description>
+		<year>2009</year>
+		<manufacturer>Future Drive</manufacturer>
+		<rom name="pringles the game (2009)(future drive).bin" size="457064" crc="a397bc66"/>
 		<driver status="good"/>
 	</game>
 	<game name="par">
@@ -12472,6 +12500,13 @@
 		<rom name="stormlord (usa).bin" size="524288" crc="39ab50a5"/>
 		<driver status="good"/>
 	</game>
+	<game name="sf2re" cloneof="sf2" romof="sf2">
+		<description>Street Fighter II' - Remastered Edition (Hack) [Hack]</description>
+		<year>2020</year>
+		<manufacturer>Pyron</manufacturer>
+		<rom name="street fighter ii' - remastered edition (hack).bin" size="3182560" crc="fae82b59"/>
+		<driver status="good"/>
+	</game>
 	<game name="sf2">
 		<description>Street Fighter II' - Special Champion Edition (Euro)</description>
 		<year>1993</year>
@@ -14867,6 +14902,13 @@
 		<rom name="mpr-14464a.bin" size="524288" crc="7362c3f4"/>
 		<driver status="good"/>
 	</game>
+	<game name="tomjerryim" cloneof="tomjerry" romof="tomjerry">
+		<description>Tom and Jerry - Frantic Antics (Hack, Improvement v2)</description>
+		<year>2020</year>
+		<manufacturer>Sega - Ti</manufacturer>
+		<rom name="Tom and Jerry - Frantic Antics (U) (Improvement).bin" size="2097152" crc="13bcf0a2"/>
+		<driver status="good"/>
+	</game>
 	<game name="tomjerry">
 		<description>Tom and Jerry - Frantic Antics (USA, 1993)</description>
 		<year>1993</year>
@@ -16972,6 +17014,13 @@
 		<year>2020</year>
 		<manufacturer>RetroSouls</manufacturer>
 		<rom name="Yazzie.bin" size="655360" crc="93d5ad8a"/>
+		<driver status="good"/>
+	</game>
+	<game name="yiearkf">
+		<description>Yie Ar Kung-Fu (HB) [Homebrew]</description>
+		<year>2007</year>
+		<manufacturer>&lt;unlicensed&gt; Evgeny and Shiru</manufacturer>
+		<rom name="yie ar kung-fu smdport (2007)(evgeny, shiru).bin" size="206368" crc="f4ec4cc3"/>
 		<driver status="good"/>
 	</game>
 	<game name="yogibear">

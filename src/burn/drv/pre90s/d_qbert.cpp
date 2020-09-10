@@ -203,11 +203,11 @@ static struct BurnInputInfo KrullInputList[] = {
 	{"Left Stick Up",	BIT_DIGITAL,	DrvJoy2 + 4,	"p1 up"		},
 	{"Left Stick Down",	BIT_DIGITAL,	DrvJoy2 + 6,	"p1 down"	},
 	{"Left Stick Left",	BIT_DIGITAL,	DrvJoy2 + 7,	"p1 left"	},
-	{"Left Stick Right",	BIT_DIGITAL,	DrvJoy2 + 5,	"p1 right"	},
-	{"Right Stick Up",	BIT_DIGITAL,	DrvJoy2 + 0,	"p2 up"		},
-	{"Right Stick Down",	BIT_DIGITAL,	DrvJoy2 + 2,	"p2 down"	},
-	{"Right Stick Left",	BIT_DIGITAL,	DrvJoy2 + 3,	"p2 left"	},
-	{"Right Stick Right",	BIT_DIGITAL,	DrvJoy2 + 1,	"p2 right"	},
+	{"Left Stick Right",BIT_DIGITAL,	DrvJoy2 + 5,	"p1 right"	},
+	{"Right Stick Up",	BIT_DIGITAL,	DrvJoy2 + 0,	"p1 up 2"	},
+	{"Right Stick Down",BIT_DIGITAL,	DrvJoy2 + 2,	"p1 down 2"	},
+	{"Right Stick Left",BIT_DIGITAL,	DrvJoy2 + 3,	"p1 left 2"	},
+	{"Right Stick Right",BIT_DIGITAL,	DrvJoy2 + 1,	"p1 right 2"},
 
 	{"Reset",			BIT_DIGITAL,	&DrvReset,		"reset"		},
 	{"Select",			BIT_DIGITAL,	DrvJoy1 + 1,    "diag"      },
@@ -277,10 +277,10 @@ static struct BurnInputInfo ScrewlooInputList[] = {
 	{"Left Stick Down",	BIT_DIGITAL,	DrvJoy1 + 6,	"p1 down"	},
 	{"Left Stick Left",	BIT_DIGITAL,	DrvJoy1 + 5,	"p1 left"	},
 	{"Left Stick Right",BIT_DIGITAL,	DrvJoy1 + 4,	"p1 right"	},
-	{"Right Stick Up",	BIT_DIGITAL,	DrvJoy2 + 3,	"p2 up"		},
-	{"Right Stick Down",BIT_DIGITAL,	DrvJoy2 + 2,	"p2 down"	},
-	{"Right Stick Left",BIT_DIGITAL,	DrvJoy2 + 1,	"p2 left"	},
-	{"Right Stick Right",BIT_DIGITAL,	DrvJoy2 + 0,	"p2 right"	},
+	{"Right Stick Up",	BIT_DIGITAL,	DrvJoy2 + 3,	"p1 up 2"	},
+	{"Right Stick Down",BIT_DIGITAL,	DrvJoy2 + 2,	"p1 down 2"	},
+	{"Right Stick Left",BIT_DIGITAL,	DrvJoy2 + 1,	"p1 left 2"	},
+	{"Right Stick Right",BIT_DIGITAL,	DrvJoy2 + 0,	"p1 right 2"},
 	{"Button 1",		BIT_DIGITAL,	DrvJoy2 + 5,	"p1 fire 1"	},
 	{"Button 2",		BIT_DIGITAL,	DrvJoy2 + 4,	"p1 fire 2"	},
 
@@ -1893,8 +1893,8 @@ static void draw_sprites()
 
 	for (INT32 offs = 0; offs < 0x100 - 8; offs += 4)
 	{
-		INT32 sx = ((DrvSpriteRAM[offs + 1]) - 4) + ((game_type == 4) ? 7 : 0); // mplanets has weird sx/sy offsets
-		INT32 sy = ((DrvSpriteRAM[offs]) - 13) - ((game_type == 4) ? 4 : 0);    // apparent in the hiscore table.
+		INT32 sx = ((DrvSpriteRAM[offs + 1]) - 4) + ((game_type == 4) ? 16 : 0); // mplanets has weird sx/sy offsets
+		INT32 sy = ((DrvSpriteRAM[offs]) - 13) - ((game_type == 4) ? -4 : 0);    // apparent in the hiscore table.
 		INT32 code = (255 ^ DrvSpriteRAM[offs + 2]) + (256 * *spritebank);
 
 		INT32 flipy = 0;

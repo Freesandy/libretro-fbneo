@@ -1,7 +1,5 @@
 // 680x0 (Sixty Eight K) Interface
 
-// todo: (I think!) if SekRunEnd() is called while running, wrong cycles get returned by SekRun() for m68k -dink
-
 #include "burnint.h"
 #include "m68000_intf.h"
 #include "m68000_debug.h"
@@ -332,7 +330,7 @@ inline static UINT16 ReadWord(UINT32 a)
 	{
 		if (a & 1)
 		{
-			return BURN_ENDIAN_SWAP_INT16((ReadByte(a + 0) * 256) + ReadByte(a + 1));
+			return (ReadByte(a + 0) * 256) + ReadByte(a + 1);
 		}
 		else
 		{
@@ -373,8 +371,6 @@ inline static void WriteWord(UINT32 a, UINT16 d)
 		if (a & 1)
 		{
 		//	bprintf(PRINT_NORMAL, _T("write16 0x%08X\n"), a);
-
-			d = BURN_ENDIAN_SWAP_INT16(d);
 
 			WriteByte(a + 0, d / 0x100);
 			WriteByte(a + 1, d);
@@ -428,7 +424,7 @@ inline static UINT32 ReadLong(UINT32 a)
 			r += ReadByte((a + 2)) * 0x100;
 			r += ReadByte((a + 3));
 
-			return BURN_ENDIAN_SWAP_INT32(r);
+			return r;
 		}
 		else
 		{
@@ -473,8 +469,6 @@ inline static void WriteLong(UINT32 a, UINT32 d)
 		if (a & 1)
 		{
 		//	bprintf(PRINT_NORMAL, _T("write32 0x%08X 0x%8.8x\n"), a,d);
-
-			d = BURN_ENDIAN_SWAP_INT32(d);
 
 			WriteByte((a + 0), d / 0x1000000);
 			WriteByte((a + 1), d / 0x10000);
@@ -998,6 +992,8 @@ void SekNewFrame()
 
 	for (INT32 i = 0; i <= nSekCount; i++) {
 		nSekCycles[i] = 0;
+		nSekCyclesToDoCache[i] = 0;
+		nSekm68k_ICount[i] = 0;
 	}
 
 	nSekCyclesToDo = m68k_ICount = 0;
@@ -1338,7 +1334,7 @@ void SekClose()
 	// Allow for SekRun() reentrance:
 	nSekCyclesToDoCache[nSekActive] = nSekCyclesToDo;
 	nSekm68k_ICount[nSekActive] = m68k_ICount;
-	
+
 	nSekActive = -1;
 }
 
@@ -1741,6 +1737,21 @@ INT32 SekRun(INT32 nCPU, INT32 nCycles)
 	SekCPUPush(nCPU);
 
 	INT32 nRet = SekRun(nCycles);
+
+	SekCPUPop();
+
+	return nRet;
+}
+
+INT32 SekIdle(INT32 nCPU, INT32 nCycles)
+{
+#if defined FBNEO_DEBUG
+	if (!DebugCPU_SekInitted) bprintf(PRINT_ERROR, _T("SekIdle called without init\n"));
+#endif
+
+	SekCPUPush(nCPU);
+
+	INT32 nRet = SekIdle(nCycles);
 
 	SekCPUPop();
 

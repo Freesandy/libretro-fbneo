@@ -11623,7 +11623,7 @@ struct BurnDriver BurnDrvnitd = {
 	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO | HARDWARE_SNK_CMC42, GBF_PLATFORM, 0,
 	NULL, nitdRomInfo, nitdRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
 	nitdInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
-	0x1000,	320, 224, 4, 3
+	0x1000,	304, 224, 4, 3
 };
 
 
@@ -11655,7 +11655,7 @@ struct BurnDriver BurnDrvnitdbl = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_PLATFORM, 0,
 	NULL, nitdblRomInfo, nitdblRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
 	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
-	0x1000,	320, 224, 4, 3
+	0x1000,	304, 224, 4, 3
 };
 
 // Gururin
@@ -15237,7 +15237,7 @@ struct BurnDriver BurnDrvmslug5g = {
 	"mslug5g", "mslug5", "neogeo", NULL, "2017",
 	"Metal Slug 5 (Multifunction Hack, 20170523)\0", NULL, "hack", "Neo Geo MVS",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_VSFIGHT, FBF_KOF,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_RUNGUN, FBF_MSLUG,
 	NULL, mslug5gRomInfo, mslug5gRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
 	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000,	304, 224, 4, 3
@@ -15502,21 +15502,21 @@ struct BurnDriver BurnDrvsamsho5x = {
 // Sengoku 3 / Sengoku Densho 2001 (Evolution 1.0, FCHT hack)
 
 static struct BurnRomInfo sengoku3sRomDesc[] = {
-	{ "261-p1s.bin",  0x200000, 0x5a1b5e85, 1 | BRF_ESS | BRF_PRG }, 	//  0 68K code
+	{ "261-p1s.bin",  			0x200000, 0x5a1b5e85, 1 | BRF_ESS | BRF_PRG }, 	//  0 68K code
 	
-	{ "261-s1.bin",   0x020000, 0xc1e27cc7, 2 | BRF_GRA },           	//  1 Text layer tiles
+	{ "261-s1.bin",   			0x020000, 0xc1e27cc7, 2 | BRF_GRA },           	//  1 Text layer tiles
 			
-	{ "261-c1_decrypted.bin",    0x800000, 0x9af7cbca, 3 | BRF_GRA },	//  2 Sprite data
-	{ "261-c2_decrypted.bin",    0x800000, 0x2a1f874d, 3 | BRF_GRA },   //  3 
-	{ "261-c3_decrypted.bin",    0x800000, 0x5403adb5, 3 | BRF_GRA },   //  4 
-	{ "261-c4_decrypted.bin",    0x800000, 0x18926df6, 3 | BRF_GRA },   //  5 
+	{ "261-c1_decrypted.bin",    0x800000, 0x9af7cbca, 3 | BRF_GRA },			//  2 Sprite data
+	{ "261-c2_decrypted.bin",    0x800000, 0x2a1f874d, 3 | BRF_GRA },   		//  3 
+	{ "261-c3_decrypted.bin",    0x800000, 0x5403adb5, 3 | BRF_GRA },   		//  4 
+	{ "261-c4_decrypted.bin",    0x800000, 0x18926df6, 3 | BRF_GRA },   		//  5 
 
-	{ "261-m1.m1",    0x080000, 0x7d501c39, 4 | BRF_ESS | BRF_PRG }, 	//  6 Z80 code
+	{ "261-m1.m1",    			0x080000, 0x7d501c39, 4 | BRF_ESS | BRF_PRG }, 	//  6 Z80 code
 
-	{ "261-v1.v1",    0x400000, 0x64c30081, 5 | BRF_SND },           	//  7 Sound data
-	{ "261-v2.v2",    0x400000, 0x392a9c47, 5 | BRF_SND },           	//  8 
-	{ "261-v3.v3",    0x400000, 0xc1a7ebe3, 5 | BRF_SND },           	//  9 
-	{ "261-v4.v4",    0x200000, 0x9000d085, 5 | BRF_SND },           	// 10 
+	{ "261-v1.v1",    			0x400000, 0x64c30081, 5 | BRF_SND },           	//  7 Sound data
+	{ "261-v2.v2",    			0x400000, 0x392a9c47, 5 | BRF_SND },           	//  8 
+	{ "261-v3.v3",    			0x400000, 0xc1a7ebe3, 5 | BRF_SND },           	//  9 
+	{ "261-v4.v4",    			0x200000, 0x9000d085, 5 | BRF_SND },           	// 10 
 };
 
 STDROMPICKEXT(sengoku3s, sengoku3s, neogeo)
@@ -15528,6 +15528,41 @@ struct BurnDriver BurnDrvSengoku3s = {
 	L"Sengoku 3\0\u6226\u56FD\u4F1D\u627F\uFF12\uFF10\uFF10\uFF11 (Evolution 1.0, FCHT hack)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_SCRFIGHT, 0,
 	NULL, sengoku3sRomInfo, sengoku3sRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000, 320, 224, 4, 3
+};
+
+// Sengoku 3 / Sengoku Densho 2001 (Feng Shen Edition, Hack)
+// Hacked by BinDi
+// GOTVG 20200410
+
+static struct BurnRomInfo sengoku3fsRomDesc[] = {
+	{ "261-p1fs.bin",			0x200000, 0x76b2a57a, 1 | BRF_ESS | BRF_PRG },	//  0 68K code
+	
+	{ "261-s1.bin",				0x020000, 0xc1e27cc7, 2 | BRF_GRA },			//  1 Text layer tiles
+			
+	{ "261-c1_decrypted.bin",	0x800000, 0x9af7cbca, 3 | BRF_GRA },			//  2 Sprite data
+	{ "261-c2_decrypted.bin",	0x800000, 0x2a1f874d, 3 | BRF_GRA },			//  3 
+	{ "261-c3_decrypted.bin",	0x800000, 0x5403adb5, 3 | BRF_GRA },			//  4 
+	{ "261-c4_decrypted.bin",	0x800000, 0x18926df6, 3 | BRF_GRA },			//  5 
+
+	{ "261-m1.m1",				0x080000, 0x7d501c39, 4 | BRF_ESS | BRF_PRG }, 	//  6 Z80 code
+
+	{ "261-v1.v1",				0x400000, 0x64c30081, 5 | BRF_SND },			//  7 Sound data
+	{ "261-v2.v2",				0x400000, 0x392a9c47, 5 | BRF_SND },			//  8 
+	{ "261-v3.v3",				0x400000, 0xc1a7ebe3, 5 | BRF_SND },			//  9 
+	{ "261-v4.v4",				0x200000, 0x9000d085, 5 | BRF_SND },			// 10 
+};
+
+STDROMPICKEXT(sengoku3fs, sengoku3fs, neogeo)
+STD_ROM_FN(sengoku3fs)
+
+struct BurnDriver BurnDrvsengoku3fs = {
+	"sengoku3fs", "sengoku3", "neogeo", NULL, "2020-04-10",
+	"Sengoku 3 / Sengoku Densho 2001 (Feng Shen Edition, Hack)\0", NULL, "Hack", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_SCRFIGHT, 0,
+	NULL, sengoku3fsRomInfo, sengoku3fsRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
 	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000, 320, 224, 4, 3
 };
@@ -16497,11 +16532,11 @@ struct BurnDriver BurnDrvkof97t = {
 	0x1000, 304, 224, 4, 3
 };
 
-// The King of Fighters '97 (Anniversary Edition Build 2.1.1711, EGHT hack)
+// The King of Fighters '97 (Anniversary Edition Build 2.1.1811, EGHT hack)
 // Hacked by AndyChan
 
 static struct BurnRomInfo kof97aeRomDesc[] = {
-	{ "kof97ae-p1.p1",		0x100000, 0x5759ea82, 1 | BRF_ESS | BRF_PRG },	//  0 68K code
+	{ "kof97ae-p1.p1",		0x100000, 0xe453b221, 1 | BRF_ESS | BRF_PRG },	//  0 68K code
 	{ "kof97ae-p2.sp2",		0x400000, 0xf00ba90d, 1 | BRF_ESS | BRF_PRG },	//  1 
 
 	{ "kof97ae-s1.s1",		0x020000, 0x30a6b3b8, 2 | BRF_GRA },			//  2 Text layer tiles
@@ -16537,8 +16572,8 @@ static INT32 kof97aeInit()
 }
 
 struct BurnDriver BurnDrvkof97ae = {
-	"kof97ae", "kof97", "neogeo", NULL, "2020",
-	"The King of Fighters '97 (Anniversary Edition build 2.1.1711)\0", NULL, "EGHT", "Neo Geo MVS",
+	"kof97ae", "kof97", "neogeo", NULL, "2020-08-10",
+	"The King of Fighters '97 (Anniversary Edition build 2.1.1811)\0", NULL, "EGHT", "Neo Geo MVS",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_VSFIGHT, FBF_KOF,
 	NULL, kof97aeRomInfo, kof97aeRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neoaesjapanDIPInfo,
@@ -16618,6 +16653,42 @@ struct BurnDriver BurnDrvkof97invplus = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_VSFIGHT, FBF_KOF,
 	NULL, kof97invplusRomInfo, kof97invplusRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000, 304, 224, 4, 3
+};
+
+// The King of Fighters '97 (Practice Mode)
+// Hacked by Kof1996
+
+static struct BurnRomInfo kof97pmRomDesc[] = {
+	{ "232pm-p1.p1",	0x100000, 0x34ccabae, 1 | BRF_ESS | BRF_PRG },	//  0 68K code
+	{ "232-p2.sp2",		0x400000, 0x158b23f6, 1 | BRF_ESS | BRF_PRG },	//  1
+
+	{ "232-s1.s1",		0x020000, 0x8514ecf5, 2 | BRF_GRA },			//  2 Text layer tiles
+
+	{ "232-c1.c1",		0x800000, 0x5f8bf0a1, 3 | BRF_GRA },			//  3 Sprite data
+	{ "232-c2.c2",		0x800000, 0xe4d45c81, 3 | BRF_GRA },			//  4 
+	{ "232-c3.c3",		0x800000, 0x581d6618, 3 | BRF_GRA },			//  5 
+	{ "232-c4.c4",		0x800000, 0x49bb1e68, 3 | BRF_GRA },			//  6 
+	{ "232-c5.c5",		0x400000, 0x34fc4e51, 3 | BRF_GRA },			//  7 
+	{ "232-c6.c6",		0x400000, 0x4ff4d47b, 3 | BRF_GRA },			//  8 
+
+	{ "232-m1.m1",		0x020000, 0x45348747, 4 | BRF_ESS | BRF_PRG },	//  9 Z80 code
+
+	{ "232-v1.v1",		0x400000, 0x22a2b5b5, 5 | BRF_SND },			// 10 Sound data
+	{ "232-v2.v2",		0x400000, 0x2304e744, 5 | BRF_SND },			// 11 
+	{ "232-v3.v3",		0x400000, 0x759eb954, 5 | BRF_SND },			// 12 
+};
+
+STDROMPICKEXT(kof97pm, kof97pm, neogeo)
+STD_ROM_FN(kof97pm)
+
+struct BurnDriver BurnDrvKof97pm = {
+	"kof97pm", "kof97", "neogeo", NULL, "1997",
+	"The King of Fighters '97 (Practice Mode)\0", "need AES for practice mode", "hack", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_VSFIGHT, FBF_KOF,
+	NULL, kof97pmRomInfo, kof97pmRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
 	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000, 304, 224, 4, 3
 };
@@ -16934,7 +17005,7 @@ struct BurnDriver BurnDrvkof98eckvs = {
 };
 
 // The King of Fighters '98 - Easy Combo King (YZKOF Version, hack)
-/* Hack by YZKOF - Build 2020-04-09 */
+/* Hack by gunloc941 - YZKOF Build 2020-04-09 */
 
 static struct BurnRomInfo kof98eck20RomDesc[] = {
 	{ "98eck20-p1.bin", 	0x100000, 0x0ced4a93, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
@@ -17574,10 +17645,51 @@ struct BurnDriver BurnDrvkf2k2ps2 = {
 	0x1000,	304, 224, 4, 3
 };
 
+// The King of Fighters 2002 (PlayStation 2, Hack)
+
+static struct BurnRomInfo kf2k2ps2bRomDesc[] = {
+	{ "265-p1ps2.p1",		0x100000, 0x9da95b36, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+	{ "265-p2ps2.sp2",		0x500000, 0x9846db3a, 1 | BRF_ESS | BRF_PRG }, //  1 
+
+	{ "265-s1ps2.s1",		0x020000, 0x714ade47, 2 | BRF_GRA },           //  2 Text layer tiles
+
+	{ "265-c1ps2.c1",		0x800000, 0x7efa6ef7, 3 | BRF_GRA },           //  3 Sprite data
+	{ "265-c2ps2.c2",		0x800000, 0xaa82948b, 3 | BRF_GRA },           //  4 
+	{ "265-c3ps2.c3",		0x800000, 0x959fad0b, 3 | BRF_GRA },           //  5 
+	{ "265-c4ps2.c4",		0x800000, 0xefe6a468, 3 | BRF_GRA },           //  6 
+	{ "265-c5ps2.c5",		0x800000, 0x74bba7c6, 3 | BRF_GRA },           //  7 
+	{ "265-c6ps2.c6",		0x800000, 0xe20d2216, 3 | BRF_GRA },           //  8 
+	{ "265-c7ps2.c7",		0x800000, 0xf0897b93, 3 | BRF_GRA },           //  9 
+	{ "265-c8ps2.c8",		0x800000, 0x8d27a4a6, 3 | BRF_GRA },           // 10 
+	{ "265-c9ps2.c9",		0x800000, 0x9939c08a, 3 | BRF_GRA },           // 11
+	{ "265-c10ps2.c10",		0x800000, 0xc724c069, 3 | BRF_GRA },           // 12 
+
+	{ "265-m1ps2.m1",		0x020000, 0xab9d360e, 4 | BRF_ESS | BRF_PRG }, // 13 Z80 code
+
+	{ "265-v1sp2.v1",		0x400000, 0x13d98607, 5 | BRF_SND },           // 14 Sound data
+	{ "265-v2sp2.v2",		0x400000, 0x9cf74677, 5 | BRF_SND },           // 15 
+	{ "265-v3sp2.v3",		0x400000, 0x8e9448b5, 5 | BRF_SND },           // 16
+	{ "265-v4sp2.v4",		0x400000, 0x067271b5, 5 | BRF_SND },           // 17 
+};
+
+STDROMPICKEXT(kf2k2ps2b, kf2k2ps2b, neogeo)
+STD_ROM_FN(kf2k2ps2b)
+
+struct BurnDriver BurnDrvkf2k2ps2b = {
+	"kf2k2ps2b", "kof2002", "neogeo", NULL, "2018",
+	"The King of Fighters 2002 (PlayStation 2, Hack)\0", "hack only enable in AES mode", "Hack", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_VSFIGHT, FBF_KOF,
+	NULL, kf2k2ps2bRomInfo, kf2k2ps2bRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neoaesjapanDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000,	304, 224, 4, 3
+};
+
 // The King of Fighters 2002 - 3rd Strike of Orochi (Hack by EGCG/EGHT)
+// YZKOF - The date of the last file: 2020-06-14 (kf2k23rd-p1.rom)
 
 static struct BurnRomInfo kf2k23rdRomDesc[] = {
-	{ "kf2k23rd-p1.rom",      0x100000, 0xeb84d68f, 1 | BRF_ESS | BRF_PRG }, // 0 68K code
+	{ "kf2k23rd-p1.rom",      0x100000, 0xde02918d, 1 | BRF_ESS | BRF_PRG }, // 0 68K code
 	{ "kf2k23rd-p2.rom",      0x400000, 0x293bbf78, 1 | BRF_ESS | BRF_PRG }, // 1
 
 	{ "kf2k23rd-s1.rom",      0x020000, 0x67e7cbe1, 2 | BRF_GRA },           // 2 Text layer tiles / TC531000
@@ -17603,7 +17715,7 @@ STDROMPICKEXT(kf2k23rd, kf2k23rd, neogeo)
 STD_ROM_FN(kf2k23rd)
 
 struct BurnDriver BurnDrvkf2k23rd = {
-	"kf2k23rd", "kof2002", "neogeo", NULL, "200?",
+	"kf2k23rd", "kof2002", "neogeo", NULL, "2020-06-14",
 	"The King of Fighters 2002 - 3rd Strike of Orochi (Hack by EGCG/EGHT)\0", NULL, "hack", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_VSFIGHT, FBF_KOF,
@@ -17890,14 +18002,14 @@ struct BurnDriver BurnDrvK2k2ps2re1 = {
 	0x1000,	304, 224, 4, 3
 };
 
-// The King of Fighters 2002 (Plus 2007, Hack)
+// The King of Fighters 2002 (Plus 2017, Hack) ver. 20200222
 // Hacked by GSC2007
-// 2020-02-22
+// YZKOF (The date of the last file 2020-07-17 - kof2k2plus-p1.p1 & kof2k2plus-p3.p3)
 
 static struct BurnRomInfo kof2k2plusRomDesc[] = {
-	{ "kof2k2plus-p1.p1",	0x100000, 0xbce20a36, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+	{ "kof2k2plus-p1.p1",	0x100000, 0xdc6da89f, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
 	{ "kof2k2plus-p2.p2",	0x500000, 0x7ad26451, 1 | BRF_ESS | BRF_PRG }, //  1 
-	{ "kof2k2plus-p3.p3",	0x020000, 0x2bbed8ec, 1 | BRF_ESS | BRF_PRG }, //  2 Extra ROM
+	{ "kof2k2plus-p3.p3",	0x020000, 0xf9dacaae, 1 | BRF_ESS | BRF_PRG }, //  2 Extra ROM
 
 	{ "kof2k2plus-s1.s1",	0x020000, 0x96bdd036, 2 | BRF_GRA },           //  3 Text layer tiles
 
@@ -17951,11 +18063,11 @@ static INT32 kof2k2plusExit()
 }
 
 struct BurnDriver BurnDrvkof2k2plus = {
-	"kof2k2plus", "kof2002", "neogeo", NULL, "2020-02-22",
+	"kof2k2plus", "kof2002", "neogeo", NULL, "2020-07-17",
 	"The King of Fighters 2002 (Plus 2017, Hack)\0", NULL, "Hack", "Neo Geo MVS",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO | HARDWARE_SNK_ENCRYPTED_M1, GBF_VSFIGHT, FBF_KOF,
-	NULL, kof2k2plusRomInfo, kof2k2plusRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,  
+	NULL, kof2k2plusRomInfo, kof2k2plusRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neoaesjapanDIPInfo,  
 	kof2k2plusInit, kof2k2plusExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000,	304, 224, 4, 3
 };

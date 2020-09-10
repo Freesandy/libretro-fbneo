@@ -63,10 +63,10 @@ static UINT8 DrvReset;
 static UINT16 DrvInputs[3];
 
 static INT32 uses_gun = 0;
-static INT32 DrvGun0 = 0;
-static INT32 DrvGun1 = 0;
-static INT32 DrvGun2 = 0;
-static INT32 DrvGun3 = 0;
+static INT16 DrvGun0 = 0;
+static INT16 DrvGun1 = 0;
+static INT16 DrvGun2 = 0;
+static INT16 DrvGun3 = 0;
 
 static INT32 game_select = 0; // 0 capt, 1 fhist, 2 nslasher, 3 tattass, 4 dragngun
 static INT32 has_ace = 0;
@@ -209,36 +209,36 @@ static struct BurnDIPInfo CaptavenDIPList[]=
 STDDIPINFO(Captaven)
 
 static struct BurnInputInfo FghthistInputList[] = {
-	{"P1 Coin",		BIT_DIGITAL,	DrvJoy2 + 0,	"p1 coin"	},
+	{"P1 Coin",			BIT_DIGITAL,	DrvJoy2 + 0,	"p1 coin"	},
 	{"P1 Start",		BIT_DIGITAL,	DrvJoy1 + 7,	"p1 start"	},
-	{"P1 Up",		BIT_DIGITAL,	DrvJoy1 + 0,	"p1 up"		},
-	{"P1 Down",		BIT_DIGITAL,	DrvJoy1 + 1,	"p1 down"	},
-	{"P1 Left",		BIT_DIGITAL,	DrvJoy1 + 2,	"p1 left"	},
+	{"P1 Up",			BIT_DIGITAL,	DrvJoy1 + 0,	"p1 up"		},
+	{"P1 Down",			BIT_DIGITAL,	DrvJoy1 + 1,	"p1 down"	},
+	{"P1 Left",			BIT_DIGITAL,	DrvJoy1 + 2,	"p1 left"	},
 	{"P1 Right",		BIT_DIGITAL,	DrvJoy1 + 3,	"p1 right"	},
-	{"P1 Button 1",		BIT_DIGITAL,	DrvJoy1 + 4,	"p1 fire 1"	},
-	{"P1 Button 2",		BIT_DIGITAL,	DrvJoy1 + 5,	"p1 fire 2"	},
-	{"P1 Button 3",		BIT_DIGITAL,	DrvJoy1 + 6,	"p1 fire 3"	},
-	{"P1 Button 4",		BIT_DIGITAL,	DrvJoy2 + 8,	"p1 fire 4"	},
-	{"P1 Button 5",		BIT_DIGITAL,	DrvJoy2 + 9,	"p1 fire 5"	},
-	{"P1 Button 6",		BIT_DIGITAL,	DrvJoy2 + 10,	"p1 fire 6"	},
+	{"P1 Weak Punch",	BIT_DIGITAL,	DrvJoy1 + 4,	"p1 fire 1"	},
+	{"P1 Medium Punch",	BIT_DIGITAL,	DrvJoy1 + 5,	"p1 fire 2"	},
+	{"P1 Strong Punch",	BIT_DIGITAL,	DrvJoy1 + 6,	"p1 fire 3"	},
+	{"P1 Weak Kick",	BIT_DIGITAL,	DrvJoy2 + 8,	"p1 fire 4"	},
+	{"P1 Medium Kick",	BIT_DIGITAL,	DrvJoy2 + 9,	"p1 fire 5"	},
+	{"P1 Strong Kick",	BIT_DIGITAL,	DrvJoy2 + 10,	"p1 fire 6"	},
 
-	{"P2 Coin",		BIT_DIGITAL,	DrvJoy2 + 1,	"p2 coin"	},
+	{"P2 Coin",			BIT_DIGITAL,	DrvJoy2 + 1,	"p2 coin"	},
 	{"P2 Start",		BIT_DIGITAL,	DrvJoy1 + 15,	"p2 start"	},
-	{"P2 Up",		BIT_DIGITAL,	DrvJoy1 + 8,	"p2 up"		},
-	{"P2 Down",		BIT_DIGITAL,	DrvJoy1 + 9,	"p2 down"	},
-	{"P2 Left",		BIT_DIGITAL,	DrvJoy1 + 10,	"p2 left"	},
+	{"P2 Up",			BIT_DIGITAL,	DrvJoy1 + 8,	"p2 up"		},
+	{"P2 Down",			BIT_DIGITAL,	DrvJoy1 + 9,	"p2 down"	},
+	{"P2 Left",			BIT_DIGITAL,	DrvJoy1 + 10,	"p2 left"	},
 	{"P2 Right",		BIT_DIGITAL,	DrvJoy1 + 11,	"p2 right"	},
-	{"P2 Button 1",		BIT_DIGITAL,	DrvJoy1 + 12,	"p2 fire 1"	},
-	{"P2 Button 2",		BIT_DIGITAL,	DrvJoy1 + 13,	"p2 fire 2"	},
-	{"P2 Button 3",		BIT_DIGITAL,	DrvJoy1 + 14,	"p2 fire 3"	},
-	{"P2 Button 4",		BIT_DIGITAL,	DrvJoy2 + 12,	"p2 fire 4"	},
-	{"P2 Button 5",		BIT_DIGITAL,	DrvJoy2 + 13,	"p2 fire 5"	},
-	{"P2 Button 6",		BIT_DIGITAL,	DrvJoy2 + 14,	"p2 fire 6"	},
+	{"P2 Weak Punch",	BIT_DIGITAL,	DrvJoy1 + 12,	"p2 fire 1"	},
+	{"P2 Medium Punch",	BIT_DIGITAL,	DrvJoy1 + 13,	"p2 fire 2"	},
+	{"P2 Strong Punch",	BIT_DIGITAL,	DrvJoy1 + 14,	"p2 fire 3"	},
+	{"P2 Weak Kick",	BIT_DIGITAL,	DrvJoy2 + 12,	"p2 fire 4"	},
+	{"P2 Medium Kick",	BIT_DIGITAL,	DrvJoy2 + 13,	"p2 fire 5"	},
+	{"P2 Strong Kick",	BIT_DIGITAL,	DrvJoy2 + 14,	"p2 fire 6"	},
 
-	{"Reset",		BIT_DIGITAL,	&DrvReset,	"reset"		},
-	{"Service",		BIT_DIGITAL,	DrvJoy2 + 2,	"service"	},
-	{"Dip A",		BIT_DIPSWITCH,	DrvDips + 0,	"dip"		},
-	{"Dip B",		BIT_DIPSWITCH,	DrvDips + 3,	"dip"		}, // +3!
+	{"Reset",			BIT_DIGITAL,	&DrvReset,		"reset"		},
+	{"Service",			BIT_DIGITAL,	DrvJoy2 + 2,	"service"	},
+	{"Dip A",			BIT_DIPSWITCH,	DrvDips + 0,	"dip"		},
+	{"Dip B",			BIT_DIPSWITCH,	DrvDips + 3,	"dip"		}, // +3!
 };
 
 STDINPUTINFO(Fghthist)
@@ -3535,8 +3535,8 @@ static INT32 DrvFrame()
 		}
 
 		if (uses_gun) {
-			BurnGunMakeInputs(0, (INT16)DrvGun0, (INT16)DrvGun1);
-			BurnGunMakeInputs(1, (INT16)DrvGun2, (INT16)DrvGun3);
+			BurnGunMakeInputs(0, DrvGun0, DrvGun1);
+			BurnGunMakeInputs(1, DrvGun2, DrvGun3);
 		}
 	}
 

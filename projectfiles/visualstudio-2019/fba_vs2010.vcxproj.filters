@@ -4235,6 +4235,15 @@
     <ClCompile Include="..\..\src\burn\devices\poly.cpp">
       <Filter>Burn\devices</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\taito\d_galastrm.cpp">
+      <Filter>Burn\drv\taito</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\pst90s\d_x2222.cpp">
+      <Filter>Burn\drv\pst90s</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\megadrive\d_mdarcbl.cpp">
+      <Filter>Burn\drv\megadrive</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Burn">

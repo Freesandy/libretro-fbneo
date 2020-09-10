@@ -687,6 +687,8 @@ void SekNewFrame()
 
 	for (INT32 i = 0; i <= nSekCount; i++) {
 		nSekCycles[i] = 0;
+		nSekCyclesToDoCache[i] = 0;
+		nSekm68k_ICount[i] = 0;
 	}
 
 #ifdef EMU_C68K
@@ -1464,6 +1466,21 @@ INT32 SekRun(INT32 nCPU, INT32 nCycles)
 	SekCPUPush(nCPU);
 
 	INT32 nRet = SekRun(nCycles);
+
+	SekCPUPop();
+
+	return nRet;
+}
+
+INT32 SekIdle(INT32 nCPU, INT32 nCycles)
+{
+#if defined FBNEO_DEBUG
+	if (!DebugCPU_SekInitted) bprintf(PRINT_ERROR, _T("SekIdle called without init\n"));
+#endif
+
+	SekCPUPush(nCPU);
+
+	INT32 nRet = SekIdle(nCycles);
 
 	SekCPUPop();
 

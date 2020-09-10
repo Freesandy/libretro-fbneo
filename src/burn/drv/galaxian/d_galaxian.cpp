@@ -1107,11 +1107,11 @@ static struct BurnInputInfo LosttombInputList[] =
 	{"left Left"         , BIT_DIGITAL   , GalInputPort0 + 5, "p1 left"   },
 	{"Left Right"        , BIT_DIGITAL   , GalInputPort0 + 4, "p1 right"  },
 	{"Fire 1"            , BIT_DIGITAL   , GalInputPort1 + 6, "p1 fire 1" },
-	
-	{"Right Up"          , BIT_DIGITAL   , GalInputPort1 + 2, "p2 up"     },
-	{"Right Down"        , BIT_DIGITAL   , GalInputPort1 + 3, "p2 down"   },
-	{"Right Left"        , BIT_DIGITAL   , GalInputPort1 + 5, "p2 left"   },
-	{"Right Right"       , BIT_DIGITAL   , GalInputPort1 + 4, "p2 right"  },
+
+	{"Right Up"          , BIT_DIGITAL   , GalInputPort1 + 2, "p1 up 2"   },
+	{"Right Down"        , BIT_DIGITAL   , GalInputPort1 + 3, "p1 down 2" },
+	{"Right Left"        , BIT_DIGITAL   , GalInputPort1 + 5, "p1 left 2" },
+	{"Right Right"       , BIT_DIGITAL   , GalInputPort1 + 4, "p1 right 2"},
 
 	{"Reset"             , BIT_DIGITAL   , &GalReset        , "reset"     },
 	{"Dip 1"             , BIT_DIPSWITCH , GalDip + 0       , "dip"       },
@@ -1456,11 +1456,11 @@ static struct BurnInputInfo RescueInputList[] =
 	{"P1 Left Stick Down" , BIT_DIGITAL   , GalInputPort0 + 3, "p1 down"   },
 	{"P1 Left Stick Left" , BIT_DIGITAL   , GalInputPort0 + 5, "p1 left"   },
 	{"P1 Left Stick Right", BIT_DIGITAL   , GalInputPort0 + 4, "p1 right"  },
-	{"P1 Rght Stick Up"   , BIT_DIGITAL   , GalInputPort1 + 2, "p2 up"     },
-	{"P1 Rght Stick Down" , BIT_DIGITAL   , GalInputPort1 + 3, "p2 down"   },
-	{"P1 Rght Stick Left" , BIT_DIGITAL   , GalInputPort1 + 5, "p2 left"   },
-	{"P1 Rght Stick Right", BIT_DIGITAL   , GalInputPort1 + 4, "p2 right"  },
-	{"Fire 1"             , BIT_DIGITAL   , GalInputPort0 + 0, "p2 fire 1" },
+	{"P1 Rght Stick Up"   , BIT_DIGITAL   , GalInputPort1 + 2, "p1 up 2"   },
+	{"P1 Rght Stick Down" , BIT_DIGITAL   , GalInputPort1 + 3, "p1 down 2" },
+	{"P1 Rght Stick Left" , BIT_DIGITAL   , GalInputPort1 + 5, "p1 left 2" },
+	{"P1 Rght Stick Right", BIT_DIGITAL   , GalInputPort1 + 4, "p1 right 2"},
+	{"Fire 1"             , BIT_DIGITAL   , GalInputPort0 + 0, "p1 fire 1" },
 
 	{"Reset"              , BIT_DIGITAL   , &GalReset        , "reset"     },
 	{"Dip 1"              , BIT_DIPSWITCH , GalDip + 0       , "dip"       },
@@ -3007,8 +3007,8 @@ static struct BurnDIPInfo DarkplntDIPList[]=
 	{0x09, 0x01, 0x01, 0x01, "Everytime"              },
 	
 	{0   , 0xfe, 0   , 2   , "Lives"                  },
-	{0x09, 0x01, 0x02, 0x02, "1"                      },
-	{0x09, 0x01, 0x02, 0x00, "2"                      },
+	{0x09, 0x01, 0x02, 0x02, "3"                      },
+	{0x09, 0x01, 0x02, 0x00, "5"                      },
 	
 	// Dip 3
 	{0   , 0xfe, 0   , 4   , "Coinage"                },
@@ -8554,7 +8554,7 @@ struct BurnDriver BurnDrvOrbitron = {
 	"orbitron", NULL, NULL, NULL, "19??",
 	"Orbitron\0", NULL, "Signatron USA", "Galaxian",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_SHOOT, 0,
+	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_SHOOT, 0,
 	NULL, OrbitronRomInfo, OrbitronRomName, NULL, NULL, NULL, NULL, OrbitronInputInfo, OrbitronDIPInfo,
 	OrbitronInit, GalExit, GalFrame, GalDraw, GalScan,
 	NULL, 392, 224, 256, 3, 4
@@ -8634,7 +8634,7 @@ struct BurnDriver BurnDrvRedufo = {
 	"redufo", NULL, NULL, NULL, "1981",
 	"Defend the Terra Attack on the Red UFO\0", NULL, "Artic", "Galaxian",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
+	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
 	NULL, RedufoRomInfo, RedufoRomName, NULL, NULL, NULL, NULL, GalaxianInputInfo, RedufoDIPInfo,
 	GalInit, GalExit, GalFrame, GalDraw, GalScan,
 	NULL, 392, 224, 256, 3, 4
@@ -9498,6 +9498,27 @@ static struct BurnRomInfo PacmanblaRomDesc[] = {
 STD_ROM_PICK(Pacmanbla)
 STD_ROM_FN(Pacmanbla)
 
+static struct BurnRomInfo PacmanblcRomDesc[] = {
+	{ "pr_1.bin",      0x00800, 0x032dc67e, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "pr_2.bin",      0x00800, 0x3954e41c, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "pr_3.bin",      0x00800, 0xf98c0ceb, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "pr_4.bin",      0x00800, 0xa9cd0082, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "pr_5.bin",      0x00800, 0x6d475afc, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "pr_6.bin",      0x00800, 0xcbe863d3, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "pr_7.bin",      0x00800, 0x2bbed46e, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	
+	{ "p_13.bin",      0x00800, 0xb2ed320b, BRF_GRA | GAL_ROM_TILES_CHARS },
+	{ "p_14.bin",      0x00800, 0xab88b2c4, BRF_GRA | GAL_ROM_TILES_CHARS },
+	
+	{ "p_11.bin",      0x00800, 0x44a45b72, BRF_GRA | GAL_ROM_TILES_SPRITES },
+	{ "p_12.bin",      0x00800, 0x03ba0eae, BRF_GRA | GAL_ROM_TILES_SPRITES },
+	
+	{ "im5610.bin",  	0x00020, 0x6a0c7d87, BRF_GRA | GAL_ROM_PROM },
+};
+
+STD_ROM_PICK(Pacmanblc)
+STD_ROM_FN(Pacmanblc)
+
 static struct BurnRomInfo PacmanblvRomDesc[] = {
 	{ "pacvideodens-1-2516.bin",    0x00800, 0x590de3f3, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "pacvideodens-2-2516.bin",    0x00800, 0x3954e41c, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
@@ -9733,6 +9754,16 @@ struct BurnDriver BurnDrvPacmanbla = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_MAZE, 0,
 	NULL, PacmanblaRomInfo, PacmanblaRomName, NULL, NULL, NULL, NULL, PacmanblInputInfo, PacmanblDIPInfo,
 	PacmanblaInit, GalExit, GalFrame, GalDraw, GalScan,
+	NULL, 392, 224, 256, 3, 4
+};
+
+struct BurnDriver BurnDrvPacmanblc = {
+	"pacmanblc", "puckman", NULL, NULL, "1981",
+	"Pac-Man (Calfesa, Spanish bootleg on Galaxian hardware)\0", NULL, "bootleg (Calfesa)", "Galaxian",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_MAZE, 0,
+	NULL, PacmanblcRomInfo, PacmanblcRomName, NULL, NULL, NULL, NULL, PacmanblInputInfo, PacmanblDIPInfo,
+	PacmanblInit, GalExit, GalFrame, GalDraw, GalScan,
 	NULL, 392, 224, 256, 3, 4
 };
 
@@ -11074,14 +11105,14 @@ static struct BurnRomInfo Sirio2RomDesc[] = {
 	{ "sirio2_1.bin",  0x00800, 0x1e6a4b49, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "sirio2_2.bin",  0x00800, 0x0b316f33, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "sirio2_3.bin",  0x00800, 0x716eaa10, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "sirio2_4.bin",  0x00800, 0x092ab94b, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "sirio2_4.bin",  0x00800, 0x73d0b1f2, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "sirio2_5.bin",  0x00800, 0x413a836a, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "sirio2_6.bin",  0x00800, 0x2a9c3f13, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "sirio2_7.bin",  0x00800, 0xeafd4d02, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "sirio2_8.bin",  0x00800, 0x6e614bd6, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	
 	{ "sirio2_f2.bin", 0x00800, 0x528da705, BRF_GRA | GAL_ROM_TILES_SHARED },
-	{ "sirio2_f4.bin", 0x00800, 0x8acfabb9, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "sirio2_f4.bin", 0x00800, 0x5a4b17ea, BRF_GRA | GAL_ROM_TILES_SHARED },
 	{ "sirio2_f1.bin", 0x00800, 0x4e79ff6b, BRF_GRA | GAL_ROM_TILES_SHARED },
 	{ "sirio2_f3.bin", 0x00800, 0xe0edccbd, BRF_GRA | GAL_ROM_TILES_SHARED },
 	
@@ -11090,27 +11121,6 @@ static struct BurnRomInfo Sirio2RomDesc[] = {
 
 STD_ROM_PICK(Sirio2)
 STD_ROM_FN(Sirio2)
-
-static struct BurnRomInfo Sirio2aRomDesc[] = {
-	{ "sirio2_1.bin",  	0x00800, 0x1e6a4b49, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "sirio2_2.bin",  	0x00800, 0x0b316f33, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "sirio2_3.bin",  	0x00800, 0x716eaa10, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "sirio2b_4.bin", 	0x00800, 0x73d0b1f2, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "sirio2_5.bin",  	0x00800, 0x413a836a, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "sirio2_6.bin",  	0x00800, 0x2a9c3f13, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "sirio2_7.bin",  	0x00800, 0xeafd4d02, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	{ "sirio2_8.bin",  	0x00800, 0x6e614bd6, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
-	
-	{ "sirio2_f2.bin", 	0x00800, 0x528da705, BRF_GRA | GAL_ROM_TILES_SHARED },
-	{ "sirio2_f4b.bin",	0x00800, 0x5a4b17ea, BRF_GRA | GAL_ROM_TILES_SHARED },
-	{ "sirio2_f1b.bin",	0x00800, 0xb3a10228, BRF_GRA | GAL_ROM_TILES_SHARED },
-	{ "sirio2_f3.bin", 	0x00800, 0xe0edccbd, BRF_GRA | GAL_ROM_TILES_SHARED },
-	
-	{ "sirio2_im5610.bin",     0x00020, 0x6a0c7d87, BRF_GRA | GAL_ROM_PROM },
-};
-
-STD_ROM_PICK(Sirio2a)
-STD_ROM_FN(Sirio2a)
 
 static struct BurnRomInfo AtaqandrRomDesc[] = {
 	{ "ataque_androide_1.bin",  	0x00800, 0x1e6a4b49, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
@@ -11965,20 +11975,10 @@ struct BurnDriver BurnDrvMooncptc = {
 
 struct BurnDriver BurnDrvSirio2 = {
 	"sirio2", "mooncrst", NULL, NULL, "1980?",
-	"Sirio II (Calfesa S.L. Spanish Moon Cresta bootleg, set 1)\0", NULL, "bootleg (Calfesa S.L.)", "Galaxian",
+	"Sirio II (Calfesa S.L. Spanish Moon Cresta bootleg)\0", NULL, "bootleg (Calfesa S.L.)", "Galaxian",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
 	NULL, Sirio2RomInfo, Sirio2RomName, NULL, NULL, NULL, NULL, SmooncrsInputInfo, MooncptcDIPInfo,
-	MooncrstInit, GalExit, GalFrame, GalDraw, GalScan,
-	NULL, 392, 224, 256, 3, 4
-};
-
-struct BurnDriver BurnDrvSirio2a = {
-	"sirio2a", "mooncrst", NULL, NULL, "1980?",
-	"Sirio II (Calfesa S.L. Spanish Moon Cresta bootleg, set 2)\0", NULL, "bootleg (Calfesa S.L.)", "Galaxian",
-	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_BOOTLEG | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
-	NULL, Sirio2aRomInfo, Sirio2aRomName, NULL, NULL, NULL, NULL, SmooncrsInputInfo, MooncptcDIPInfo,
 	MooncrstInit, GalExit, GalFrame, GalDraw, GalScan,
 	NULL, 392, 224, 256, 3, 4
 };
@@ -21851,18 +21851,18 @@ static UINT32 DarkplntDialFrameNumberRead = 0;
 static UINT8 DarkplntPPIReadIN1()
 {
 	UINT32 CurrentFrame = GetCurrentFrame();
-	
+
 	if (DarkplntDialFrameNumberRead != CurrentFrame) {
-		if (GalInputPort3[0]) DarkplntDial -= 0x01;
-		if (GalInputPort3[1]) DarkplntDial += 0x01;
-		if (DarkplntDial > 0xfc) DarkplntDial = 0x00;
-		if (DarkplntDial < 0) DarkplntDial = 0xfc;
+		if (GalInputPort3[0]) DarkplntDial -= 0x05;
+		if (GalInputPort3[1]) DarkplntDial += 0x05;
+		if (DarkplntDial > 0xff) DarkplntDial = 0x00;
+		if (DarkplntDial < 0) DarkplntDial = 0xff;
 		DarkplntDialFrameNumberRead = CurrentFrame;
 	}
-	
+
 	static const UINT8 remap[] = {0x03, 0x02, 0x00, 0x01, 0x21, 0x20, 0x22, 0x23, 0x33, 0x32, 0x30, 0x31, 0x11, 0x10, 0x12, 0x13, 0x17, 0x16, 0x14, 0x15, 0x35, 0x34, 0x36, 0x37, 0x3f, 0x3e, 0x3c, 0x3d, 0x1d, 0x1c, 0x1e, 0x1f, 0x1b, 0x1a, 0x18, 0x19, 0x39, 0x38, 0x3a, 0x3b, 0x2b, 0x2a, 0x28, 0x29, 0x09, 0x08, 0x0a, 0x0b, 0x0f, 0x0e, 0x0c, 0x0d, 0x2d, 0x2c, 0x2e, 0x2f, 0x27, 0x26, 0x24, 0x25, 0x05, 0x04, 0x06, 0x07 };
-		
-	return 0xff - GalInput[1] - GalDip[1] - remap[DarkplntDial >> 2];
+
+	return ((GalDip[1]^0xff) & 3) + ((remap[DarkplntDial >> 2] << 2) & 0xfc);
 }
 
 static INT32 DarkplntInit()
@@ -22479,9 +22479,9 @@ struct BurnDriver BurnDrvStrongx = {
 
 struct BurnDriver BurnDrvDarkplnt = {
 	"darkplnt", NULL, NULL, NULL, "1982",
-	"Dark Planet\0", "Dial doesn't work very well", "Stern", "Galaxian",
+	"Dark Planet\0", NULL, "Stern", "Galaxian",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_SHOOT, 0,
+	BDF_GAME_WORKING | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_SHOOT, 0,
 	NULL, DarkplntRomInfo, DarkplntRomName, NULL, NULL, NULL, NULL, DarkplntInputInfo, DarkplntDIPInfo,
 	DarkplntInit, KonamiExit, GalFrame, GalDraw, GalScan,
 	NULL, 392, 256, 224, 4, 3

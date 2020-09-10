@@ -48,7 +48,8 @@ int kNetGame = 0;
 INT32 nReplayStatus = 0;
 INT32 nIpsMaxFileLen = 0;
 unsigned nGameType = 0;
-static INT32 nGameWidth, nGameHeight;
+static INT32 nGameWidth, nGameHeight, nGameMaximumGeometry;
+static INT32 nNextGeometryCall = RETRO_ENVIRONMENT_SET_GEOMETRY;
 static INT32 bDisableSerialize = 0;
 
 extern INT32 EnableHiscores;
@@ -125,7 +126,7 @@ static uint8_t *write_state_ptr;
 static const uint8_t *read_state_ptr;
 static unsigned state_sizes[2];
 
-static INT32 HandleMessage(enum retro_log_level level, TCHAR* szFormat, ...)
+int HandleMessage(enum retro_log_level level, TCHAR* szFormat, ...)
 {
 	char buf[PRINTF_BUFFER_SIZE];
 	va_list vp;
@@ -261,7 +262,7 @@ void retro_get_system_info(struct retro_system_info *info)
 	info->library_version = FBNEO_VERSION GIT_VERSION;
 	info->need_fullpath = true;
 	info->block_extract = true;
-	info->valid_extensions = "zip|7z";
+	info->valid_extensions = "zip|7z|cue|ccd";
 }
 
 static void InpDIPSWGetOffset (void)
@@ -318,7 +319,7 @@ static int create_variables_from_dipswitches()
 	{
 		/* 0xFE is the beginning label for a DIP switch entry */
 		/* 0xFD are region DIP switches */
-		if ((bdi.nFlags == 0xFE || bdi.nFlags == 0xFD) && bdi.nSetting > 0)
+		if ((bdi.nFlags == 0xFE || bdi.nFlags == 0xFD) && bdi.nSetting > 1)
 		{
 			dipswitch_core_options.push_back(dipswitch_core_option());
 			dipswitch_core_option *dip_option = &dipswitch_core_options.back();
@@ -570,7 +571,8 @@ void Reinitialise(void)
 	nBurnPitch = nGameWidth * nBurnBpp;
 	struct retro_system_av_info av_info;
 	retro_get_system_av_info(&av_info);
-	environ_cb(RETRO_ENVIRONMENT_SET_GEOMETRY, &av_info);
+	environ_cb(nNextGeometryCall, &av_info);
+	nNextGeometryCall = RETRO_ENVIRONMENT_SET_GEOMETRY;
 }
 
 static void ForceFrameStep(int bDraw)
@@ -1122,6 +1124,9 @@ size_t retro_serialize_size()
 		return state_sizes[kNetGame];
 
 	BurnAcb = burn_dummy_state_cb;
+	// The following value is required in savestates for some games (xmen6p, ...)
+	// On standalone, this value is stored in savestate files headers
+	SCAN_VAR(nCurrentFrame);
 	BurnAreaScan(ACB_FULLSCAN, 0);
 	return state_sizes[kNetGame];
 }
@@ -1139,6 +1144,7 @@ bool retro_serialize(void *data, size_t size)
 	if (!state_sizes[kNetGame])
 	{
 		BurnAcb = burn_dummy_state_cb;
+		SCAN_VAR(nCurrentFrame);
 		BurnAreaScan(ACB_FULLSCAN, 0);
 	}
 	if (size != state_sizes[kNetGame])
@@ -1146,6 +1152,9 @@ bool retro_serialize(void *data, size_t size)
 
 	BurnAcb = burn_write_state_cb;
 	write_state_ptr = (uint8_t*)data;
+	// The following value is required in savestates for some games (xmen6p, ...)
+	// On standalone, this value is stored in savestate files headers
+	SCAN_VAR(nCurrentFrame);
 	BurnAreaScan(ACB_FULLSCAN | ACB_READ, 0);
 	return true;
 }
@@ -1163,6 +1172,7 @@ bool retro_unserialize(const void *data, size_t size)
 	if (!state_sizes[kNetGame])
 	{
 		BurnAcb = burn_dummy_state_cb;
+		SCAN_VAR(nCurrentFrame);
 		BurnAreaScan(ACB_FULLSCAN, 0);
 	}
 	if (size != state_sizes[kNetGame])
@@ -1170,6 +1180,9 @@ bool retro_unserialize(const void *data, size_t size)
 
 	BurnAcb = burn_read_state_cb;
 	read_state_ptr = (const uint8_t*)data;
+	// The following value is required in savestates for some games (xmen6p, ...)
+	// On standalone, this value is stored in savestate files headers
+	SCAN_VAR(nCurrentFrame);
 	BurnAreaScan(ACB_FULLSCAN | ACB_WRITE, 0);
 	BurnRecalcPal();
 	return true;
@@ -1184,8 +1197,12 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 	bVidImageNeedRealloc = true;
 	BurnDrvGetAspect(&game_aspect_x, &game_aspect_y);
 
-	int maximum = nGameWidth > nGameHeight ? nGameWidth : nGameHeight;
-	struct retro_game_geometry geom = { (unsigned)nGameWidth, (unsigned)nGameHeight, (unsigned)maximum, (unsigned)maximum };
+	INT32 oldMax = nGameMaximumGeometry;
+	nGameMaximumGeometry = nGameWidth > nGameHeight ? nGameWidth : nGameHeight;
+	nGameMaximumGeometry = oldMax > nGameMaximumGeometry ? oldMax : nGameMaximumGeometry;
+	struct retro_game_geometry geom = { (unsigned)nGameWidth, (unsigned)nGameHeight, (unsigned)nGameMaximumGeometry, (unsigned)nGameMaximumGeometry };
+	if (oldMax != 0 && oldMax < nGameMaximumGeometry)
+		nNextGeometryCall = RETRO_ENVIRONMENT_SET_SYSTEM_AV_INFO;
 
 	geom.aspect_ratio = (nVerticalMode != 0 ? ((float)game_aspect_y / (float)game_aspect_x) : ((float)game_aspect_x / (float)game_aspect_y));
 
@@ -1594,8 +1611,13 @@ static bool retro_load_game_common()
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Applied dipswitches from core options\n");
 
 		// Initialize game driver
-		BurnDrvInit();
-		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Initializing driver for %s\n", g_driver_name);
+		if(BurnDrvInit() == 0)
+			HandleMessage(RETRO_LOG_INFO, "[FBNeo] Initialized driver for %s\n", g_driver_name);
+		else
+		{
+			HandleMessage(RETRO_LOG_ERROR, "[FBNeo] Failed initializing driver for %s\n", g_driver_name);
+			return false;
+		}
 
 		// MemCard has to be inserted after emulation is started
 		if (is_neogeo_game && nMemcardMode != 0)
@@ -1635,6 +1657,11 @@ static bool retro_load_game_common()
 			pVidImage = (UINT8*)realloc(pVidImage, nGameWidth * nGameHeight * nBurnBpp);
 		else
 			pVidImage = (UINT8*)malloc(nGameWidth * nGameHeight * nBurnBpp);
+
+		if (pVidImage == NULL) {
+			HandleMessage(RETRO_LOG_ERROR, "[FBNeo] Failed allocating framebuffer memory\n", g_driver_name);
+			return false;
+		}
 
 		apply_cheats_from_variables();
 

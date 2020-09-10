@@ -162,7 +162,7 @@ STDINPUTINFO(Wildplt)
 static struct BurnInputInfo ScudhammInputList[] = {
 	{"P1 Coin",			BIT_DIGITAL,	DrvJoy1 + 0,	"p1 coin"	},
 	{"P1 Start",		BIT_DIGITAL,	DrvJoy1 + 4,	"p1 start"	},
-	{"P1 Select",		BIT_DIGITAL,	DrvJoy1 + 4,	"p2 start"	},
+	{"P1 Select",		BIT_DIGITAL,	DrvJoy1 + 5,	"p2 start"	},
 	{"P1 Rock",			BIT_DIGITAL,	DrvJoy1 + 8,	"p1 fire 1"	},
 	{"P1 Scissors",		BIT_DIGITAL,	DrvJoy1 + 9,	"p1 fire 2"	},
 	{"P1 Paper",		BIT_DIGITAL,	DrvJoy1 + 10,	"p1 fire 3"	},
@@ -585,38 +585,38 @@ STDDIPINFO(Wildplt)
 
 static struct BurnDIPInfo ScudhammDIPList[]=
 {
-	{0x0a, 0xff, 0xff, 0x3f, NULL						},
-	{0x0b, 0xff, 0xff, 0x07, NULL						},
+	{0x0b, 0xff, 0xff, 0x3f, NULL						},
+	{0x0c, 0xff, 0xff, 0x07, NULL						},
 
 	{0   , 0xfe, 0   ,    4, "Difficulty"				},
-	{0x0a, 0x01, 0x03, 0x00, "Easy"						},
-	{0x0a, 0x01, 0x03, 0x03, "Normal"					},
-	{0x0a, 0x01, 0x03, 0x02, "Hard"						},
-	{0x0a, 0x01, 0x03, 0x01, "Hardest"					},
+	{0x0b, 0x01, 0x03, 0x00, "Easy"						},
+	{0x0b, 0x01, 0x03, 0x03, "Normal"					},
+	{0x0b, 0x01, 0x03, 0x02, "Hard"						},
+	{0x0b, 0x01, 0x03, 0x01, "Hardest"					},
 
 	{0   , 0xfe, 0   ,    4, "Time To Hit"				},
-	{0x0a, 0x01, 0x0c, 0x0c, "2 s"						},
-	{0x0a, 0x01, 0x0c, 0x08, "3 s"						},
-	{0x0a, 0x01, 0x0c, 0x04, "4 s"						},
-	{0x0a, 0x01, 0x0c, 0x00, "5 s"						},
+	{0x0b, 0x01, 0x0c, 0x0c, "2 s"						},
+	{0x0b, 0x01, 0x0c, 0x08, "3 s"						},
+	{0x0b, 0x01, 0x0c, 0x04, "4 s"						},
+	{0x0b, 0x01, 0x0c, 0x00, "5 s"						},
 
 	{0   , 0xfe, 0   ,    2, "Demo Sounds"				},
-	{0x0a, 0x01, 0x10, 0x00, "Off"						},
-	{0x0a, 0x01, 0x10, 0x10, "On"						},
+	{0x0b, 0x01, 0x10, 0x00, "Off"						},
+	{0x0b, 0x01, 0x10, 0x10, "On"						},
 
 	{0   , 0xfe, 0   ,    2, "Lives"					},
-	{0x0a, 0x01, 0x20, 0x20, "3"						},
-	{0x0a, 0x01, 0x20, 0x00, "5"						},
+	{0x0b, 0x01, 0x20, 0x20, "3"						},
+	{0x0b, 0x01, 0x20, 0x00, "5"						},
 
 	{0   , 0xfe, 0   ,    8, "Coinage"					},
-	{0x0b, 0x01, 0x07, 0x01, "4 Coins 1 Credits"		},
-	{0x0b, 0x01, 0x07, 0x02, "3 Coins 1 Credits"		},
-	{0x0b, 0x01, 0x07, 0x03, "2 Coins 1 Credits"		},
-	{0x0b, 0x01, 0x07, 0x07, "1 Coin  1 Credits"		},
-	{0x0b, 0x01, 0x07, 0x06, "1 Coin  2 Credits"		},
-	{0x0b, 0x01, 0x07, 0x05, "1 Coin  3 Credits"		},
-	{0x0b, 0x01, 0x07, 0x04, "1 Coin  4 Credits"		},
-	{0x0b, 0x01, 0x07, 0x00, "Free Play"				},
+	{0x0c, 0x01, 0x07, 0x01, "4 Coins 1 Credits"		},
+	{0x0c, 0x01, 0x07, 0x02, "3 Coins 1 Credits"		},
+	{0x0c, 0x01, 0x07, 0x03, "2 Coins 1 Credits"		},
+	{0x0c, 0x01, 0x07, 0x07, "1 Coin  1 Credits"		},
+	{0x0c, 0x01, 0x07, 0x06, "1 Coin  2 Credits"		},
+	{0x0c, 0x01, 0x07, 0x05, "1 Coin  3 Credits"		},
+	{0x0c, 0x01, 0x07, 0x04, "1 Coin  4 Credits"		},
+	{0x0c, 0x01, 0x07, 0x00, "Free Play"				},
 };
 
 STDDIPINFO(Scudhamm)
@@ -1091,8 +1091,6 @@ static UINT16 __fastcall scudhamm_main_read_word(UINT32 address)
 			return ProcessAnalog(Analog0, 0, INPUT_DEADZONE | INPUT_LINEAR | INPUT_MIGHTBEDIGITAL, 0x00, 0xff);
 
 		case 0x100044:
-			return 0; // motor position
-
 		case 0x100050:
 			return motor_value;
 
@@ -1602,7 +1600,7 @@ static void phantasm_rom_decode(UINT8 *src, INT32 length)
 	{
 		UINT16 x,y;
 
-		x = prg[i];
+		x = BURN_ENDIAN_SWAP_INT16(prg[i]);
 
 		if      (i < 0x08000/2) { if ((i | (0x248/2)) != i) { y = BITSWAP_0; } else { y = BITSWAP_1; } }
 		else if (i < 0x10000/2) { y = BITSWAP_2; }
@@ -1610,7 +1608,7 @@ static void phantasm_rom_decode(UINT8 *src, INT32 length)
 		else if (i < 0x20000/2) { y = BITSWAP_1; }
 		else                    { y = BITSWAP_2; }
 
-		prg[i] = y;
+		prg[i] = BURN_ENDIAN_SWAP_INT16(y);
 	}
 #undef BITSWAP_0
 #undef BITSWAP_1
@@ -1623,7 +1621,7 @@ static void astyanax_rom_decode(UINT8 *src, INT32 length)
 
 	for (INT32 i = 0 ; i < length/2 ; i++)
 	{
-		UINT16 x = RAM[i], y;
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(RAM[i]), y;
 
 #define BITSWAP_0   BITSWAP16(x,0xd,0xe,0xf,0x0,0xa,0x9,0x8,0x1,0x6,0x5,0xc,0xb,0x7,0x2,0x3,0x4)
 #define BITSWAP_1   BITSWAP16(x,0xf,0xd,0xb,0x9,0x7,0x5,0x3,0x1,0x8,0xa,0xc,0xe,0x0,0x2,0x4,0x6)
@@ -1635,7 +1633,7 @@ static void astyanax_rom_decode(UINT8 *src, INT32 length)
 		else if (i < 0x20000/2) { y = BITSWAP_1; }
 		else                    { y = BITSWAP_2; }
 
-		RAM[i] = y;
+		RAM[i] = BURN_ENDIAN_SWAP_INT16(y);
 	}
 }
 
@@ -2128,9 +2126,9 @@ static void DrvPaletteUpdate() // not sure if this is correct + needs shadows - 
 
 	for (INT32 i = 0; i < BurnDrvGetPaletteEntries(); i++)
 	{
-		UINT8 r = ((p[i] >> 11) & 0x1e) | ((p[i] >> 3) & 1);
-		UINT8 g = ((p[i] >>  7) & 0x1e) | ((p[i] >> 2) & 1);
-		UINT8 b = ((p[i] >>  3) & 0x1e) | ((p[i] >> 1) & 1);
+		UINT8 r = ((BURN_ENDIAN_SWAP_INT16(p[i]) >> 11) & 0x1e) | ((BURN_ENDIAN_SWAP_INT16(p[i]) >> 3) & 1);
+		UINT8 g = ((BURN_ENDIAN_SWAP_INT16(p[i]) >>  7) & 0x1e) | ((BURN_ENDIAN_SWAP_INT16(p[i]) >> 2) & 1);
+		UINT8 b = ((BURN_ENDIAN_SWAP_INT16(p[i]) >>  3) & 0x1e) | ((BURN_ENDIAN_SWAP_INT16(p[i]) >> 1) & 1);
 
 		r = (r << 3) | (r >> 2);
 		g = (g << 3) | (g >> 2);
@@ -2235,15 +2233,15 @@ static void draw_layer(INT32 tmap, INT32 flags, INT32 priority)
 
 			if (size) {
 				ofst = (col * 32) + (row / 32) * 1024 * columns + (row & 0x1f);
-				code = (vidram[ofst] & 0x0fff) * scroll_factor_8x8[tmap];
+				code = (BURN_ENDIAN_SWAP_INT16(vidram[ofst]) & 0x0fff) * scroll_factor_8x8[tmap];
 			} else {
 				ofst = (((col / 2) * 16) + (row / 32) * 256 * columns + ((row / 2) & 0x0f));
-				code = (vidram[ofst] & 0xfff) * 4 + ((row & 1) + (col & 1) * 2);
+				code = (BURN_ENDIAN_SWAP_INT16(vidram[ofst]) & 0xfff) * 4 + ((row & 1) + (col & 1) * 2);
 			}
 
 			code %= gfx->code_mask;
 
-			INT32 color = ((vidram[ofst] >> (16 - bits_per_color)) << gfx->depth) + gfx->color_offset;
+			INT32 color = ((BURN_ENDIAN_SWAP_INT16(vidram[ofst]) >> (16 - bits_per_color)) << gfx->depth) + gfx->color_offset;
 
 			{
 				UINT8 *gfxdata = gfx->gfxbase + code * 0x40;
@@ -2289,9 +2287,9 @@ static void cischeat_draw_road(INT32 road_num, INT32 priority1, INT32 priority2,
 
 	for (INT32 sy = screen_adjust_y; sy < nScreenHeight + screen_adjust_y; sy++)
 	{
-		int code    = roadram[ sy * 4 + 0 ];
-		int xscroll = roadram[ sy * 4 + 1 ];
-		int attr    = roadram[ sy * 4 + 2 ];
+		int code    = BURN_ENDIAN_SWAP_INT16(roadram[ sy * 4 + 0 ]);
+		int xscroll = BURN_ENDIAN_SWAP_INT16(roadram[ sy * 4 + 1 ]);
+		int attr    = BURN_ENDIAN_SWAP_INT16(roadram[ sy * 4 + 2 ]);
 
 		/* high byte is a priority information */
 		if ( ((attr & 0x700) < min_priority) || ((attr & 0x700) > max_priority) )
@@ -2342,10 +2340,10 @@ static void f1gpstar_draw_road(int road_num, int priority1, int priority2, int t
 	{
 		int xscale, xdim;
 
-		int xscroll = roadram[ sy * 4 + 0 ];
-		int xzoom   = roadram[ sy * 4 + 1 ];
-		int attr    = roadram[ sy * 4 + 2 ];
-		int code    = roadram[ sy * 4 + 3 ];
+		int xscroll = BURN_ENDIAN_SWAP_INT16(roadram[ sy * 4 + 0 ]);
+		int xzoom   = BURN_ENDIAN_SWAP_INT16(roadram[ sy * 4 + 1 ]);
+		int attr    = BURN_ENDIAN_SWAP_INT16(roadram[ sy * 4 + 2 ]);
+		int code    = BURN_ENDIAN_SWAP_INT16(roadram[ sy * 4 + 3 ]);
 
 		/* highest nibble is a priority information */
 		if ( ((xscroll & 0x7000) < min_priority) || ((xscroll & 0x7000) > max_priority) )
@@ -2407,17 +2405,17 @@ static void bigrun_draw_sprites(int priority1, int priority2)
 
 	for (; source < finish; source += 0x10/2 )
 	{
-		size    =   source[ 0 ];
+		size    =   BURN_ENDIAN_SWAP_INT16(source[ 0 ]);
 		if (size & 0x1000)  continue;
 
 		xnum    =   ( (size & 0x0f) >> 0 ) + 1;
 		ynum    =   ( (size & 0xf0) >> 4 ) + 1;
 
-		yzoom   =   (source[ 1 ] >> 8) & 0xff;
-		xzoom   =   (source[ 1 ] >> 0) & 0xff;
+		yzoom   =   (BURN_ENDIAN_SWAP_INT16(source[ 1 ]) >> 8) & 0xff;
+		xzoom   =   (BURN_ENDIAN_SWAP_INT16(source[ 1 ]) >> 0) & 0xff;
 
-		sx      =   source[ 2 ];
-		sy      =   source[ 3 ];
+		sx      =   BURN_ENDIAN_SWAP_INT16(source[ 2 ]);
+		sy      =   BURN_ENDIAN_SWAP_INT16(source[ 3 ]);
 		flipx   =   sx & 0x1000;
 		flipy   =   sy & 0x1000;
 		sx      =   (sx & 0x0ff) - (sx & 0x100);
@@ -2431,8 +2429,8 @@ static void bigrun_draw_sprites(int priority1, int priority2)
 
 		if ( ( (xdim / 0x10000) == 0 ) || ( (ydim / 0x10000) == 0) )    continue;
 
-		code    =   source[ 6 ];
-		attr    =   source[ 7 ];
+		code    =   BURN_ENDIAN_SWAP_INT16(source[ 6 ]);
+		attr    =   BURN_ENDIAN_SWAP_INT16(source[ 7 ]);
 		color   =   attr & 0x7f;
 		shadow  =   attr & 0x1000;
 
@@ -2492,20 +2490,20 @@ static void cischeat_draw_sprites(int priority1, int priority2)
 
 	for (; source < finish; source += 0x10/2 )
 	{
-		size    =   source[ 0 ];
+		size    =   BURN_ENDIAN_SWAP_INT16(source[ 0 ]);
 		if (size & 0x1000)  continue;
 
 		/* number of tiles */
 		xnum    =   ( (size & 0x0f) >> 0 ) + 1;
 		ynum    =   ( (size & 0xf0) >> 4 ) + 1;
 
-		xzoom   =   source[ 1 ];
-		yzoom   =   source[ 2 ];
+		xzoom   =   BURN_ENDIAN_SWAP_INT16(source[ 1 ]);
+		yzoom   =   BURN_ENDIAN_SWAP_INT16(source[ 2 ]);
 		flipx   =   xzoom & 0x1000;
 		flipy   =   yzoom & 0x1000;
 
-		sx      =   source[ 3 ];
-		sy      =   source[ 4 ];
+		sx      =   BURN_ENDIAN_SWAP_INT16(source[ 3 ]);
+		sy      =   BURN_ENDIAN_SWAP_INT16(source[ 4 ]);
 		// TODO: was & 0x1ff with 0x200 as sprite wrap sign, looks incorrect with Grand Prix Star
 		//       during big car on side view in attract mode (a tyre gets stuck on the right of the screen)
 		//       this arrangement works with both games (otherwise Part 2 gets misaligned bleachers sprites)
@@ -2532,8 +2530,8 @@ static void cischeat_draw_sprites(int priority1, int priority2)
 		   we need the y pos of the first line  */
 		sy -= (ydim * ynum);
 
-		code    =   source[ 6 ];
-		attr    =   source[ 7 ];
+		code    =   BURN_ENDIAN_SWAP_INT16(source[ 6 ]);
+		attr    =   BURN_ENDIAN_SWAP_INT16(source[ 7 ]);
 		color   =   attr & 0x007f;
 		shadow  =   attr & 0x1000;
 
@@ -3435,11 +3433,11 @@ struct BurnDriver BurnDrvScudhamm = {
 };
 
 
-// Arm Champs II v2.6
+// Arm Champs II v2.7
 
 static struct BurnRomInfo armchmp2RomDesc[] = {
-	{ "ac-91106v2.6_4.ic63",	0x20000, 0xe0cec032, 1 | BRF_PRG | BRF_ESS }, //  0 68K #0 Code
-	{ "ac-91106v2.6_3.ic62",	0x20000, 0x5de6da19, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "4_ver_2.7.ic63",			0x20000, 0xe0cec032, 1 | BRF_PRG | BRF_ESS }, //  0 68K #0 Code
+	{ "3_ver_2.7.ic62",			0x20000, 0x44186a37, 1 | BRF_PRG | BRF_ESS }, //  1
 
 	{ "mr91042-07-r66_6.ic95",	0x80000, 0xd1be8699, 1 | BRF_GRA },           //  2 Background Layer 0 Tiles
 
@@ -3472,10 +3470,56 @@ STD_ROM_FN(armchmp2)
 
 struct BurnDriver BurnDrvArmchmp2 = {
 	"armchmp2", NULL, NULL, NULL, "1992",
-	"Arm Champs II v2.6\0", NULL, "Jaleco", "Miscellaneous",
+	"Arm Champs II v2.7\0", NULL, "Jaleco", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_NOT_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_POST90S, GBF_MISC, 0,
 	NULL, armchmp2RomInfo, armchmp2RomName, NULL, NULL, NULL, NULL, Armchmp2InputInfo, Armchmp2DIPInfo,
+	Armchmp2Init, DrvExit, Single68KFrame, ScudhammDraw, DrvScan, &DrvRecalc, 0x4000,
+	224, 256, 3, 4
+};
+
+
+// Arm Champs II v2.6
+
+static struct BurnRomInfo armchmp2o2RomDesc[] = {
+	{ "ac-91106v2.6_4.ic63",	0x20000, 0xe0cec032, 1 | BRF_PRG | BRF_ESS }, //  0 68K #0 Code
+	{ "ac-91106v2.6_3.ic62",	0x20000, 0x5de6da19, 1 | BRF_PRG | BRF_ESS }, //  1
+
+	{ "mr91042-07-r66_6.ic95",	0x80000, 0xd1be8699, 1 | BRF_GRA },           //  2 Background Layer 0 Tiles
+
+	{ "ac91106_ver1.2_7.ic99",	0x20000, 0x09755aef, 3 | BRF_GRA },           //  3 Background Layer 2 Tiles
+
+	{ "mr91042-01-r60_1.ic1",	0x80000, 0xfdfe6951, 4 | BRF_GRA },           //  4 Sprites
+	{ "mr91042-02-r61_2.ic2",	0x80000, 0x2e6c8b30, 4 | BRF_GRA },           //  5
+	{ "mr91042-03-r62_3.ic5",	0x80000, 0x07ba6d3a, 4 | BRF_GRA },           //  6
+	{ "mr91042-04-r63_4.ic6",	0x80000, 0xf37cb12c, 4 | BRF_GRA },           //  7
+	{ "mr91042-05-r64_5.ic11",	0x80000, 0x7a3bb52d, 4 | BRF_GRA },           //  8
+	{ "mr91042-06-r65_6.ic12",	0x80000, 0x5312a4f2, 4 | BRF_GRA },           //  9
+
+	{ "mr91042-08_2.ic57",		0x80000, 0xdc015f6c, 1 | BRF_SND },           // 10 MSM #0 Samples
+
+	{ "ac-91106v2.0_1.ic56",	0x80000, 0x0ff5cbcf, 2 | BRF_SND },           // 11 MSM #1 Samples
+
+	{ "ch9072-4_13.ic39",		0x02000, 0xb45b4dc0, 0 | BRF_OPT },           // 12 Unused ROMs
+	{ "ch9072-5_11.ic33",		0x02000, 0xe122916b, 0 | BRF_OPT },           // 13
+	{ "ch9072-6_12.ic35",		0x02000, 0x05d95bf7, 0 | BRF_OPT },           // 14
+	{ "ch9072-8_15.ic59",		0x02000, 0x6bf52596, 0 | BRF_OPT },           // 15
+	{ "mr90015-35-w33_17.ic67",	0x80000, 0x9d428fb7, 0 | BRF_OPT },           // 16
+	{ "mr90015-35-w33_14.ic54",	0x80000, 0x9d428fb7, 0 | BRF_OPT },           // 17
+	{ "pr88004q_8.ic102",		0x00200, 0x9327dc37, 0 | BRF_OPT },           // 18
+	{ "pr88004w_16.ic66",		0x00100, 0x3d648467, 0 | BRF_OPT },           // 19
+	{ "pr91042_5.ic91",			0x00100, 0xe71de4aa, 0 | BRF_OPT },           // 20
+};
+
+STD_ROM_PICK(armchmp2o2)
+STD_ROM_FN(armchmp2o2)
+
+struct BurnDriver BurnDrvArmchmp2o2 = {
+	"armchmp2o2", "armchmp2", NULL, NULL, "1992",
+	"Arm Champs II v2.6\0", NULL, "Jaleco", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_NOT_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_MISC_POST90S, GBF_MISC, 0,
+	NULL, armchmp2o2RomInfo, armchmp2o2RomName, NULL, NULL, NULL, NULL, Armchmp2InputInfo, Armchmp2DIPInfo,
 	Armchmp2Init, DrvExit, Single68KFrame, ScudhammDraw, DrvScan, &DrvRecalc, 0x4000,
 	224, 256, 3, 4
 };

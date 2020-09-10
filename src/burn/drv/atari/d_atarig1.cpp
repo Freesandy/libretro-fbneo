@@ -679,7 +679,7 @@ static void draw_background()
 
 static void copy_sprites()
 {
-	UINT16 *b1 = BurnBitmapGetBitmap(1);
+	UINT16 *b1 = atarirle_get_vram(0, 0);
 
 	for (INT32 z = 0; z < nScreenWidth * nScreenHeight; z++)
 	{
@@ -769,8 +769,8 @@ static INT32 DrvFrame()
 	{
 		scanline = i;
 
-		nCyclesDone[0] += SekRun(((i + 1) * nCyclesTotal[0] / nInterleave) - nCyclesDone[0]);
-		nCyclesDone[1] += M6502Run(((i + 1) * nCyclesTotal[1] / nInterleave) - nCyclesDone[1]);
+		CPU_RUN(0, Sek);
+		CPU_RUN(1, M6502);
 
 		if (i == 239) {
 			vblank = 1;

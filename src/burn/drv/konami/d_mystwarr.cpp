@@ -436,7 +436,7 @@ static void __fastcall mystwarr_main_write_word(UINT32 address, UINT16 data)
 		if ((address & 0xf0) == 0)
 			K053247WriteWord(((address & 0x000e) | ((address & 0xff00) >> 4)), data);
 
-		*((UINT16*)(DrvSpriteRam + (address & 0xfffe))) = data;
+		*((UINT16*)(DrvSpriteRam + (address & 0xfffe))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 	}
 
@@ -901,7 +901,11 @@ static void __fastcall metamrph_main_write_byte(UINT32 address, UINT8 data)
 
 	if ((address & 0xffffc0) == 0x25c000) {
 		UINT8 *prot = (UINT8*)&prot_data;
+#ifdef LSB_FIRST
 		prot[(address & 0x3f) ^ 1] = data;
+#else
+		prot[address & 0x3f] = data;
+#endif	
 		K055550_word_write(address, data, 0xff << ((address & 1) * 8));
 		return;
 	}
@@ -1178,7 +1182,7 @@ static void __fastcall martchmp_main_write_word(UINT32 address, UINT16 data)
 		if ((address & 0x30) == 0)
 			K053247WriteWord(((address & 0x000e) | ((address & 0x3FC0) >> 2)), data);
 
-		*((UINT16*)(DrvSpriteRam + (address & 0x3ffe))) = data;
+		*((UINT16*)(DrvSpriteRam + (address & 0x3ffe))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 	}
 
@@ -1366,7 +1370,7 @@ static void __fastcall dadandrn_main_write_word(UINT32 address, UINT16 data)
 		if ((address & 0xf0) == 0)
 			K053247WriteWord(((address & 0x000e) | ((address & 0xff00) >> 4)), data);
 
-		*((UINT16*)(DrvSpriteRam + (address & 0xfffe))) = data;
+		*((UINT16*)(DrvSpriteRam + (address & 0xfffe))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 	}
 
@@ -2511,7 +2515,7 @@ static INT32 GaiapolisInit()
 
 	{
 		DrvGfxExpand(DrvGfxROM2	, 0x180000);
-		pMystwarrRozBitmap = (UINT16*)BurnMalloc(((512 * 16) * 2) * (512 * 16) * 2);
+		if ((pMystwarrRozBitmap = (UINT16*)BurnMalloc(((512 * 16) * 2) * (512 * 16) * 2)) == NULL) return 1;
 		GaiapolisRozTilemapdraw();
 
 		m_k053936_0_ctrl = (UINT16*)DrvK053936Ctrl;
@@ -2668,7 +2672,7 @@ static INT32 DadandrnInit()
 	EEPROMInit(&mystwarr_eeprom_interface);
 
 	{
-		pMystwarrRozBitmap = (UINT16*)BurnMalloc(((512 * 16) * 2) * (512 * 16) * 2);
+		if ((pMystwarrRozBitmap = (UINT16*)BurnMalloc(((512 * 16) * 2) * (512 * 16) * 2)) == NULL) return 1;
 		DadandrnRozTilemapdraw();
 
 		m_k053936_0_ctrl = (UINT16*)DrvK053936Ctrl;
@@ -2734,9 +2738,9 @@ static void DrvPaletteRecalc()
 
 	for (INT32 i = 0; i < 0x2000/2; i+=2)
 	{
-		INT32 r = pal[i+0] & 0xff;
-		INT32 g = pal[i+1] >> 8;
-		INT32 b = pal[i+1] & 0xff;
+		INT32 r = BURN_ENDIAN_SWAP_INT16(pal[i+0]) & 0xff;
+		INT32 g = BURN_ENDIAN_SWAP_INT16(pal[i+1]) >> 8;
+		INT32 b = BURN_ENDIAN_SWAP_INT16(pal[i+1]) & 0xff;
 
 		DrvPalette[i/2] = (r << 16) + (g << 8) + b;
 	}

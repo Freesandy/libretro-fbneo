@@ -963,8 +963,8 @@ static struct BurnDIPInfo maketraxDIPList[]=
 	{0x0e, 0x01, 0x0c, 0x0c, "6"     		  },
 
 	{0   , 0xfe, 0   , 2   , "First Pattern"          },
-	{0x0e, 0x01, 0x30, 0x10, "Easy"     		  },
-	{0x0e, 0x01, 0x30, 0x00, "Hard"    		  },
+	{0x0e, 0x01, 0x10, 0x10, "Easy"     		  },
+	{0x0e, 0x01, 0x10, 0x00, "Hard"    		  },
 
 	{0   , 0xfe, 0   , 2   , "Teleport Holes"         },
 	{0x0e, 0x01, 0x20, 0x20, "Off"      		  },
@@ -1680,8 +1680,8 @@ static struct BurnDIPInfo korosukeDIPList[]=
 	{0x0f, 0x01, 0x0c, 0x0c, "6"     		  },
 
 	{0   , 0xfe, 0   , 2   , "First Pattern"          },
-	{0x0f, 0x01, 0x30, 0x10, "Easy"     		  },
-	{0x0f, 0x01, 0x30, 0x00, "Hard"    		  },
+	{0x0f, 0x01, 0x10, 0x10, "Easy"     		  },
+	{0x0f, 0x01, 0x10, 0x00, "Hard"    		  },
 
 	{0   , 0xfe, 0   , 2   , "Teleport Holes"         },
 	{0x0f, 0x01, 0x20, 0x20, "Off"      		  },
@@ -1908,7 +1908,7 @@ void __fastcall pacman_write(UINT16 a, UINT8 d)
 			if ((a & 0xffe0) == 0x5080) a -= 0x0040;
 			if ((a & 0xfff0) == 0x50a0) a -= 0x0040;
 			if (a == 0x5000) return;
-			if (a == 0x5001) interrupt_mask = d & 1;
+			if (a == 0x5001) { interrupt_mask = d & 1; return; }
 		}
 		break;
 
@@ -1969,6 +1969,15 @@ void __fastcall pacman_write(UINT16 a, UINT8 d)
 		}
 		break;
 
+		case DREMSHPR:
+		{
+			if (a == 0x5001) {
+				// no sound disable here
+				return;
+			}
+		}
+		break;
+
 		case BIGBUCKS:
 			if (a == 0x6000) {
 				nPacBank = d;
@@ -1994,7 +2003,7 @@ void __fastcall pacman_write(UINT16 a, UINT8 d)
 		break;
 
 		case 0x5001:
-			// pacman_sound_enable_w
+			namco_15xx_sound_enable(d & 1);
 		break;
 
 		case 0x5003:
@@ -2009,6 +2018,7 @@ void __fastcall pacman_write(UINT16 a, UINT8 d)
 			watchdog = 0;
 		break;
 	}
+	//bprintf(0, _T("unmapped %x  %x\n"), a, d);
 }
 
 UINT8 __fastcall pacman_in_port(UINT16 a)

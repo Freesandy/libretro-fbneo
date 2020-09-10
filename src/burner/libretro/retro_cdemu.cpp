@@ -1,5 +1,6 @@
 #include "retro_common.h"
 #include "retro_cdemu.h"
+#include "burnint.h"
 
 #define DPRINTF_BUFFER_SIZE 512
 char dprintf_buf[DPRINTF_BUFFER_SIZE];
@@ -854,8 +855,9 @@ static int cdimgGetSoundBuffer(short* buffer, int samples)
 
 		for (int i = (cdimgOutputbufferSize - cdimgOutputPosition) * 2 - 1; i > 0; )
 		{
-			dst[i] = CLIP((src[i]) + dst[i]); i--;
-			dst[i] = CLIP((src[i]) + dst[i]); i--;
+			short tmpsrc = BURN_ENDIAN_SWAP_INT16(src[i]);
+			dst[i] = CLIP(tmpsrc + dst[i]); i--;
+			dst[i] = CLIP(tmpsrc + dst[i]); i--;
 		}
 
 		buffer += (cdimgOutputbufferSize - cdimgOutputPosition) * 2;
@@ -873,8 +875,11 @@ static int cdimgGetSoundBuffer(short* buffer, int samples)
 
 		for (int i = samples * 2 - 1; i > 0; )
 		{
-			dst[i] = CLIP((src[i]) + dst[i]); i--;
-			dst[i] = CLIP((src[i]) + dst[i]); i--;
+			short tmpsrc;
+			tmpsrc = BURN_ENDIAN_SWAP_INT16(src[i]);
+			dst[i] = CLIP(tmpsrc + dst[i]); i--;
+			tmpsrc = BURN_ENDIAN_SWAP_INT16(src[i]);
+			dst[i] = CLIP(tmpsrc + dst[i]); i--;
 		}
 
 		cdimgOutputPosition += samples;

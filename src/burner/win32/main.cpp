@@ -29,7 +29,7 @@ bool bDisableDebugConsole = true;
 HINSTANCE hAppInst = NULL;			// Application Instance
 HANDLE hMainThread;
 long int nMainThreadID;
-int nAppThreadPriority = THREAD_PRIORITY_NORMAL;
+int nAppProcessPriority = NORMAL_PRIORITY_CLASS;
 int nAppShowCmd;
 
 static TCHAR szCmdLine[1024] = _T("");
@@ -645,6 +645,13 @@ static BOOL CALLBACK MonInfoProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcM
     width = iMonitor.rcMonitor.right - iMonitor.rcMonitor.left;
     height = iMonitor.rcMonitor.bottom - iMonitor.rcMonitor.top;
 
+	if (width == 1536 && height == 864) {
+		// Workaround: (1/2)
+		// Win8-10 sets Desktop Zoom to 125% by default, creating this bad/weird resolution.
+		width = 1920;
+		height = 1080;
+	}
+
 	if ((HorScreen[0] && !_wcsicmp(HorScreen, iMonitor.szDevice)) ||
 		(!HorScreen[0] && iMonitor.dwFlags & MONITORINFOF_PRIMARY)) {
 
@@ -691,6 +698,13 @@ void MonitorAutoCheck()
 
 		x = GetSystemMetrics(SM_CXSCREEN);
 		y = GetSystemMetrics(SM_CYSCREEN);
+
+		if (x == 1536 && y == 864) {
+			// Workaround: (2/2)
+			// Win8-10 sets Desktop Zoom to 125% by default, creating this bad/weird resolution.
+			x = 1920;
+			y = 1080;
+		}
 
 		// default full-screen resolution to this size
 		nVidHorWidth = x;
@@ -767,8 +781,22 @@ static int AppInit()
 	}
 #endif
 
-	// Set the thread priority for the main thread
-	SetThreadPriority(GetCurrentThread(), nAppThreadPriority);
+	switch (nAppProcessPriority) {
+		case HIGH_PRIORITY_CLASS:
+		case ABOVE_NORMAL_PRIORITY_CLASS:
+		case NORMAL_PRIORITY_CLASS:
+		case BELOW_NORMAL_PRIORITY_CLASS:
+		case IDLE_PRIORITY_CLASS:
+			// nothing to change, we're good.
+			break;
+		default:
+			// invalid priority class, set to normal.
+			nAppProcessPriority = NORMAL_PRIORITY_CLASS;
+			break;
+	}
+
+	// Set the process priority
+	SetPriorityClass(GetCurrentProcess(), nAppProcessPriority);
 
 	bCheatsAllowed = true;
 
@@ -1090,6 +1118,7 @@ static void CreateSupportFolders()
 		{_T("support/history/")},
 		{_T("neocdiso/")},
 		// rom directories
+		{_T("roms/arcade/")},
 		{_T("roms/megadrive/")},
 		{_T("roms/pce/")},
 		{_T("roms/sgx/")},
@@ -1101,8 +1130,7 @@ static void CreateSupportFolders()
 		{_T("roms/msx/")},
 		{_T("roms/spectrum/")},
 		{_T("roms/nes/")},
-		{_T("roms/nes_fds/")},
-		{_T("roms/nes_hb/")},
+		{_T("roms/fds/")},
 		{_T("roms/ngp/")},
 		{_T("\0")} // END of list
 	};

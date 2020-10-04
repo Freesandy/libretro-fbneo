@@ -54,6 +54,8 @@ static UINT8 *i8039_p;
 static UINT32 *DrvPalette;
 static UINT8  DrvRecalc;
 
+static INT32 nExtraCycles[2];
+
 static UINT8 *soundlatch;
 static UINT8 *gfx_bank;
 static UINT8 *sprite_bank;
@@ -597,6 +599,9 @@ static void __fastcall dkong_main_write(UINT16 address, UINT8 data)
 
 		case 0x7d84:
 			*nmi_mask = data & 0x01;
+			if (~data & 0x01) {
+				ZetSetIRQLine(0x20, CPU_IRQSTATUS_NONE);
+			}
 		return;
 
 		case 0x7d85:
@@ -836,11 +841,7 @@ static void braze_bankswitch(INT32 data)
 
 	ZetMapMemory(DrvZ80ROM + bank, 0x0000, 0x5fff, MAP_ROM);
 
-	// work-around for eeprom reading
-	ZetMapArea(0x8000, 0xc7ff, 0, DrvZ80ROM + bank);
-	ZetMapArea(0xc900, 0xffff, 0, DrvZ80ROM + 0x4900 + bank);
-
-	ZetMapArea(0x8000, 0xffff, 2, DrvZ80ROM + bank);
+	// second bank dished out in braze_main_read() below..
 }
 
 static void __fastcall braze_main_write(UINT16 address, UINT8 data)
@@ -862,9 +863,11 @@ static void __fastcall braze_main_write(UINT16 address, UINT8 data)
 static UINT8 __fastcall braze_main_read(UINT16 address)
 {
 	// work-around for eeprom reading
-	if ((address & 0xff00) == 0xc800)
+	if (address & 0x8000) // 8000-ffff
 	{
-		if (address == 0xc800) return (EEPROMRead() & 1);
+		if (address == 0xc800) {
+			return (EEPROMRead() & 1);
+		}
 
 		return DrvZ80ROM[(braze_bank & 0x01) * 0x8000 + (address & 0x7fff)];
 	}
@@ -1100,11 +1103,6 @@ static UINT8 __fastcall i8039_sound_read_port(UINT32 port)
 	return 0;
 }
 
-static INT32 DkongDACSync()
-{
-	return (INT32)(float)(nBurnSoundLen * (I8039TotalCycles() / ((6000000.000 / 15) / (nBurnFPS / 100.000))));
-}
-
 static void dkong_sh_p1_write(UINT8 data)
 {
 	DACWrite(0, (INT32)(data * exp(-envelope_ctr)));
@@ -1220,6 +1218,8 @@ static INT32 DrvDoReset()
 	EEPROMReset();
 
 	HiscoreReset();
+
+	nExtraCycles[0] = nExtraCycles[1] = 0;
 
 	return 0;
 }
@@ -1427,7 +1427,7 @@ static INT32 DrvInit(INT32 (*pRomLoadCallback)(), void (*pPaletteUpdate)(), UINT
 	I8039SetCPUOpReadArgHandler(i8039_sound_read);
 	I8039Close();
 
-	DACInit(0, 0, 0, DkongDACSync);
+	DACInit(0, 0, 0, I8039TotalCycles, 6000000 / 15);
 	DACSetRoute(0, 0.75, BURN_SND_ROUTE_BOTH);
 
 	BurnSampleInit(1);
@@ -1698,7 +1698,7 @@ static INT32 s2650DkongInit(INT32 (*pRomLoadCallback)())
 	I8039SetCPUOpReadArgHandler(i8039_sound_read);
 	I8039Close();
 
-	DACInit(0, 0, 0, DkongDACSync);
+	DACInit(0, 0, 0, I8039TotalCycles, 6000000 / 15);
 	DACSetRoute(0, 0.75, BURN_SND_ROUTE_BOTH);
 
 	BurnSampleInit(1);
@@ -1864,7 +1864,7 @@ static INT32 DrvFrame()
 	}
 
 	I8039NewFrame();
-
+	ZetNewFrame();
 	{
 		memset (DrvInputs, 0, 3);
 
@@ -1875,25 +1875,29 @@ static INT32 DrvFrame()
 		}
 	}
 
-	INT32 nInterleave = 10;
-	INT32 nCyclesTotal[2] = { 3072000 / 60, 6000000 / 15 / 60 };
-	INT32 nCyclesDone[2] = { 0, 0 };
+	INT32 nInterleave = 264;
+	INT32 nCyclesTotal[2] = { (INT32)((double)3072000 / 60.606061), (INT32)((double)6000000 / 15 / 60.606061) };
+	INT32 nCyclesDone[2] = { nExtraCycles[0], nExtraCycles[1] };
 
 	ZetOpen(0);
 	I8039Open(0);
 
-	for (INT32 i = 0; i < 10; i++) {
-		nCyclesDone[0] += ZetRun(((i + 1) * nCyclesTotal[0] / nInterleave) - nCyclesDone[0]);
-		nCyclesDone[1] += I8039Run(((i + 1) * nCyclesTotal[1] / nInterleave) - nCyclesDone[1]);
-	}
+	for (INT32 i = 0; i < nInterleave; i++) {
+		CPU_RUN_SYNCINT(0, Zet);
+		CPU_RUN(1, I8039);
 
-	if (*nmi_mask) ZetNmi();
+		if (i == 239 && *nmi_mask) ZetSetIRQLine(0x20, CPU_IRQSTATUS_ACK);
+		if (i == 240) ZetSetIRQLine(0x20, CPU_IRQSTATUS_NONE);
+	}
 
 	if (pBurnSoundOut) {
 		DACUpdate(pBurnSoundOut, nBurnSoundLen);
 		BurnSoundDCFilter();
 		BurnSampleRender(pBurnSoundOut, nBurnSoundLen);
 	}
+
+	nExtraCycles[0] = ZetTotalCycles() - nCyclesTotal[0]; // ZetTotalCycles() because _SYNCINT and calling ZetIdle() by the dma engine.
+	nExtraCycles[1] = nCyclesDone[1] - nCyclesTotal[1];
 
 	I8039Close();
 	ZetClose();
@@ -1930,16 +1934,16 @@ static INT32 Dkong3Frame()
 	ZetOpen(0);
 
 	for (INT32 i = 0; i < nInterleave; i++) {
-		nCyclesDone[0] += ZetRun(((i + 1) * nCyclesTotal[0] / nInterleave) - nCyclesDone[0]);
+		CPU_RUN(0, Zet);
 		if (i == (nInterleave - 1) && *nmi_mask) ZetNmi();
 
 		M6502Open(0);
-		nCyclesDone[1] += M6502Run(((i + 1) * nCyclesTotal[1] / nInterleave) - nCyclesDone[1]);
+		CPU_RUN(1, M6502);
 		if (i == (nInterleave - 1)) M6502SetIRQLine(M6502_INPUT_LINE_NMI, CPU_IRQSTATUS_AUTO);
 		M6502Close();
 
 		M6502Open(1);
-		nCyclesDone[2] += M6502Run(((i + 1) * nCyclesTotal[2] / nInterleave) - nCyclesDone[2]);
+		CPU_RUN(2, M6502);
 		if (i == (nInterleave - 1)) M6502SetIRQLine(M6502_INPUT_LINE_NMI, CPU_IRQSTATUS_AUTO);
 		M6502Close();
 	}
@@ -1986,10 +1990,10 @@ static INT32 s2650DkongFrame()
 
 	vblank = 0;
 
-	for (INT32 i = 0; i < 32; i++)
+	for (INT32 i = 0; i < nInterleave; i++)
 	{
-		nCyclesDone[0] += s2650Run(((i + 1) * nCyclesTotal[0] / nInterleave) - nCyclesDone[0]);
-		nCyclesDone[1] += I8039Run(((i + 1) * nCyclesTotal[1] / nInterleave) - nCyclesDone[1]);
+		CPU_RUN(0, s2650);
+		CPU_RUN(1, I8039);
 
 		if (i == 30) {
 			vblank = 0x80;
@@ -2134,6 +2138,8 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 		SCAN_VAR(hunch_prot_ctr); // hunchback (s2650)
 		SCAN_VAR(hunchloopback);
 		SCAN_VAR(main_fo);
+
+		SCAN_VAR(nExtraCycles);
 
 		if (nAction & ACB_WRITE) {
 			if (draktonmode) {
@@ -2567,7 +2573,7 @@ struct BurnDriver BurnDrvDkongf = {
 	"dkongf", "dkong", NULL, "dkong", "2004",
 	"Donkey Kong Foundry (hack)\0", NULL, "hack (Jeff Kulczycki)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkongfRomInfo, dkongfRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongfDIPInfo,
 	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -2606,7 +2612,7 @@ struct BurnDriver BurnDrvDkongpe = {
 	"dkongpe", "dkong", NULL, "dkong", "2013",
 	"Donkey Kong - Pauline Edition (hack, rev 5)\0", NULL, "hack (Clay Cowgill)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkongpeRomInfo, dkongpeRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongfDIPInfo,
 	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -2645,7 +2651,7 @@ struct BurnDriver BurnDrvDkrainbow = {
 	"dkrainbow", "dkong", NULL, "dkong", "2015",
 	"Donkey Kong - Arcade Rainbow (hack)\0", NULL, "hack (john Kowalski)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkrainbowRomInfo, dkrainbowRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongfDIPInfo,
 	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -2683,7 +2689,7 @@ struct BurnDriver BurnDrvKong2600 = {
 	"kong2600", "dkong", NULL, "dkong", "1999",
 	"Donkey Kong (2600 graphics, hack)\0", NULL, "Vic Twenty George", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, kong2600RomInfo, kong2600RomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongfDIPInfo,
 	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -2723,7 +2729,7 @@ struct BurnDriver BurnDrvDkongrev = {
 	"dkongrev", "dkong", NULL, "dkong", "2019",
 	"Donkey Kong Reverse (Hack)\0", NULL, "Hack (Paul Goes)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkongrevRomInfo, dkongrevRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongDIPInfo,
 	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -2806,7 +2812,7 @@ struct BurnDriver BurnDrvDkongx = {
 	"dkongx", "dkong", NULL, "dkong", "2006",
 	"Donkey Kong II - Jumpman Returns (hack, V1.2)\0", NULL, "hack (Braze Technologies)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkongxRomInfo, dkongxRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, NULL,
 	dkongxInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -2846,7 +2852,7 @@ struct BurnDriver BurnDrvDkongx11 = {
 	"dkongx11", "dkong", NULL, "dkong", "2006",
 	"Donkey Kong II - Jumpman Returns (hack, V1.1)\0", NULL, "hack (Braze Technologies)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkongx11RomInfo, dkongx11RomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, NULL,
 	dkongxInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -2886,7 +2892,7 @@ struct BurnDriver BurnDrvDkchrmx = {
 	"dkchrmx", "dkong", NULL, "dkong", "2017",
 	"Donkey Kong Christmas Remix (Hack)\0", NULL, "Sock Master", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkchrmxRomInfo, dkchrmxRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, NULL,
 	dkongxInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -2926,7 +2932,7 @@ struct BurnDriver BurnDrvDkspkyrmx = {
 	"dkspkyrmx", "dkong", NULL, "dkong", "2018",
 	"Donkey Kong Spooky Remix (Hack)\0", NULL, "Sock Master", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkspkyrmxRomInfo, dkspkyrmxRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, NULL,
 	dkongxInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -2965,7 +2971,7 @@ struct BurnDriver BurnDrvDkongp = {
 	"dkongp", "dkong", NULL, "dkong", "2007",
 	"Donkey Kong (Patched)\0", NULL, "Hack (Don Hodges)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkongpRomInfo, dkongpRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongDIPInfo,
 	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -3003,7 +3009,7 @@ struct BurnDriver BurnDrvDkrdemo = {
 	"dkrdemo", "dkong", NULL, "dkong", "2015",
 	"Donkey Kong Remix (Demo)\0", NULL, "Hack (Sockmaster)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkrdemoRomInfo, dkrdemoRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongDIPInfo,
 	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -3041,7 +3047,7 @@ struct BurnDriver BurnDrvDkongpac = {
 	"dkongpac", "dkong", NULL, "dkong", "2001",
 	"Donkey Kong (Pacman Graphics)\0", NULL, "Hack (Tim Appleton)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkongpacRomInfo, dkongpacRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongDIPInfo,
 	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -3079,7 +3085,7 @@ struct BurnDriver BurnDrvDktrainer = {
 	"dktrainer", "dkong", NULL, "dkong", "2016",
 	"Donkey Kong Trainer 1.01\0", NULL, "Hack (Sock Master)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dktrainerRomInfo, dktrainerRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongDIPInfo,
 	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -3117,7 +3123,7 @@ struct BurnDriver BurnDrvDkpace = {
 	"dkpace", "dkong", NULL, "dkong", "2016",
 	"Donkey Kong Pace\0", NULL, "Hack (Sock Master)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkpaceRomInfo, dkpaceRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongDIPInfo,
 	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -3155,8 +3161,84 @@ struct BurnDriver BurnDrvDkcbarrel = {
 	"dkcbarrel", "dkong", NULL, "dkong", "2019",
 	"Donkey Kong Crazy Barrels Edition\0", NULL, "Hack (Paul Goes)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkcbarrelRomInfo, dkcbarrelRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongDIPInfo,
+	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
+	224, 256, 3, 4
+};
+
+
+// Donkey Kong Randomized Edition v1.01 by Paul Goes
+
+static struct BurnRomInfo dkongran1RomDesc[] = {
+	{ "dkongran1.5et",	0x1000, 0xfc29f234, 1 }, //  0 maincpu
+	{ "dkongran1.5ct",	0x1000, 0x49e16508, 1 }, //  1
+	{ "dkongchm.5bt",	0x1000, 0xfce41e06, 1 }, //  2
+	{ "dkongran1.5at",	0x1000, 0x86723e5d, 1 }, //  3
+
+	{ "s_3i_b.bin",		0x0800, 0x45a4ed06, 2 }, //  4 soundcpu
+	{ "s_3j_b.bin",		0x0800, 0x4743fe92, 2 }, //  5
+
+	{ "v_5h_b.ran1",	0x0800, 0x17ef76ad, 3 }, //  6 gfx1
+	{ "v_3pt.ran1",		0x0800, 0x49d408cd, 3 }, //  7
+
+	{ "l_4m_b.bin",		0x0800, 0x59f8054d, 4 }, //  8 gfx2
+	{ "l_4n_b.bin",		0x0800, 0x672e4714, 4 }, //  9
+	{ "l_4r_b.bin",		0x0800, 0xfeaa59ee, 4 }, // 10
+	{ "l_4s_b.bin",		0x0800, 0x20f2ef7e, 4 }, // 11
+
+	{ "c-2k.bpr",		0x0100, 0xe273ede5, 5 }, // 12 proms
+	{ "c-2j.bpr",		0x0100, 0xd6412358, 5 }, // 13
+	{ "v-5e.bpr",		0x0100, 0xb869b8f5, 5 }, // 14
+};
+
+STD_ROM_PICK(dkongran1)
+STD_ROM_FN(dkongran1)
+
+struct BurnDriver BurnDrvDkongran1 = {
+	"dkongran1", "dkong", NULL, "dkong", "2020",
+	"Donkey Kong Randomized Edition v1.01\0", NULL, "Hack (Paul Goes)", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	NULL, dkongran1RomInfo, dkongran1RomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongDIPInfo,
+	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
+	224, 256, 3, 4
+};
+
+
+// Donkey Kong On the Run v1.02 by Paul Goes
+
+static struct BurnRomInfo dkongotrRomDesc[] = {
+	{ "dkongotr.5et",	0x1000, 0xfd64526a, 1 }, //  0 maincpu
+	{ "dkongotr.5ct",	0x1000, 0x6d692d1b, 1 }, //  1
+	{ "dkongotr.5bt",	0x1000, 0xd029c495, 1 }, //  2
+	{ "dkongotr.5at",	0x1000, 0x9b58b813, 1 }, //  3
+
+	{ "s_3i_b.bin",		0x0800, 0x45a4ed06, 2 }, //  4 soundcpu
+	{ "s_3j_b.bin",		0x0800, 0x4743fe92, 2 }, //  5
+
+	{ "dkongotr.5h",	0x0800, 0x0d588de5, 3 }, //  6 gfx1
+	{ "dkongotr.3pt",	0x0800, 0xbfb2c04f, 3 }, //  7
+
+	{ "dkongotr.4m",	0x0800, 0xf224b2bc, 4 }, //  8 gfx2
+	{ "dkongotr.4n",	0x0800, 0xdef8bca4, 4 }, //  9
+	{ "dkongotr.4r",	0x0800, 0x59e3e846, 4 }, // 10
+	{ "dkongotr.4s",	0x0800, 0xb5a2e920, 4 }, // 11
+
+	{ "c-2k.bpr",		0x0100, 0xe273ede5, 5 }, // 12 proms
+	{ "c-2j.bpr",		0x0100, 0xd6412358, 5 }, // 13
+	{ "v-5e.bpr",		0x0100, 0xb869b8f5, 5 }, // 14
+};
+
+STD_ROM_PICK(dkongotr)
+STD_ROM_FN(dkongotr)
+
+struct BurnDriver BurnDrvDkongotr = {
+	"dkongotr", "dkong", NULL, "dkong", "2020",
+	"Donkey Kong On the Run v1.02\0", NULL, "Hack (Paul Goes)", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	NULL, dkongotrRomInfo, dkongotrRomName, NULL, NULL, DkongSampleInfo, DkongSampleName, DkongInputInfo, DkongDIPInfo,
 	dkongInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
 };
@@ -3471,7 +3553,7 @@ struct BurnDriver BurnDrvDkongjrb = {
 	"dkongjrb", "dkongjr", NULL, "dkongjr", "1982",
 	"Donkey Kong Jr. (bootleg)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkongjrbRomInfo, dkongjrbRomName, NULL, NULL, DkongjrSampleInfo, DkongjrSampleName, DkongInputInfo, DkongDIPInfo,
 	dkongjrInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -3507,7 +3589,7 @@ struct BurnDriver BurnDrvJrking = {
 	"jrking", "dkongjr", NULL, "dkongjr", "1982",
 	"Junior King (bootleg of Donkey Kong Jr.)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, jrkingRomInfo, jrkingRomName, NULL, NULL, DkongjrSampleInfo, DkongjrSampleName, DkongInputInfo, DkongDIPInfo,
 	dkongjrInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -3561,7 +3643,7 @@ struct BurnDriver BurnDrvDkingjr = {
 	"dkingjr", "dkongjr", NULL, "dkongjr", "1982",
 	"Donkey King Jr. (bootleg of Donkey Kong Jr.)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkingjrRomInfo, dkingjrRomName, NULL, NULL, DkongjrSampleInfo, DkongjrSampleName, DkongInputInfo, DkongDIPInfo,
 	dkingjrInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -3649,7 +3731,7 @@ struct BurnDriverD BurnDrvDkongjrpb = {
 	"dkongjrpb", "dkongjr", NULL, "dkongjr", "1982",
 	"Donkey Kong Junior (P kit, bootleg)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_BOOTLEG | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, dkongjrpbRomInfo, dkongjrpbRomName, NULL, NULL, DkongjrSampleInfo, DkongjrSampleName, DkongInputInfo, DkongDIPInfo,
 	dkongjrInit, DrvExit, DrvFrame, dkongDraw, DrvScan, &DrvRecalc, 0x100,
 	224, 256, 3, 4
@@ -3705,7 +3787,7 @@ struct BurnDriver BurnDrvPestplce = {
 	"pestplce", "mario", NULL, NULL, "1983",
 	"Pest Place\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_MISC_PRE90S, GBF_PLATFORM | GBF_ACTION, 0,
 	NULL, pestplceRomInfo, pestplceRomName, NULL, NULL, NULL, NULL, PestplceInputInfo, PestplceDIPInfo,
 	pestplceInit, DrvExit, DrvFrame, pestplceDraw, DrvScan, &DrvRecalc, 0x100,
 	256, 224, 4, 3

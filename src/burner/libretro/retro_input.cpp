@@ -1221,7 +1221,7 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szi, ch
 		if (strcmp("Accelerator", description) == 0) {
 			GameInpAnalog2RetroInpAnalog(pgi, nPlayer, 2, RETRO_DEVICE_ID_JOYPAD_R2, RETRO_DEVICE_INDEX_ANALOG_BUTTON, description);
 		}
-		if (strcmp("Break", description) == 0) {
+		if (strcmp("Break", description) == 0 || strcmp("Brake", description) == 0) {
 			GameInpAnalog2RetroInpAnalog(pgi, nPlayer, 3, RETRO_DEVICE_ID_JOYPAD_L2, RETRO_DEVICE_INDEX_ANALOG_BUTTON, description);
 		}
 		if (strcmp("Gun X", description) == 0) {
@@ -1814,10 +1814,8 @@ INT32 GameInpAutoOne(struct GameInp* pgi, char* szi, char *szn)
 		if (strncmp("fire ", szb, 5) == 0) {
 			char *szf = szb + 5;
 			INT32 nButton = strtol(szf, NULL, 0);
-			// The "Modern" mapping on neogeo (which mimic mapping from remakes and further opus of the series)
-			// doesn't make sense and is kinda harmful on games other than kof, fatal fury and samourai showdown
-			// So we restrain it to those 3 series.
-			if ((BurnDrvGetGenreFlags() & GBF_VSFIGHT) && is_neogeo_game && nDeviceType[nPlayer] == RETROPAD_MODERN) {
+			// "Modern" neogeo stick and gamepad are actually like this, see pictures of arcade stick pro and neogeo mini gamepad
+			if (is_neogeo_game && nDeviceType[nPlayer] == RETROPAD_MODERN) {
 				switch (nButton) {
 					case 1:
 						GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Y, description);
@@ -2509,8 +2507,15 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
 		if (bAllDevicesReady) {
 			GameInpReassign();
 			SetInputDescriptors();
+			RefreshLightgunCrosshair();
 		}
 	}
+}
+
+void RefreshLightgunCrosshair()
+{
+	for (int i = 0; i < nMaxPlayers; i++)
+		bBurnGunHide[i] = (bLightgunHideCrosshairEnabled && nDeviceType[i] == RETRO_DEVICE_LIGHTGUN);
 }
 
 void InputInit()

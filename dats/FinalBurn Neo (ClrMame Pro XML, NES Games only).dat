@@ -278,11 +278,25 @@
 		<rom name="Airwolf (USA).nes" size="163856" crc="f0a5eb24"/>
 		<driver status="good"/>
 	</game>
-	<game name="akumaden" cloneof="castliii" romof="castliii">
+	<game name="akumadenj" cloneof="castliii" romof="castliii">
 		<description>Akumajou Densetsu (Japan)</description>
 		<year>1989</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Akumajou Densetsu (Japan).nes" size="393232" crc="2e93ce72"/>
+		<driver status="good"/>
+	</game>
+	<game name="akumadenc" cloneof="castliii" romof="castliii">
+		<description>Akumajou Densetsu (T-Chi, v2.3)</description>
+		<year>2018-10-15</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Akumajou Densetsu (T-Chi, v2.3).nes" size="524304" crc="b810b79c"/>
+		<driver status="good"/>
+	</game>
+	<game name="akumaden" cloneof="castliii" romof="castliii">
+		<description>Akumajou Densetsu (T-Eng)</description>
+		<year>1989</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Akumajou Densetsu (T-Eng).nes" size="393232" crc="1965a3dc"/>
 		<driver status="good"/>
 	</game>
 	<game name="akumajoudracula" cloneof="castlevania" romof="castlevania">
@@ -290,6 +304,13 @@
 		<year>1993</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Akumajou Dracula (Japan).nes" size="131088" crc="93f0488c"/>
+		<driver status="good"/>
+	</game>
+	<game name="akumajoudraculac" cloneof="castlevania" romof="castlevania">
+		<description>Akumajou Dracula (T-Chi)</description>
+		<year>1993</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Akumajou Dracula (T-Chi).nes" size="131088" crc="dc749e67"/>
 		<driver status="good"/>
 	</game>
 	<game name="akumaspe" cloneof="kiddracula" romof="kiddracula">
@@ -397,6 +418,20 @@
 		<rom name="Amazons Running Diet (USA).nes" size="524304" crc="4db6acdd"/>
 		<driver status="good"/>
 	</game>
+	<game name="americandreamj" cloneof="americandream" romof="americandream">
+		<description>American Dream (Japan)</description>
+		<year>1989</year>
+		<manufacturer>Coconuts</manufacturer>
+		<rom name="American Dream (Japan).nes" size="262160" crc="5249764c"/>
+		<driver status="good"/>
+	</game>
+	<game name="americandream">
+		<description>American Dream (T-Eng)</description>
+		<year>1989</year>
+		<manufacturer>Coconuts</manufacturer>
+		<rom name="American Dream (T-Eng).nes" size="262160" crc="d2275854"/>
+		<driver status="good"/>
+	</game>
 	<game name="amerigla">
 		<description>American Gladiators (USA)</description>
 		<year>1991</year>
@@ -430,6 +465,13 @@
 		<year>1989</year>
 		<manufacturer>Activision</manufacturer>
 		<rom name="Archon (USA).nes" size="131088" crc="c00d228d"/>
+		<driver status="good"/>
+	</game>
+	<game name="argosnosenshic" cloneof="rygar" romof="rygar">
+		<description>Argos no Senshi (T-Chi, v1.11)</description>
+		<year>2016-01-27</year>
+		<manufacturer>Tecmo</manufacturer>
+		<rom name="Argos no Senshi (T-Chi, v1.11).nes" size="262160" crc="a1a22c10"/>
 		<driver status="good"/>
 	</game>
 	<game name="argus">
@@ -537,11 +579,18 @@
 		<rom name="Athena (USA).nes" size="131088" crc="14d42113"/>
 		<driver status="good"/>
 	</game>
-	<game name="atlantisnonazo">
+	<game name="atlantisnonazoj" cloneof="atlantisnonazo" romof="atlantisnonazo">
 		<description>Atlantis no Nazo (Japan)</description>
 		<year>1986</year>
 		<manufacturer>Sunsoft</manufacturer>
 		<rom name="Atlantis no Nazo (Japan).nes" size="49168" crc="dccbe3ae"/>
+		<driver status="good"/>
+	</game>
+	<game name="atlantisnonazo">
+		<description>Atlantis no Nazo (T-Eng)</description>
+		<year>1986</year>
+		<manufacturer>Sunsoft</manufacturer>
+		<rom name="Atlantis no Nazo (T-Eng).nes" size="49168" crc="6a5ee2fc"/>
 		<driver status="good"/>
 	</game>
 	<game name="attacanigakj" cloneof="attacanigak" romof="attacanigak">
@@ -635,11 +684,32 @@
 		<rom name="Bad Street Brawler (USA).nes" size="131088" crc="c8272d9a"/>
 		<driver status="good"/>
 	</game>
+	<game name="ballsto">
+		<description>Ball Story - Jong Yuk Chuen Suet Fa Jong II (China)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Ball Story - Jong Yuk Chuen Suet Fa Jong II (China).nes" size="131088" crc="1090a2e5"/>
+		<driver status="good"/>
+	</game>
+	<game name="ballblazer">
+		<description>Ballblazer (Japan)</description>
+		<year>1988</year>
+		<manufacturer>Pony Canyon</manufacturer>
+		<rom name="Ballblazer (Japan).nes" size="131088" crc="7b43b3ef"/>
+		<driver status="good"/>
+	</game>
 	<game name="balloonfight">
 		<description>Balloon Fight (USA)</description>
 		<year>1986</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Balloon Fight (USA).nes" size="24592" crc="cb8fd7b2"/>
+		<driver status="good"/>
+	</game>
+	<game name="balloonmonster">
+		<description>Balloon Monster (Unl)</description>
+		<year>1992</year>
+		<manufacturer>Gluk Video</manufacturer>
+		<rom name="Balloon Monster (Unl).nes" size="40976" crc="b5ae9f8b"/>
 		<driver status="good"/>
 	</game>
 	<game name="baltron">
@@ -752,6 +822,20 @@
 		<year>1991</year>
 		<manufacturer>Sunsoft</manufacturer>
 		<rom name="Batman - Return of the Joker (USA).nes" size="393232" crc="e14a7971"/>
+		<driver status="good"/>
+	</game>
+	<game name="batmavidgamj" cloneof="batmavidgam" romof="batmavidgam">
+		<description>Batman - The Video Game (Japan)</description>
+		<year>1989</year>
+		<manufacturer>Sunsoft</manufacturer>
+		<rom name="Batman - The Video Game (Japan).nes" size="262160" crc="15f9a645"/>
+		<driver status="good"/>
+	</game>
+	<game name="batmavidgamc" cloneof="batmavidgam" romof="batmavidgam">
+		<description>Batman - The Video Game (T-Chi)</description>
+		<year>2020-01-25</year>
+		<manufacturer>Sunsoft</manufacturer>
+		<rom name="Batman - The Video Game (T-Chi).nes" size="393232" crc="4b2de665"/>
 		<driver status="good"/>
 	</game>
 	<game name="batmavidgam">
@@ -880,6 +964,20 @@
 		<rom name="Beetlejuice (USA).nes" size="131088" crc="1b2bad13"/>
 		<driver status="good"/>
 	</game>
+	<game name="bibleadventures">
+		<description>Bible Adventures (Unl)</description>
+		<year>1991</year>
+		<manufacturer>Wisdom Tree</manufacturer>
+		<rom name="Bible Adventures (Unl).nes" size="131088" crc="5eb290af"/>
+		<driver status="good"/>
+	</game>
+	<game name="biblebuffet">
+		<description>Bible Buffet (Unl)</description>
+		<year>1993</year>
+		<manufacturer>Wisdom Tree</manufacturer>
+		<rom name="Bible Buffet (Unl).nes" size="262160" crc="dbbd1de9"/>
+		<driver status="good"/>
+	</game>
 	<game name="bignosfreout">
 		<description>Big Nose Freaks Out (USA)</description>
 		<year>1992</year>
@@ -957,6 +1055,27 @@
 		<rom name="Bird Week (Japan).nes" size="24592" crc="d9b9b3ab"/>
 		<driver status="good"/>
 	</game>
+	<game name="blackbas2j" cloneof="blackbas2" romof="blackbas2">
+		<description>Black Bass 2, The (Japan)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Black Bass 2, The (Japan).nes" size="131088" crc="5a514495"/>
+		<driver status="good"/>
+	</game>
+	<game name="blackbas2">
+		<description>Black Bass 2, The (USA)</description>
+		<year>1989</year>
+		<manufacturer>HOT・B</manufacturer>
+		<rom name="Black Bass 2, The (USA).nes" size="131088" crc="2e069e5f"/>
+		<driver status="good"/>
+	</game>
+	<game name="blackbassthe">
+		<description>Black Bass, The (Japan)</description>
+		<year>1987</year>
+		<manufacturer>HOT・B</manufacturer>
+		<rom name="Black Bass, The (Japan).nes" size="131088" crc="73bccc8b"/>
+		<driver status="good"/>
+	</game>
 	<game name="blackboxcha">
 		<description>Black Box Challenge (HB) [Homebrew]</description>
 		<year>2017</year>
@@ -983,6 +1102,13 @@
 		<year>1988</year>
 		<manufacturer>Sunsoft</manufacturer>
 		<rom name="Blaster Master (USA).nes" size="262160" crc="52bcf64a"/>
+		<driver status="good"/>
+	</game>
+	<game name="blobman">
+		<description>Blob Man (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Blob Man (Unl).nes" size="40976" crc="eef9db4b"/>
 		<driver status="good"/>
 	</game>
 	<game name="blockage">
@@ -1018,6 +1144,13 @@
 		<year>1992</year>
 		<manufacturer>HOT・B</manufacturer>
 		<rom name="Blue Marlin, The (USA).nes" size="262160" crc="d9e8e747"/>
+		<driver status="good"/>
+	</game>
+	<game name="blueshadow" cloneof="shadonin" romof="shadonin">
+		<description>Blue Shadow (Europe)</description>
+		<year>1991</year>
+		<manufacturer>Taito</manufacturer>
+		<rom name="Blue Shadow (Europe).nes" size="262160" crc="e3b889d9"/>
 		<driver status="good"/>
 	</game>
 	<game name="bluesbro">
@@ -1097,6 +1230,13 @@
 		<rom name="Boulder Dash (USA).nes" size="65552" crc="008f1536"/>
 		<driver status="good"/>
 	</game>
+	<game name="bowsette2" cloneof="smb2" romof="smb2">
+		<description>Bowsette 2 (Hack, Red version) [Hack]</description>
+		<year>2019</year>
+		<manufacturer>hack</manufacturer>
+		<rom name="Bowsette 2 (Hack).nes" size="262160" crc="94390680"/>
+		<driver status="good"/>
+	</game>
 	<game name="bramstosdra">
 		<description>Bram Stoker's Dracula (USA)</description>
 		<year>1993</year>
@@ -1137,6 +1277,13 @@
 		<year>1992</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Bucky O'Hare (USA).nes" size="262160" crc="3c9622d3"/>
+		<driver status="good"/>
+	</game>
+	<game name="buggypopper" cloneof="bumpnjump" romof="bumpnjump">
+		<description>Buggy Popper (Japan)</description>
+		<year>1986</year>
+		<manufacturer>Data East</manufacturer>
+		<rom name="Buggy Popper (Japan).nes" size="65552" crc="46cc2d53"/>
 		<driver status="good"/>
 	</game>
 	<game name="bugsbunbirblo">
@@ -1489,6 +1636,13 @@
 		<rom name="Chiller (USA).nes" size="65552" crc="e4e7539a"/>
 		<driver status="good"/>
 	</game>
+	<game name="chinarabbab">
+		<description>China Rabbit Baby (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="China Rabbit Baby (Unl).nes" size="524304" crc="6ab0db42"/>
+		<driver status="good"/>
+	</game>
 	<game name="chipndalresra">
 		<description>Chip 'n Dale - Rescue Rangers (USA)</description>
 		<year>1990</year>
@@ -1664,6 +1818,13 @@
 		<rom name="Code Name - Viper (USA).nes" size="262160" crc="c8a23081"/>
 		<driver status="good"/>
 	</game>
+	<game name="coloradinosaur">
+		<description>Color A Dinosaur (USA)</description>
+		<year>1993</year>
+		<manufacturer>Virgin Games</manufacturer>
+		<rom name="Color A Dinosaur (USA).nes" size="131088" crc="322a6cca"/>
+		<driver status="good"/>
+	</game>
 	<game name="commando">
 		<description>Commando (USA)</description>
 		<year>1986</year>
@@ -1678,6 +1839,13 @@
 		<rom name="Conan (USA).nes" size="131088" crc="05f76a57"/>
 		<driver status="good"/>
 	</game>
+	<game name="conflict">
+		<description>Conflict (USA)</description>
+		<year>1990</year>
+		<manufacturer>Vic Tokai</manufacturer>
+		<rom name="Conflict (USA).nes" size="262160" crc="5f7c6229"/>
+		<driver status="good"/>
+	</game>
 	<game name="conqucrypal">
 		<description>Conquest of the Crystal Palace (USA)</description>
 		<year>1990</year>
@@ -1690,6 +1858,13 @@
 		<year>1988</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Contra (Japan).nes" size="262160" crc="8a96a3c4"/>
+		<driver status="good"/>
+	</game>
+	<game name="contrac" cloneof="contra" romof="contra">
+		<description>Contra (T-Chi)</description>
+		<year>2017-07-29</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Contra (T-Chi).nes" size="393232" crc="2a39628d"/>
 		<driver status="good"/>
 	</game>
 	<game name="contra">
@@ -1713,11 +1888,32 @@
 		<rom name="Contra - Revenge of the Red Falcon (USA).nes" size="262160" crc="fa28193b"/>
 		<driver status="good"/>
 	</game>
+	<game name="contra168in1">
+		<description>Contra 168-in-1 (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Contra 168-in-1 (Unl).nes" size="1048592" crc="c6fd114e"/>
+		<driver status="good"/>
+	</game>
+	<game name="contraforcec" cloneof="contraforce" romof="contraforce">
+		<description>Contra Force (2nd option, T-Chi)</description>
+		<year>2018</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Contra Force (T-Chi).nes" size="524304" crc="cf2a15fb"/>
+		<driver status="good"/>
+	</game>
 	<game name="contraforce">
 		<description>Contra Force (USA)</description>
 		<year>1992</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Contra Force (USA).nes" size="262160" crc="83d69922"/>
+		<driver status="good"/>
+	</game>
+	<game name="contraspirits">
+		<description>Contra Spirits (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Contra Spirits (Unl).nes" size="524304" crc="cea432be"/>
 		<driver status="good"/>
 	</game>
 	<game name="coolworld">
@@ -1818,11 +2014,18 @@
 		<rom name="Crime Busters (USA).nes" size="163856" crc="86c7d81e"/>
 		<driver status="good"/>
 	</game>
-	<game name="crisisforce">
+	<game name="crisisforcej" cloneof="crisisforce" romof="crisisforce">
 		<description>Crisis Force (Japan)</description>
 		<year>1991</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Crisis Force (Japan).nes" size="262160" crc="c4520781"/>
+		<driver status="good"/>
+	</game>
+	<game name="crisisforce">
+		<description>Crisis Force (T-Eng)</description>
+		<year>1991</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Crisis Force (T-Eng).nes" size="262160" crc="8a053054"/>
 		<driver status="good"/>
 	</game>
 	<game name="crossfire">
@@ -1888,11 +2091,25 @@
 		<rom name="Daiku no Gen-san (Japan).nes" size="262160" crc="a529d5f0"/>
 		<driver status="good"/>
 	</game>
+	<game name="daikunogensanc" cloneof="daikunogensan" romof="daikunogensan">
+		<description>Daiku no Gen-san (T-Chi)</description>
+		<year>2019-03-05</year>
+		<manufacturer>Irem</manufacturer>
+		<rom name="Daiku no Gen-san (T-Chi).nes" size="393232" crc="f0543c45"/>
+		<driver status="good"/>
+	</game>
 	<game name="daikunogensan2">
 		<description>Daiku no Gen-san 2 - Akage no Dan no Gyakushuu (Japan)</description>
 		<year>1993</year>
 		<manufacturer>Irem</manufacturer>
 		<rom name="Daiku no Gen-san 2 - Akage no Dan no Gyakushuu (Japan).nes" size="524304" crc="3774121e"/>
+		<driver status="good"/>
+	</game>
+	<game name="daikunogensan2c" cloneof="daikunogensan2" romof="daikunogensan2">
+		<description>Daiku no Gen-san 2 - Akage no Dan no Gyakushuu (T-Chi)</description>
+		<year>2019-07-28</year>
+		<manufacturer>Irem</manufacturer>
+		<rom name="Daiku no Gen-san 2 - Akage no Dan no Gyakushuu (T-Chi).nes" size="524304" crc="66c08cd8"/>
 		<driver status="good"/>
 	</game>
 	<game name="dannysulsindhe">
@@ -1916,6 +2133,13 @@
 		<rom name="Darkman (USA).nes" size="262160" crc="5438a0ac"/>
 		<driver status="good"/>
 	</game>
+	<game name="darkwingduckc" cloneof="darkwingduck" romof="darkwingduck">
+		<description>Darkwing Duck (T-Chi)</description>
+		<year>2020-10-01</year>
+		<manufacturer>Capcom</manufacturer>
+		<rom name="Darkwing Duck (T-Chi).nes" size="393232" crc="585f3500"/>
+		<driver status="good"/>
+	</game>
 	<game name="darkwingduck">
 		<description>Darkwing Duck (USA)</description>
 		<year>1992</year>
@@ -1935,6 +2159,13 @@
 		<year>1990</year>
 		<manufacturer>Visco</manufacturer>
 		<rom name="Dash Yarou (Japan).nes" size="131088" crc="2ddd5f68"/>
+		<driver status="good"/>
+	</game>
+	<game name="datsugoku" cloneof="pow" romof="pow">
+		<description>Datsugoku (Japan)</description>
+		<year>1989</year>
+		<manufacturer>KAC</manufacturer>
+		<rom name="Datsugoku (Japan).nes" size="262160" crc="5bb9899a"/>
 		<driver status="good"/>
 	</game>
 	<game name="davidcrasaboyandhis">
@@ -2005,6 +2236,13 @@
 		<year>1989</year>
 		<manufacturer>Ultra Games</manufacturer>
 		<rom name="Defender of the Crown (USA).nes" size="262160" crc="79123682"/>
+		<driver status="good"/>
+	</game>
+	<game name="defendyncit">
+		<description>Defenders of Dynatron City (USA)</description>
+		<year>1992</year>
+		<manufacturer>JVC</manufacturer>
+		<rom name="Defenders of Dynatron City (USA).nes" size="262160" crc="8db6ba41"/>
 		<driver status="good"/>
 	</game>
 	<game name="dejavu">
@@ -2140,6 +2378,20 @@
 		<rom name="Digital Devil Monogatari - Megami Tensei II (T-eng).nes" size="524304" crc="31d915cd"/>
 		<driver status="good"/>
 	</game>
+	<game name="dirtyhar">
+		<description>Dirty Harry - The War Against Drugs (USA)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Dirty Harry - The War Against Drugs (USA).nes" size="393232" crc="293952bd"/>
+		<driver status="good"/>
+	</game>
+	<game name="diveman">
+		<description>Dive Man (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Dive Man (Unl).nes" size="262160" crc="b12bfcc2"/>
+		<driver status="good"/>
+	</game>
 	<game name="dizzyadv">
 		<description>Dizzy The Adventurer (USA)</description>
 		<year>1992</year>
@@ -2161,11 +2413,25 @@
 		<rom name="Don Doko Don (Japan).nes" size="393232" crc="6db7e711"/>
 		<driver status="good"/>
 	</game>
-	<game name="dondokodon2">
+	<game name="dondokodon2j" cloneof="dondokodon2" romof="dondokodon2">
 		<description>Don Doko Don 2 (Japan)</description>
 		<year>1992</year>
 		<manufacturer>Taito</manufacturer>
 		<rom name="Don Doko Don 2 (Japan).nes" size="393232" crc="f583796b"/>
+		<driver status="good"/>
+	</game>
+	<game name="dondokodon2">
+		<description>Don Doko Don 2 (T-Eng)</description>
+		<year>1992</year>
+		<manufacturer>Taito</manufacturer>
+		<rom name="Don Doko Don 2 (T-Eng).nes" size="393232" crc="560142bc"/>
+		<driver status="good"/>
+	</game>
+	<game name="donaldduck">
+		<description>Donald Duck (Japan)</description>
+		<year>1988</year>
+		<manufacturer>Kemco</manufacturer>
+		<rom name="Donald Duck (Japan).nes" size="262160" crc="8bd8fce1"/>
 		<driver status="good"/>
 	</game>
 	<game name="donaldland">
@@ -2180,6 +2446,13 @@
 		<year>1983</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Donkey Kong (World) (Rev A).nes" size="24592" crc="e40b593b"/>
+		<driver status="good"/>
+	</game>
+	<game name="donkekoncou4">
+		<description>Donkey Kong Country 4 (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Donkey Kong Country 4 (Unl).nes" size="524304" crc="5ae55685"/>
 		<driver status="good"/>
 	</game>
 	<game name="donkeykongjr">
@@ -2224,6 +2497,13 @@
 		<rom name="Doraemon - Giga Zombie no Gyakushuu (T-eng).nes" size="262160" crc="a9c510ac"/>
 		<driver status="good"/>
 	</game>
+	<game name="doubledare">
+		<description>Double Dare (USA)</description>
+		<year>1990</year>
+		<manufacturer>GameTek</manufacturer>
+		<rom name="Double Dare (USA).nes" size="262160" crc="b631f92a"/>
+		<driver status="good"/>
+	</game>
 	<game name="doubledragon">
 		<description>Double Dragon (USA)</description>
 		<year>1988</year>
@@ -2253,10 +2533,10 @@
 		<driver status="good"/>
 	</game>
 	<game name="doublestrike">
-		<description>Double Strike (USA)</description>
+		<description>Double Strike (Unl)</description>
 		<year>1990</year>
 		<manufacturer>AVE</manufacturer>
-		<rom name="Double Strike (USA).nes" size="65552" crc="dcbcc7a2"/>
+		<rom name="Double Strike (Unl).nes" size="65552" crc="f4bb370a"/>
 		<driver status="good"/>
 	</game>
 	<game name="doughboy">
@@ -2329,11 +2609,18 @@
 		<rom name="Dragon Ball - Dai Maou Fukkatsu (T-Eng).nes" size="393232" crc="69beb7a5"/>
 		<driver status="good"/>
 	</game>
-	<game name="dragobalshelonnona" cloneof="dragonpower" romof="dragonpower">
+	<game name="dragobalshelonnonaj" cloneof="dragonpower" romof="dragonpower">
 		<description>Dragon Ball - Shen Long no Nazo (Japan)</description>
 		<year>1986</year>
 		<manufacturer>Bandai</manufacturer>
 		<rom name="Dragon Ball - Shen Long no Nazo (Japan).nes" size="163856" crc="815a4bad"/>
+		<driver status="good"/>
+	</game>
+	<game name="dragobalshelonnona" cloneof="dragonpower" romof="dragonpower">
+		<description>Dragon Ball - Shen Long no Nazo (T-Eng)</description>
+		<year>1986</year>
+		<manufacturer>Bandai</manufacturer>
+		<rom name="Dragon Ball - Shen Long no Nazo (T-Eng).nes" size="163856" crc="b4e31bf4"/>
 		<driver status="good"/>
 	</game>
 	<game name="dragobal3gokden">
@@ -2361,14 +2648,14 @@
 		<description>Dragon Ball Z - Super Butouden 2 (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
-		<rom name="Dragon Ball Z - Super Butouden 2 (Japan).nes" size="393232" crc="bc79b5f2"/>
+		<rom name="Dragon Ball Z - Super Butouden 2 (Japan).nes" size="393232" crc="2490d360"/>
 		<driver status="good"/>
 	</game>
 	<game name="dragobalzsupbu2">
 		<description>Dragon Ball Z - Super Butouden 2 (T-Eng)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
-		<rom name="Dragon Ball Z - Super Butouden 2 (T-Eng).nes" size="393232" crc="bb90b2b7"/>
+		<rom name="Dragon Ball Z - Super Butouden 2 (T-Eng).nes" size="393232" crc="df87586f"/>
 		<driver status="good"/>
 	</game>
 	<game name="dragonballz5">
@@ -2469,11 +2756,25 @@
 		<rom name="Dragon Power (USA).nes" size="163856" crc="9517a5ab"/>
 		<driver status="good"/>
 	</game>
+	<game name="dragonrunning">
+		<description>Dragon Running (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Dragon Running (Unl).nes" size="262160" crc="dfb4c50a"/>
+		<driver status="good"/>
+	</game>
 	<game name="dragoscr">
 		<description>Dragon Scroll - Yomigaerishi Maryuu (Japan)</description>
 		<year>1987</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Dragon Scroll - Yomigaerishi Maryuu (Japan).nes" size="262160" crc="9475bafc"/>
+		<driver status="good"/>
+	</game>
+	<game name="dragosla4">
+		<description>Dragon Slayer 4 - Drasle Family (Japan)</description>
+		<year>1987</year>
+		<manufacturer>Namco</manufacturer>
+		<rom name="Dragon Slayer 4 - Drasle Family (Japan).nes" size="196624" crc="8870a286"/>
 		<driver status="good"/>
 	</game>
 	<game name="dragospiaraden">
@@ -2532,11 +2833,25 @@
 		<rom name="Draiocht (HB).nes" size="40976" crc="3e7aa82d"/>
 		<driver status="good"/>
 	</game>
+	<game name="dreamworldpogie">
+		<description>Dreamworld Pogie (Prototype)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Dreamworld Pogie (Prototype).nes" size="131088" crc="2ace2f1b"/>
+		<driver status="good"/>
+	</game>
 	<game name="driar">
 		<description>Driar (HB) [Homebrew]</description>
 		<year>2018</year>
 		<manufacturer>Mojon Twins</manufacturer>
 		<rom name="Driar (2012)(Eriksson &amp; Adolfsson).nes" size="131088" crc="2c31ce23"/>
+		<driver status="good"/>
+	</game>
+	<game name="dringle">
+		<description>Dringle (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Dringle (Unl).nes" size="40976" crc="05c38615"/>
 		<driver status="good"/>
 	</game>
 	<game name="dropzone">
@@ -2567,11 +2882,25 @@
 		<rom name="DuckTales (USA).nes" size="131088" crc="06b994b2"/>
 		<driver status="good"/>
 	</game>
+	<game name="ducktales2c" cloneof="ducktales2" romof="ducktales2">
+		<description>DuckTales 2 (T-Chi, v1.1)</description>
+		<year>2019-06-01</year>
+		<manufacturer>Capcom</manufacturer>
+		<rom name="DuckTales 2 (T-Chi, v1.1).nes" size="262160" crc="794dbb67"/>
+		<driver status="good"/>
+	</game>
 	<game name="ducktales2">
 		<description>DuckTales 2 (USA)</description>
 		<year>1993</year>
 		<manufacturer>Capcom</manufacturer>
 		<rom name="DuckTales 2 (USA).nes" size="131088" crc="40ce2fc0"/>
+		<driver status="good"/>
+	</game>
+	<game name="dudeswitatt">
+		<description>Dudes With Attitude (Unl)</description>
+		<year>1990</year>
+		<manufacturer>AVE</manufacturer>
+		<rom name="Dudes With Attitude (Unl).nes" size="65552" crc="e9151645"/>
 		<driver status="good"/>
 	</game>
 	<game name="dushlan">
@@ -2581,11 +2910,25 @@
 		<rom name="Dushlan (2016)(Peter McQuillan).nes" size="40976" crc="07614f71"/>
 		<driver status="good"/>
 	</game>
-	<game name="dynamitebatman">
+	<game name="dustydiasallstso">
+		<description>Dusty Diamond's All-Star Softball (USA)</description>
+		<year>1990</year>
+		<manufacturer>Broderbund</manufacturer>
+		<rom name="Dusty Diamond's All-Star Softball (USA).nes" size="262160" crc="5506b1ca"/>
+		<driver status="good"/>
+	</game>
+	<game name="dynamitebatman" cloneof="batmaretjok" romof="batmaretjok">
 		<description>Dynamite Batman (Japan)</description>
 		<year>1991</year>
 		<manufacturer>Sunsoft</manufacturer>
 		<rom name="Dynamite Batman (Japan).nes" size="393232" crc="ed509c6b"/>
+		<driver status="good"/>
+	</game>
+	<game name="dynamitebowl">
+		<description>Dynamite Bowl (Japan)</description>
+		<year>1987</year>
+		<manufacturer>Toemiland</manufacturer>
+		<rom name="Dynamite Bowl (Japan).nes" size="65552" crc="4779d33a"/>
 		<driver status="good"/>
 	</game>
 	<game name="dynow">
@@ -2649,6 +2992,13 @@
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Empire City - 1931 (Japan).nes" size="131088" crc="bd736ec8"/>
+		<driver status="good"/>
+	</game>
+	<game name="escapfroatl">
+		<description>Escape From Atlantis, The (Prototype)</description>
+		<year>0000</year>
+		<manufacturer>Color Dreams</manufacturer>
+		<rom name="Escape From Atlantis, The (Prototype).nes" size="131088" crc="3c550fd5"/>
 		<driver status="good"/>
 	</game>
 	<game name="eskimbobdeledi">
@@ -2721,6 +3071,13 @@
 		<rom name="Expedition (HB).nes" size="393232" crc="1b83916d"/>
 		<driver status="good"/>
 	</game>
+	<game name="explodingfist">
+		<description>Exploding Fist (USA, Prototype)</description>
+		<year>0000</year>
+		<manufacturer>Tradewest</manufacturer>
+		<rom name="Exploding Fist (USA, Prototype).nes" size="65552" crc="c52ea831"/>
+		<driver status="good"/>
+	</game>
 	<game name="f1race">
 		<description>F-1 Race (Japan)</description>
 		<year>1984</year>
@@ -2756,11 +3113,18 @@
 		<rom name="F-15 Strike Eagle (USA).nes" size="524304" crc="6b1461ae"/>
 		<driver status="good"/>
 	</game>
-	<game name="f1circus">
+	<game name="f1circusj" cloneof="f1circus" romof="f1circus">
 		<description>F1 Circus (Japan)</description>
 		<year>1992</year>
 		<manufacturer>Nichibutsu</manufacturer>
 		<rom name="F1 Circus (Japan).nes" size="393232" crc="1f19532d"/>
+		<driver status="good"/>
+	</game>
+	<game name="f1circus">
+		<description>F1 Circus (T-Eng)</description>
+		<year>1992</year>
+		<manufacturer>Nichibutsu</manufacturer>
+		<rom name="F1 Circus (T-Eng).nes" size="393232" crc="67c75e53"/>
 		<driver status="good"/>
 	</game>
 	<game name="fallingtiles">
@@ -2782,6 +3146,20 @@
 		<year>1991</year>
 		<manufacturer>Bandai</manufacturer>
 		<rom name="Famicom Jump II - Saikyou no 7 Nin (Japan).nes" size="524304" crc="6b41421c"/>
+		<driver status="good"/>
+	</game>
+	<game name="famicomwarsj" cloneof="famicomwars" romof="famicomwars">
+		<description>Famicom Wars (Japan)</description>
+		<year>1988</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Famicom Wars (Japan).nes" size="196624" crc="29f3a0f7"/>
+		<driver status="good"/>
+	</game>
+	<game name="famicomwars">
+		<description>Famicom Wars (T-Eng)</description>
+		<year>1988</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Famicom Wars (T-Eng).nes" size="196624" crc="896759d8"/>
 		<driver status="good"/>
 	</game>
 	<game name="familyboxing">
@@ -2903,11 +3281,39 @@
 		<rom name="Fester's Quest (USA).nes" size="262160" crc="db0c7019"/>
 		<driver status="good"/>
 	</game>
+	<game name="fieldcombat">
+		<description>Field Combat (Japan)</description>
+		<year>1985</year>
+		<manufacturer>Jaleco</manufacturer>
+		<rom name="Field Combat (Japan).nes" size="24592" crc="90d93924"/>
+		<driver status="good"/>
+	</game>
 	<game name="fightinggolf">
 		<description>Fighting Golf (Japan)</description>
 		<year>1988</year>
 		<manufacturer>SNK</manufacturer>
 		<rom name="Fighting Golf (Japan).nes" size="262160" crc="eebbdff9"/>
+		<driver status="good"/>
+	</game>
+	<game name="fightinghero">
+		<description>Fighting Hero (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Fighting Hero (Unl).nes" size="393232" crc="2093f0e1"/>
+		<driver status="good"/>
+	</game>
+	<game name="fightheriii">
+		<description>Fighting Hero III (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Fighting Hero III (Unl).nes" size="786448" crc="52b2045f"/>
+		<driver status="good"/>
+	</game>
+	<game name="fightingroad">
+		<description>Fighting Road (Japan)</description>
+		<year>1988</year>
+		<manufacturer>Toei Animation</manufacturer>
+		<rom name="Fighting Road (Japan).nes" size="262160" crc="bdde0fd7"/>
 		<driver status="good"/>
 	</game>
 	<game name="finalcombat">
@@ -2966,6 +3372,13 @@
 		<rom name="Final Fantasy VII - Advent Children v1.1 (Ch).nes" size="2097168" crc="8de6d62f"/>
 		<driver status="good"/>
 	</game>
+	<game name="finalfight3">
+		<description>Final Fight 3 (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Final Fight 3 (Unl).nes" size="786448" crc="97f05116"/>
+		<driver status="good"/>
+	</game>
 	<game name="finallap">
 		<description>Final Lap (Japan)</description>
 		<year>1988</year>
@@ -2987,18 +3400,32 @@
 		<rom name="Fire Dragon (Asia).nes" size="40976" crc="8ac54f30"/>
 		<driver status="good"/>
 	</game>
-	<game name="fireemb">
+	<game name="fireembj" cloneof="fireemb" romof="fireemb">
 		<description>Fire Emblem - Ankoku Ryuu to Hikari no Tsurugi (Japan)</description>
 		<year>1990</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Fire Emblem - Ankoku Ryuu to Hikari no Tsurugi (Japan).nes" size="393232" crc="ab8057b9"/>
 		<driver status="good"/>
 	</game>
-	<game name="fireembgai">
+	<game name="fireemb">
+		<description>Fire Emblem - Ankoku Ryuu to Hikari no Tsurugi (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Fire Emblem - Ankoku Ryuu to Hikari no Tsurugi (T-Eng).nes" size="393232" crc="dc848ddd"/>
+		<driver status="good"/>
+	</game>
+	<game name="fireembgaij" cloneof="fireembgai" romof="fireembgai">
 		<description>Fire Emblem Gaiden (Japan)</description>
 		<year>1992</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Fire Emblem Gaiden (Japan).nes" size="393232" crc="0a187cb4"/>
+		<driver status="good"/>
+	</game>
+	<game name="fireembgai">
+		<description>Fire Emblem Gaiden (T-Eng)</description>
+		<year>1992</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Fire Emblem Gaiden (T-Eng).nes" size="393232" crc="ed74e1fa"/>
 		<driver status="good"/>
 	</game>
 	<game name="firehawk">
@@ -3008,11 +3435,32 @@
 		<rom name="Fire Hawk (USA) (Unl).nes" size="131088" crc="a2259bd3"/>
 		<driver status="good"/>
 	</game>
+	<game name="firehouserescue">
+		<description>Firehouse Rescue (USA)</description>
+		<year>1992</year>
+		<manufacturer>GameTek</manufacturer>
+		<rom name="Firehouse Rescue (USA).nes" size="65552" crc="77bf765f"/>
+		<driver status="good"/>
+	</game>
+	<game name="fishstory">
+		<description>Fish Story (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Fish Story (Unl).nes" size="49168" crc="afe5a331"/>
+		<driver status="good"/>
+	</game>
 	<game name="fistnorsta">
 		<description>Fist of the North Star (USA)</description>
 		<year>1989</year>
 		<manufacturer>Taxan</manufacturer>
 		<rom name="Fist of the North Star (USA).nes" size="131088" crc="35deffb7"/>
+		<driver status="good"/>
+	</game>
+	<game name="fivedays">
+		<description>Five Days (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Five Days (Unl).nes" size="24592" crc="4d8858e4"/>
 		<driver status="good"/>
 	</game>
 	<game name="flappy">
@@ -3036,6 +3484,20 @@
 		<rom name="flea! demo (HB).nes" size="524304" crc="6d18f7c4"/>
 		<driver status="good"/>
 	</game>
+	<game name="flighint">
+		<description>Flight of the Intruder (USA)</description>
+		<year>1991</year>
+		<manufacturer>Mindscape</manufacturer>
+		<rom name="Flight of the Intruder (USA).nes" size="131088" crc="ca2234c6"/>
+		<driver status="good"/>
+	</game>
+	<game name="flintresdinhopj" cloneof="flintresdinhop" romof="flintresdinhop">
+		<description>Flintstones, The - The Rescue of Dino &amp; Hoppy (Japan)</description>
+		<year>1991</year>
+		<manufacturer>Taito</manufacturer>
+		<rom name="Flintstones, The - The Rescue of Dino &amp; Hoppy (Japan).nes" size="393232" crc="12f38740"/>
+		<driver status="good"/>
+	</game>
 	<game name="flintresdinhop">
 		<description>Flintstones, The - The Rescue of Dino &amp; Hoppy (USA)</description>
 		<year>1991</year>
@@ -3050,18 +3512,11 @@
 		<rom name="Flintstones, The - The Surprise at Dinosaur Peak! (USA).nes" size="393232" crc="feda0b39"/>
 		<driver status="good"/>
 	</game>
-	<game name="flipulle" cloneof="flipull" romof="flipull">
-		<description>Flipull - An Exciting Cube Game (Japan) (En) (Rev 1)</description>
-		<year>1989</year>
-		<manufacturer>Taito</manufacturer>
-		<rom name="Flipull - An Exciting Cube Game (Japan) (En) (Rev 1).nes" size="65552" crc="b0e199e3"/>
-		<driver status="good"/>
-	</game>
 	<game name="flipull">
 		<description>Flipull - An Exciting Cube Game (Japan)</description>
 		<year>1989</year>
 		<manufacturer>Taito</manufacturer>
-		<rom name="Flipull - An Exciting Cube Game (Japan).nes" size="65552" crc="5858ed71"/>
+		<rom name="Flipull - An Exciting Cube Game (Japan).nes" size="65552" crc="b0e199e3"/>
 		<driver status="good"/>
 	</game>
 	<game name="flyindra">
@@ -3146,6 +3601,27 @@
 		<year>1988</year>
 		<manufacturer>Taito</manufacturer>
 		<rom name="Fudou Myouou Den (Japan).nes" size="393232" crc="64d10448"/>
+		<driver status="good"/>
+	</game>
+	<game name="funhouse">
+		<description>Fun House (USA)</description>
+		<year>1991</year>
+		<manufacturer>Hi Tech Expressions</manufacturer>
+		<rom name="Fun House (USA).nes" size="131088" crc="6463dedc"/>
+		<driver status="good"/>
+	</game>
+	<game name="fuzzicalfighterj" cloneof="fuzzicalfighter" romof="fuzzicalfighter">
+		<description>Fuzzical Fighter (Japan)</description>
+		<year>1991</year>
+		<manufacturer>Sigma Enterprises</manufacturer>
+		<rom name="Fuzzical Fighter (Japan).nes" size="262160" crc="74b7e648"/>
+		<driver status="good"/>
+	</game>
+	<game name="fuzzicalfighter">
+		<description>Fuzzical Fighter (T-Eng)</description>
+		<year>1991</year>
+		<manufacturer>Sigma Enterprises</manufacturer>
+		<rom name="Fuzzical Fighter (T-Eng).nes" size="262160" crc="7bbbacc3"/>
 		<driver status="good"/>
 	</game>
 	<game name="gijoeareamhe">
@@ -3267,6 +3743,13 @@
 		<rom name="gaplus (bnei).nes" size="262160" crc="60811720"/>
 		<driver status="good"/>
 	</game>
+	<game name="gardenwar">
+		<description>Garden War (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Garden War (Unl).nes" size="65552" crc="588a838e"/>
+		<driver status="good"/>
+	</game>
 	<game name="garfi">
 		<description>Garfield - A Week of Garfield (Japan)</description>
 		<year>1989?</year>
@@ -3307,6 +3790,13 @@
 		<year>1985</year>
 		<manufacturer>ASCII</manufacturer>
 		<rom name="Geimos (Japan).nes" size="40976" crc="e36038b7"/>
+		<driver status="good"/>
+	</game>
+	<game name="gekikninden" cloneof="tmnt" romof="tmnt">
+		<description>Gekikame Ninja Den (Japan)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Gekikame Ninja Den (Japan).nes" size="262160" crc="0913063b"/>
 		<driver status="good"/>
 	</game>
 	<game name="gekityonbat">
@@ -3400,6 +3890,13 @@
 		<rom name="Gluk the Thunder Warrior (Spain) (Gluk Video) (Unl).nes" size="262160" crc="5d615d1d"/>
 		<driver status="good"/>
 	</game>
+	<game name="gobenny">
+		<description>Go! Benny! (Unl)</description>
+		<year>1992</year>
+		<manufacturer>Gluk Video</manufacturer>
+		<rom name="Go! Benny! (Unl).nes" size="65552" crc="c92325a0"/>
+		<driver status="good"/>
+	</game>
 	<game name="goal">
 		<description>Goal! (USA)</description>
 		<year>1989</year>
@@ -3419,6 +3916,20 @@
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="God Slayer - Haruka Tenkuu no Sonata (Japan).nes" size="393232" crc="718fd0af"/>
+		<driver status="good"/>
+	</game>
+	<game name="godzi">
+		<description>Godzilla - Monster of Monsters! (USA)</description>
+		<year>1989</year>
+		<manufacturer>Toho</manufacturer>
+		<rom name="Godzilla - Monster of Monsters! (USA).nes" size="262160" crc="198b4e3b"/>
+		<driver status="good"/>
+	</game>
+	<game name="godzi2">
+		<description>Godzilla 2 - War of the Monsters (USA)</description>
+		<year>1992</year>
+		<manufacturer>Toho</manufacturer>
+		<rom name="Godzilla 2 - War of the Monsters (USA).nes" size="262160" crc="f200080d"/>
 		<driver status="good"/>
 	</game>
 	<game name="golf">
@@ -3491,6 +4002,20 @@
 		<rom name="Gran Aventura Submarina, La (Spain).nes" size="65552" crc="6483756a"/>
 		<driver status="good"/>
 	</game>
+	<game name="grandmasterj" cloneof="grandmaster" romof="grandmaster">
+		<description>Grand Master (Japan)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Grand Master (Japan).nes" size="393232" crc="eff4603a"/>
+		<driver status="good"/>
+	</game>
+	<game name="grandmaster">
+		<description>Grand Master (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Grand Master (T-Eng).nes" size="393232" crc="51cd513e"/>
+		<driver status="good"/>
+	</game>
 	<game name="greatbatcyb">
 		<description>Great Battle Cyber (Japan)</description>
 		<year>1992</year>
@@ -3498,11 +4023,25 @@
 		<rom name="Great Battle Cyber (Japan).nes" size="393232" crc="39eb20ab"/>
 		<driver status="good"/>
 	</game>
-	<game name="greattank">
+	<game name="greatbox" cloneof="worldchamp" romof="worldchamp">
+		<description>Great Boxing - Rush Up (Japan)</description>
+		<year>1990</year>
+		<manufacturer>Visco</manufacturer>
+		<rom name="Great Boxing - Rush Up (Japan).nes" size="262160" crc="3dcdd299"/>
+		<driver status="good"/>
+	</game>
+	<game name="greattank" cloneof="irontan" romof="irontan">
 		<description>Great Tank (Japan)</description>
 		<year>1988</year>
 		<manufacturer>SNK</manufacturer>
 		<rom name="Great Tank (Japan).nes" size="262160" crc="bd2855f2"/>
+		<driver status="good"/>
+	</game>
+	<game name="greatwalsea">
+		<description>Great Waldo Search, The (USA)</description>
+		<year>1992</year>
+		<manufacturer>THQ</manufacturer>
+		<rom name="Great Waldo Search, The (USA).nes" size="262160" crc="404c5ef2"/>
 		<driver status="good"/>
 	</game>
 	<game name="greml2">
@@ -3540,6 +4079,13 @@
 		<rom name="Guardic Gaiden (Japan).nes" size="131088" crc="e9d15ff1"/>
 		<driver status="good"/>
 	</game>
+	<game name="guardicgaidenc" cloneof="guardleg" romof="guardleg">
+		<description>Guardic Gaiden (T-Chi, v1.1)</description>
+		<year>2017-07-07</year>
+		<manufacturer>Irem</manufacturer>
+		<rom name="Guardic Gaiden (T-Chi, v1.1).nes" size="262160" crc="77df8d83"/>
+		<driver status="good"/>
+	</game>
 	<game name="guerrillawar">
 		<description>Guerrilla War (USA)</description>
 		<year>1989</year>
@@ -3568,6 +4114,20 @@
 		<rom name="Gun Nac (Japan).nes" size="262160" crc="04008279"/>
 		<driver status="good"/>
 	</game>
+	<game name="gunnacc" cloneof="gunnac" romof="gunnac">
+		<description>Gun Nac (T-Chi)</description>
+		<year>2013-10-31</year>
+		<manufacturer>Tonkin House</manufacturer>
+		<rom name="Gun Nac (T-Chi).nes" size="393232" crc="3c63f85a"/>
+		<driver status="good"/>
+	</game>
+	<game name="gunnact" cloneof="gunnac" romof="gunnac">
+		<description>Gun Nac (T-Eng)</description>
+		<year>1990</year>
+		<manufacturer>Tonkin House</manufacturer>
+		<rom name="Gun Nac (T-Eng).nes" size="262160" crc="c5fc33f0"/>
+		<driver status="good"/>
+	</game>
 	<game name="gunnac">
 		<description>Gun Nac (USA)</description>
 		<year>1991</year>
@@ -3587,6 +4147,20 @@
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Gun-Dec (Japan).nes" size="262160" crc="4b08e280"/>
+		<driver status="good"/>
+	</game>
+	<game name="gundecc" cloneof="vice" romof="vice">
+		<description>Gun-Dec (T-Chi)</description>
+		<year>2019-08-01</year>
+		<manufacturer>Sammy</manufacturer>
+		<rom name="Gun-Dec (T-Chi).nes" size="393232" crc="647eccfa"/>
+		<driver status="good"/>
+	</game>
+	<game name="gunsmokec" cloneof="gunsmoke" romof="gunsmoke">
+		<description>Gun.Smoke (T-Chi)</description>
+		<year>2019-11-17</year>
+		<manufacturer>Capcom</manufacturer>
+		<rom name="Gun.Smoke (T-Chi).nes" size="163856" crc="4e0b7a7d"/>
 		<driver status="good"/>
 	</game>
 	<game name="gunsmoke">
@@ -3694,6 +4268,13 @@
 		<rom name="Hebereke (Japan).nes" size="262160" crc="2a137974"/>
 		<driver status="good"/>
 	</game>
+	<game name="heberekec" cloneof="ufouria" romof="ufouria">
+		<description>Hebereke (T-Chi, v1.2)</description>
+		<year>2019-07-23</year>
+		<manufacturer>Sunsoft</manufacturer>
+		<rom name="Hebereke (T-Chi, v1.2).nes" size="393232" crc="48e8bcee"/>
+		<driver status="good"/>
+	</game>
 	<game name="hector87">
 		<description>Hector '87 (Japan)</description>
 		<year>1987</year>
@@ -3748,6 +4329,27 @@
 		<year>1991</year>
 		<manufacturer>Tradewest</manufacturer>
 		<rom name="High Speed (USA).nes" size="196624" crc="8ca37960"/>
+		<driver status="good"/>
+	</game>
+	<game name="highwaystar" cloneof="radracer" romof="radracer">
+		<description>Highway Star (Japan)</description>
+		<year>1987</year>
+		<manufacturer>Square</manufacturer>
+		<rom name="Highway Star (Japan).nes" size="131088" crc="d0980131"/>
+		<driver status="good"/>
+	</game>
+	<game name="hikarnosenphoulgaonjlea" cloneof="hikarnosenphoulgaon" romof="hikarnosenphoulgaon">
+		<description>Hikari no Senshi Photon - The Ultimate Game on Planet Earth (Japan)</description>
+		<year>1987</year>
+		<manufacturer>Takara</manufacturer>
+		<rom name="Hikari no Senshi Photon - The Ultimate Game on Planet Earth (Japan).nes" size="131088" crc="924ae9e4"/>
+		<driver status="good"/>
+	</game>
+	<game name="hikarnosenphoulgaon">
+		<description>Hikari no Senshi Photon - The Ultimate Game on Planet Earth (T-Eng)</description>
+		<year>1987</year>
+		<manufacturer>Takara</manufacturer>
+		<rom name="Hikari no Senshi Photon - The Ultimate Game on Planet Earth (T-Eng).nes" size="131088" crc="351a3bf3"/>
 		<driver status="good"/>
 	</game>
 	<game name="hinothouhenj" cloneof="hinothouhen" romof="hinothouhen">
@@ -4065,6 +4667,34 @@
 		<rom name="Jackie Chan (USA).nes" size="262160" crc="6f371f16"/>
 		<driver status="good"/>
 	</game>
+	<game name="jajamgekj" cloneof="jajamgek" romof="jajamgek">
+		<description>Jajamaru Gekimaden - Maboroshi no Kinmajou (Japan)</description>
+		<year>1990</year>
+		<manufacturer>Jaleco</manufacturer>
+		<rom name="Jajamaru Gekimaden - Maboroshi no Kinmajou (Japan).nes" size="262160" crc="44902c90"/>
+		<driver status="good"/>
+	</game>
+	<game name="jajamgek">
+		<description>Jajamaru Gekimaden - Maboroshi no Kinmajou (T-Eng)</description>
+		<year>1990</year>
+		<manufacturer>Jaleco</manufacturer>
+		<rom name="Jajamaru Gekimaden - Maboroshi no Kinmajou (T-Eng).nes" size="262160" crc="367df135"/>
+		<driver status="good"/>
+	</game>
+	<game name="jajamninchoj" cloneof="jajamnincho" romof="jajamnincho">
+		<description>Jajamaru Ninpou Chou (Japan)</description>
+		<year>1989</year>
+		<manufacturer>Jaleco</manufacturer>
+		<rom name="Jajamaru Ninpou Chou (Japan).nes" size="262160" crc="0dcf07b3"/>
+		<driver status="good"/>
+	</game>
+	<game name="jajamnincho">
+		<description>Jajamaru Ninpou Chou (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Jajamaru Ninpou Chou (T-Eng).nes" size="393232" crc="70fc8e57"/>
+		<driver status="good"/>
+	</game>
 	<game name="jajamnodai">
 		<description>Jajamaru no Daibouken (Japan)</description>
 		<year>1986</year>
@@ -4121,11 +4751,18 @@
 		<rom name="Jet-Paco (HB).nes" size="40976" crc="b5f18574"/>
 		<driver status="good"/>
 	</game>
+	<game name="jetsonsj" cloneof="jetsons" romof="jetsons">
+		<description>Jetsons, The - Cogswell's Caper! (Japan)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Jetsons, The - Cogswell's Caper! (Japan).nes" size="393232" crc="4733c232"/>
+		<driver status="good"/>
+	</game>
 	<game name="jetsons">
-		<description>Jetsons, The - Cogswell's Caper (USA)</description>
+		<description>Jetsons, The - Cogswell's Caper! (USA)</description>
 		<year>1992</year>
 		<manufacturer>Taito</manufacturer>
-		<rom name="Jetsons, The - Cogswell's Caper (USA).nes" size="393232" crc="0f945df6"/>
+		<rom name="Jetsons, The - Cogswell's Caper! (USA).nes" size="393232" crc="0f945df6"/>
 		<driver status="good"/>
 	</game>
 	<game name="jigokgokmar" cloneof="kabuki" romof="kabuki">
@@ -4133,6 +4770,13 @@
 		<year>1990</year>
 		<manufacturer>Pack-In-Video</manufacturer>
 		<rom name="Jigoku Gokuraku Maru (Japan).nes" size="262160" crc="d9564797"/>
+		<driver status="good"/>
+	</game>
+	<game name="jigokgokmarc" cloneof="kabuki" romof="kabuki">
+		<description>Jigoku Gokuraku Maru (T-Chi)</description>
+		<year>2019-11-08</year>
+		<manufacturer>Pack-In-Video</manufacturer>
+		<rom name="Jigoku Gokuraku Maru (T-Chi).nes" size="393232" crc="375bf357"/>
 		<driver status="good"/>
 	</game>
 	<game name="jikuuyuu">
@@ -4324,6 +4968,13 @@
 		<rom name="Juuryoku Soukou Metal Storm (Japan).nes" size="393232" crc="984ef54b"/>
 		<driver status="good"/>
 	</game>
+	<game name="jy45in1">
+		<description>JY 45-in-1 (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="JY 45-in-1 (Unl).nes" size="4194320" crc="2a798367"/>
+		<driver status="good"/>
+	</game>
 	<game name="kabuki">
 		<description>Kabuki - Quantum Fighter (USA)</description>
 		<year>1991</year>
@@ -4331,11 +4982,18 @@
 		<rom name="Kabuki - Quantum Fighter (USA).nes" size="262160" crc="5ee7a400"/>
 		<driver status="good"/>
 	</game>
-	<game name="kage">
+	<game name="kage" cloneof="shadonin" romof="shadonin">
 		<description>Kage (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Kage (Japan).nes" size="262160" crc="459fbede"/>
+		<driver status="good"/>
+	</game>
+	<game name="kagec" cloneof="shadonin" romof="shadonin">
+		<description>Kage (T-Chi, v2.0)</description>
+		<year>2010</year>
+		<manufacturer>NATSUME</manufacturer>
+		<rom name="Kage (T-Chi, v2.0).nes" size="270352" crc="a481e2bd"/>
 		<driver status="good"/>
 	</game>
 	<game name="kagenodensetsu" cloneof="legenkag" romof="legenkag">
@@ -4870,11 +5528,18 @@
 		<rom name="Legacy of the Wizard (USA).nes" size="196624" crc="b534eb48"/>
 		<driver status="good"/>
 	</game>
-	<game name="legenbal">
+	<game name="legenbalj" cloneof="legenbal" romof="legenbal">
 		<description>Legend of Balubalouk (Japan)</description>
 		<year>1986</year>
 		<manufacturer>Vic Tokai</manufacturer>
 		<rom name="Legend of Balubalouk (Japan).nes" size="131088" crc="04fc4764"/>
+		<driver status="good"/>
+	</game>
+	<game name="legenbal">
+		<description>Legend of Balubalouk (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Legend of Balubalouk (T-Eng).nes" size="131088" crc="661c0a1b"/>
 		<driver status="good"/>
 	</game>
 	<game name="legenkag">
@@ -4910,6 +5575,13 @@
 		<year>2014</year>
 		<manufacturer>Gradual Games</manufacturer>
 		<rom name="Legends of Owlia (HB).nes" size="524304" crc="26858010"/>
+		<driver status="good"/>
+	</game>
+	<game name="leidiahuabikaqiuchs">
+		<description>Lei Dian Huang Bi Ka Qiu Chuan Shuo (China)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Lei Dian Huang Bi Ka Qiu Chuan Shuo (China).nes" size="2097168" crc="f4ebe9b2"/>
 		<driver status="good"/>
 	</game>
 	<game name="lemmings">
@@ -4973,6 +5645,13 @@
 		<year>1990</year>
 		<manufacturer>Culture Brain</manufacturer>
 		<rom name="Little Ninja Brothers (USA).nes" size="262160" crc="96ece52b"/>
+		<driver status="good"/>
+	</game>
+	<game name="littlesamsonh" cloneof="littlesamson" romof="littlesamson">
+		<description>Little Samson (Restoration &amp; Sound Hack)</description>
+		<year>1992</year>
+		<manufacturer>Taito</manufacturer>
+		<rom name="Little Samson (Hack).nes" size="393232" crc="2178190e"/>
 		<driver status="good"/>
 	</game>
 	<game name="littlesamson">
@@ -5101,6 +5780,13 @@
 		<rom name="Mad City (Japan).nes" size="262160" crc="b28d64fc"/>
 		<driver status="good"/>
 	</game>
+	<game name="madcityc" cloneof="advenbaybil" romof="advenbaybil">
+		<description>Mad City (T-Chi, v2)</description>
+		<year>2018</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Mad City (T-Chi, v2).nes" size="393232" crc="3b2ad28b"/>
+		<driver status="good"/>
+	</game>
 	<game name="madmax">
 		<description>Mad Max (USA)</description>
 		<year>1990</year>
@@ -5120,6 +5806,13 @@
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Magic Block (Mega Soft).nes" size="131088" crc="2eba03bd"/>
+		<driver status="good"/>
+	</game>
+	<game name="magiccar100">
+		<description>Magic Carpet 1001 (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Magic Carpet 1001 (Unl).nes" size="65552" crc="1ab5b8c5"/>
 		<driver status="good"/>
 	</game>
 	<game name="magicdarts">
@@ -5162,6 +5855,13 @@
 		<year>1990</year>
 		<manufacturer>Tradewest</manufacturer>
 		<rom name="Magic Johnson's Fast Break (USA).nes" size="196624" crc="4d42a98c"/>
+		<driver status="good"/>
+	</game>
+	<game name="magickidgoogoo">
+		<description>Magic Kid GooGoo (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Magic Kid GooGoo (Unl).nes" size="393232" crc="12332a62"/>
 		<driver status="good"/>
 	</game>
 	<game name="magicsch">
@@ -5241,6 +5941,13 @@
 		<rom name="Majou Densetsu II - Daimashikyou Galious (Japan).nes" size="131088" crc="763f2d28"/>
 		<driver status="good"/>
 	</game>
+	<game name="majoudeniic" cloneof="majoudenii" romof="majoudenii">
+		<description>Majou Densetsu II - Daimashikyou Galious (T-Chi, v2.2)</description>
+		<year>2018-06-10</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Majou Densetsu II - Daimashikyou Galious (T-Chi, v2.2).nes" size="262160" crc="a032170a"/>
+		<driver status="good"/>
+	</game>
 	<game name="makaimura" cloneof="ghostsngoblins" romof="ghostsngoblins">
 		<description>Makaimura (Japan)</description>
 		<year>1986</year>
@@ -5274,6 +5981,13 @@
 		<year>1989</year>
 		<manufacturer>Namco</manufacturer>
 		<rom name="Mappy Kids (Japan).nes" size="262160" crc="3350c674"/>
+		<driver status="good"/>
+	</game>
+	<game name="mappykidsc" cloneof="mappykids" romof="mappykids">
+		<description>Mappy Kids (T-Chi, v1.1)</description>
+		<year>2019-10-25</year>
+		<manufacturer>Namco</manufacturer>
+		<rom name="Mappy Kids (T-Chi, v1.1).nes" size="524304" crc="159bc653"/>
 		<driver status="good"/>
 	</game>
 	<game name="mappyland">
@@ -5409,13 +6123,6 @@
 		<rom name="Mega Man CX (USA).nes" size="524304" crc="454a1ed4"/>
 		<driver status="good"/>
 	</game>
-	<game name="meikyjiidab">
-		<description>Meikyuu Jiin Dababa (Japan)</description>
-		<year>1989?</year>
-		<manufacturer>Nintendo</manufacturer>
-		<rom name="Meikyuu Jiin Dababa (Japan).nes" size="131088" crc="dc1818ae"/>
-		<driver status="good"/>
-	</game>
 	<game name="meikyuujima">
 		<description>Meikyuu-jima (Japan)</description>
 		<year>1990</year>
@@ -5505,6 +6212,27 @@
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Metroid - Rogue Dawn (USA).nes" size="786448" crc="2120dfea"/>
+		<driver status="good"/>
+	</game>
+	<game name="micemission">
+		<description>Mice Mission (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Mice Mission (Unl).nes" size="40976" crc="78820fd8"/>
+		<driver status="good"/>
+	</game>
+	<game name="michaandsworgrpr">
+		<description>Michael Andretti's World Grand Prix (USA)</description>
+		<year>1990</year>
+		<manufacturer>Sammy</manufacturer>
+		<rom name="Michael Andretti's World Grand Prix (USA).nes" size="262160" crc="beb81a82"/>
+		<driver status="good"/>
+	</game>
+	<game name="mickeymania7" cloneof="chinarabbab" romof="chinarabbab">
+		<description>Mickey Mania 7 (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Mickey Mania 7 (Unl).nes" size="524304" crc="a1460ad3"/>
 		<driver status="good"/>
 	</game>
 	<game name="mickemouiii">
@@ -5619,11 +6347,25 @@
 		<rom name="Mito Koumon - Sekai Manyuu Ki (Japan).nes" size="262160" crc="5e4a6d59"/>
 		<driver status="good"/>
 	</game>
-	<game name="mitsumegatooru">
+	<game name="mitsumegatooruj" cloneof="mitsumegatooru" romof="mitsumegatooru">
 		<description>Mitsume ga Tooru (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Mitsume ga Tooru (Japan).nes" size="262160" crc="e27ec1ec"/>
+		<driver status="good"/>
+	</game>
+	<game name="mitsumegatooruc" cloneof="mitsumegatooru" romof="mitsumegatooru">
+		<description>Mitsume ga Tooru (T-Chi)</description>
+		<year>2010-10-10</year>
+		<manufacturer>tomy</manufacturer>
+		<rom name="Mitsume ga Tooru (T-Chi).nes" size="278544" crc="296c2307"/>
+		<driver status="good"/>
+	</game>
+	<game name="mitsumegatooru">
+		<description>Mitsume ga Tooru (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Mitsume ga Tooru (T-Eng).nes" size="262160" crc="d1157a30"/>
 		<driver status="good"/>
 	</game>
 	<game name="moaikun">
@@ -5638,6 +6380,13 @@
 		<year>1986</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Moero TwinBee - Cinnamon Hakase o Sukue! (Japan).nes" size="131088" crc="ac0a622b"/>
+		<driver status="good"/>
+	</game>
+	<game name="moeroproten" cloneof="racketattack" romof="racketattack">
+		<description>Moero!! Pro Tennis (Japan)</description>
+		<year>1988</year>
+		<manufacturer>Jaleco</manufacturer>
+		<rom name="Moero!! Pro Tennis (Japan).nes" size="262160" crc="f891e3e5"/>
 		<driver status="good"/>
 	</game>
 	<game name="mojontwimul">
@@ -5696,11 +6445,32 @@
 		<rom name="Moon Ranger (USA) (Unl).nes" size="131088" crc="22172117"/>
 		<driver status="good"/>
 	</game>
+	<game name="mortakom3">
+		<description>Mortal Kombat 3 - Special 56 Peoples (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Mortal Kombat 3 - Special 56 Peoples (Unl).nes" size="655376" crc="0ba8e82e"/>
+		<driver status="good"/>
+	</game>
 	<game name="mortalkombat4">
 		<description>Mortal Kombat 4 (Unl)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Mortal Kombat 4 (Unl).nes" size="262160" crc="89001958"/>
+		<driver status="good"/>
+	</game>
+	<game name="mortakomiispe">
+		<description>Mortal Kombat II Special (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Mortal Kombat II Special (Unl).nes" size="655376" crc="99d81100"/>
+		<driver status="good"/>
+	</game>
+	<game name="mortakomiiispe">
+		<description>Mortal Kombat III Special (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Mortal Kombat III Special (Unl).nes" size="655376" crc="17937518"/>
 		<driver status="good"/>
 	</game>
 	<game name="mother" cloneof="earthbound" romof="earthbound">
@@ -5955,6 +6725,13 @@
 		<rom name="nim and nom (2018)(metakrill) v1.2.nes" size="40976" crc="e0096736"/>
 		<driver status="good"/>
 	</game>
+	<game name="deadfoxc" cloneof="codenam" romof="codenam">
+		<description>Ningen Heiki - Dead Fox (T-Chi, v2.0)</description>
+		<year>2010</year>
+		<manufacturer>Capcom</manufacturer>
+		<rom name="Ningen Heiki - Dead Fox (T-Chi, v2.0).nes" size="303120" crc="3cf5df56"/>
+		<driver status="good"/>
+	</game>
 	<game name="ninjacopsaizou">
 		<description>Ninja Cop Saizou (Japan)</description>
 		<year>1989</year>
@@ -6032,6 +6809,13 @@
 		<rom name="Ninja Ryuuken Den (Japan).nes" size="262160" crc="ba7818a1"/>
 		<driver status="good"/>
 	</game>
+	<game name="ninjaryudenc" cloneof="ninjagaiden" romof="ninjagaiden">
+		<description>Ninja Ryuuken Den (T-Chi)</description>
+		<year>2017-06-13</year>
+		<manufacturer>Tecmo</manufacturer>
+		<rom name="Ninja Ryuuken Den (T-Chi).nes" size="524304" crc="7724d3d0"/>
+		<driver status="good"/>
+	</game>
 	<game name="ninjaryudenii" cloneof="ninjagaiii" romof="ninjagaiii">
 		<description>Ninja Ryuuken Den II - Ankoku no Jashin Ken (Japan)</description>
 		<year>1990</year>
@@ -6039,11 +6823,25 @@
 		<rom name="Ninja Ryuuken Den II - Ankoku no Jashin Ken (Japan).nes" size="262160" crc="92b6e224"/>
 		<driver status="good"/>
 	</game>
+	<game name="ninjaryudeniic" cloneof="ninjagaiii" romof="ninjagaiii">
+		<description>Ninja Ryuuken Den II - Ankoku no Jashin Ken (T-Chi)</description>
+		<year>200?</year>
+		<manufacturer>Tecmo</manufacturer>
+		<rom name="Ninja Ryuuken Den II - Ankoku no Jashin Ken (T-Chi).nes" size="335888" crc="f7d5d63b"/>
+		<driver status="good"/>
+	</game>
 	<game name="ninjaryudeniii" cloneof="ninjagaiiii" romof="ninjagaiiii">
 		<description>Ninja Ryuuken Den III - Yomi no Hakobune (Japan)</description>
 		<year>1991</year>
 		<manufacturer>Tecmo</manufacturer>
 		<rom name="Ninja Ryuuken Den III - Yomi no Hakobune (Japan).nes" size="262160" crc="05bd3865"/>
+		<driver status="good"/>
+	</game>
+	<game name="ninjaryudeniiic" cloneof="ninjagaiiii" romof="ninjagaiiii">
+		<description>Ninja Ryuuken Den III - Yomi no Hakobune (T-Chi)</description>
+		<year>2002</year>
+		<manufacturer>Tecmo</manufacturer>
+		<rom name="Ninja Ryuuken Den III - Yomi no Hakobune (T-Chi).nes" size="344080" crc="ba865119"/>
 		<driver status="good"/>
 	</game>
 	<game name="ninjakunashnosh">
@@ -6284,11 +7082,46 @@
 		<rom name="Parasol Stars - Rainbow Islands II (Europe).nes" size="262160" crc="dc7a16e6"/>
 		<driver status="good"/>
 	</game>
-	<game name="parodiusda">
+	<game name="parisdakralspej" cloneof="parisdakralspe" romof="parisdakralspe">
+		<description>Paris-Dakar Rally Special (Japan)</description>
+		<year>1988</year>
+		<manufacturer>CBS / Sony Group</manufacturer>
+		<rom name="Paris-Dakar Rally Special (Japan).nes" size="163856" crc="4b662975"/>
+		<driver status="good"/>
+	</game>
+	<game name="parisdakralspe">
+		<description>Paris-Dakar Rally Special (T-Eng)</description>
+		<year>1988</year>
+		<manufacturer>CBS / Sony Group</manufacturer>
+		<rom name="Paris-Dakar Rally Special (T-Eng).nes" size="163856" crc="e2b9be12"/>
+		<driver status="good"/>
+	</game>
+	<game name="parodius" cloneof="parodiusda" romof="parodiusda">
+		<description>Parodius (Europe)</description>
+		<year>1992</year>
+		<manufacturer>Palcom</manufacturer>
+		<rom name="Parodius (Europe).nes" size="262160" crc="22ad4753"/>
+		<driver status="good"/>
+	</game>
+	<game name="parodiusdaj" cloneof="parodiusda" romof="parodiusda">
 		<description>Parodius Da! (Japan)</description>
 		<year>1990</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Parodius Da! (Japan).nes" size="262160" crc="ec8aeffc"/>
+		<driver status="good"/>
+	</game>
+	<game name="parodiusda">
+		<description>Parodius Da! (T-Eng)</description>
+		<year>1990</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Parodius Da! (T-Eng).nes" size="393232" crc="7012e75a"/>
+		<driver status="good"/>
+	</game>
+	<game name="peekaboopoker">
+		<description>Peek-A-Boo Poker (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Peek-A-Boo Poker (Unl).nes" size="98320" crc="38f4ac1c"/>
 		<driver status="good"/>
 	</game>
 	<game name="peepartime">
@@ -6296,6 +7129,13 @@
 		<year>1990</year>
 		<manufacturer>Sanritsu</manufacturer>
 		<rom name="Peepar Time (Japan).nes" size="49168" crc="532c30e1"/>
+		<driver status="good"/>
+	</game>
+	<game name="pengusea">
+		<description>Penguin &amp; Seal, The (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Penguin &amp; Seal, The (Unl).nes" size="24592" crc="8daf3827"/>
 		<driver status="good"/>
 	</game>
 	<game name="penguinkunwars">
@@ -6389,11 +7229,18 @@
 		<rom name="Pinball Quest (USA).nes" size="262160" crc="488bf94e"/>
 		<driver status="good"/>
 	</game>
-	<game name="pizzapop">
+	<game name="pizzapopj" cloneof="pizzapop" romof="pizzapop">
 		<description>Pizza Pop! (Japan)</description>
 		<year>1992</year>
 		<manufacturer>Jaleco</manufacturer>
 		<rom name="Pizza Pop! (Japan).nes" size="262160" crc="361729fa"/>
+		<driver status="good"/>
+	</game>
+	<game name="pizzapop">
+		<description>Pizza Pop! (T-Eng)</description>
+		<year>1992</year>
+		<manufacturer>Jaleco</manufacturer>
+		<rom name="Pizza Pop! (T-Eng).nes" size="262160" crc="bcde6e2c"/>
 		<driver status="good"/>
 	</game>
 	<game name="plasmaballj" cloneof="plasmaball" romof="plasmaball">
@@ -6480,6 +7327,20 @@
 		<rom name="Power Punch II (USA).nes" size="393232" crc="b4402fe5"/>
 		<driver status="good"/>
 	</game>
+	<game name="powerraniii">
+		<description>Power Rangers III (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Power Rangers III (Unl).nes" size="393232" crc="94192c10"/>
+		<driver status="good"/>
+	</game>
+	<game name="powerrangersiv">
+		<description>Power Rangers IV (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Power Rangers IV (Unl).nes" size="393232" crc="4faed070"/>
+		<driver status="good"/>
+	</game>
 	<game name="powersoccer">
 		<description>Power Soccer (Japan)</description>
 		<year>1990</year>
@@ -6515,11 +7376,25 @@
 		<rom name="Pro Wrestling (USA).nes" size="131088" crc="57bec3e6"/>
 		<driver status="good"/>
 	</game>
+	<game name="probotector" cloneof="contra" romof="contra">
+		<description>Probotector (Europe)</description>
+		<year>1990</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Probotector (Europe).nes" size="131088" crc="8236d3e0"/>
+		<driver status="good"/>
+	</game>
 	<game name="projectblue">
 		<description>Project Blue (HB) [Homebrew]</description>
 		<year>2019</year>
 		<manufacturer>toggle switch</manufacturer>
 		<rom name="Project Blue (HB).nes" size="524304" crc="43b9e57e"/>
+		<driver status="good"/>
+	</game>
+	<game name="pulveration">
+		<description>Pulveration (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Pulveration (Unl).nes" size="40976" crc="27de9c6e"/>
 		<driver status="good"/>
 	</game>
 	<game name="punchout">
@@ -6557,6 +7432,13 @@
 		<rom name="Puyo Puyo (Japan).nes" size="131088" crc="3f42a1cc"/>
 		<driver status="good"/>
 	</game>
+	<game name="puzslot">
+		<description>Puzslot (Japan)</description>
+		<year>1992</year>
+		<manufacturer>Sammy</manufacturer>
+		<rom name="Puzslot (Japan).nes" size="262160" crc="996e7a8b"/>
+		<driver status="good"/>
+	</game>
 	<game name="puzznic">
 		<description>Puzznic (USA)</description>
 		<year>1990</year>
@@ -6569,6 +7451,20 @@
 		<year>1993</year>
 		<manufacturer>Sunsoft</manufacturer>
 		<rom name="Pyokotan no Daimeiro (Japan).nes" size="262160" crc="1bb879b0"/>
+		<driver status="good"/>
+	</game>
+	<game name="pyramid">
+		<description>Pyramid (Unl)</description>
+		<year>1990</year>
+		<manufacturer>AVE</manufacturer>
+		<rom name="Pyramid (Unl).nes" size="24592" crc="afee5df1"/>
+		<driver status="good"/>
+	</game>
+	<game name="pyramidii">
+		<description>Pyramid II (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Pyramid II (Unl).nes" size="81936" crc="36f1ad35"/>
 		<driver status="good"/>
 	</game>
 	<game name="qboy">
@@ -6597,6 +7493,13 @@
 		<year>1991</year>
 		<manufacturer>Taito</manufacturer>
 		<rom name="QIX (USA).nes" size="131088" crc="4724713d"/>
+		<driver status="good"/>
+	</game>
+	<game name="quarth">
+		<description>Quarth (Japan)</description>
+		<year>1990</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Quarth (Japan).nes" size="65552" crc="439ff96a"/>
 		<driver status="good"/>
 	</game>
 	<game name="quattadv">
@@ -6977,11 +7880,18 @@
 		<rom name="Rockman 6 - Shijou Saidai no Tatakai!! (Japan).nes" size="524304" crc="ab1d7979"/>
 		<driver status="good"/>
 	</game>
-	<game name="rodland">
+	<game name="rodlande" cloneof="rodland" romof="rodland">
 		<description>Rod Land (Europe)</description>
 		<year>1993</year>
 		<manufacturer>Storm</manufacturer>
 		<rom name="Rod Land (Europe).nes" size="131088" crc="11a245a0"/>
+		<driver status="good"/>
+	</game>
+	<game name="rodland">
+		<description>Rod Land (Japan)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Rod Land (Japan).nes" size="131088" crc="3da3a621"/>
 		<driver status="good"/>
 	</game>
 	<game name="rollerball">
@@ -7054,18 +7964,53 @@
 		<rom name="S.C.A.T. - Special Cybernetic Attack Team (USA).nes" size="262160" crc="d3bf87d1"/>
 		<driver status="good"/>
 	</game>
-	<game name="saintseiyaodc">
+	<game name="saintsaitiamahuxi">
+		<description>Saint Saiya - Tian Ma Huan Xiang (China)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Saint Saiya - Tian Ma Huan Xiang (China).nes" size="2097168" crc="31f810f2"/>
+		<driver status="good"/>
+	</game>
+	<game name="saintseiougdenj" cloneof="saintseiougden" romof="saintseiougden">
+		<description>Saint Seiya - Ougon Densetsu (Japan)</description>
+		<year>1987</year>
+		<manufacturer>Bandai</manufacturer>
+		<rom name="Saint Seiya - Ougon Densetsu (Japan).nes" size="262160" crc="e54ef7f0"/>
+		<driver status="good"/>
+	</game>
+	<game name="saintseiyaodc" cloneof="saintseiougden" romof="saintseiougden">
 		<description>Saint Seiya - Ougon Densetsu (T-Chi, v2.0)</description>
 		<year>2018-08-11</year>
 		<manufacturer>Bandai</manufacturer>
 		<rom name="Saint Seiya - Ougon Densetsu (T-Chi, v2.0).nes" size="1310736" crc="f7df4b56"/>
 		<driver status="good"/>
 	</game>
-	<game name="saintseiyaodkhc">
+	<game name="saintseiougden">
+		<description>Saint Seiya - Ougon Densetsu (T-Eng)</description>
+		<year>1987</year>
+		<manufacturer>Bandai</manufacturer>
+		<rom name="Saint Seiya - Ougon Densetsu (T-Eng).nes" size="262160" crc="0914dd20"/>
+		<driver status="good"/>
+	</game>
+	<game name="saintseiougdenkahenj" cloneof="saintseiougdenkahen" romof="saintseiougdenkahen">
+		<description>Saint Seiya - Ougon Densetsu Kanketsu Hen (Japan)</description>
+		<year>1988</year>
+		<manufacturer>Shinsei</manufacturer>
+		<rom name="Saint Seiya - Ougon Densetsu Kanketsu Hen (Japan).nes" size="262160" crc="f8d258a3"/>
+		<driver status="good"/>
+	</game>
+	<game name="saintseiyaodkhc" cloneof="saintseiougdenkahen" romof="saintseiougdenkahen">
 		<description>Saint Seiya - Ougon Densetsu Kanketsu Hen (T-Chi)</description>
 		<year>2017-01-26</year>
-		<manufacturer>SHINSEI</manufacturer>
+		<manufacturer>Shinsei</manufacturer>
 		<rom name="Saint Seiya - Ougon Densetsu Kanketsu Hen (T-Chi).nes" size="524304" crc="b1651b70"/>
+		<driver status="good"/>
+	</game>
+	<game name="saintseiougdenkahen">
+		<description>Saint Seiya - Ougon Densetsu Kanketsu Hen (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Saint Seiya - Ougon Densetsu Kanketsu Hen (T-Eng).nes" size="262160" crc="912be32d"/>
 		<driver status="good"/>
 	</game>
 	<game name="saiyuukiworld">
@@ -7075,6 +8020,13 @@
 		<rom name="Saiyuuki World (Japan).nes" size="131088" crc="5ad9aeef"/>
 		<driver status="good"/>
 	</game>
+	<game name="saiyuukiworldc" cloneof="saiyuukiworld" romof="saiyuukiworld">
+		<description>Saiyuuki World (T-Chi, v1.04)</description>
+		<year>2016-02-07</year>
+		<manufacturer>Jaleco</manufacturer>
+		<rom name="Saiyuuki World (T-Chi, v1.04).nes" size="262160" crc="6e66cf6f"/>
+		<driver status="good"/>
+	</game>
 	<game name="saiyuwor2" cloneof="whompem" romof="whompem">
 		<description>Saiyuuki World 2 - Tenjoukai no Majin (Japan)</description>
 		<year>1990</year>
@@ -7082,11 +8034,25 @@
 		<rom name="Saiyuuki World 2 - Tenjoukai no Majin (Japan).nes" size="262160" crc="0a7eedbb"/>
 		<driver status="good"/>
 	</game>
+	<game name="saiyuwor2c" cloneof="whompem" romof="whompem">
+		<description>Saiyuuki World 2 - Tenjoukai no Majin (T-Chi)</description>
+		<year>2019-10-26</year>
+		<manufacturer>Jaleco</manufacturer>
+		<rom name="Saiyuuki World 2 - Tenjoukai no Majin (T-Chi).nes" size="262160" crc="784fc411"/>
+		<driver status="good"/>
+	</game>
 	<game name="salamander">
 		<description>Salamander (Japan)</description>
 		<year>1987</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Salamander (Japan).nes" size="131088" crc="bf822264"/>
+		<driver status="good"/>
+	</game>
+	<game name="salamanderc" cloneof="salamander" romof="salamander">
+		<description>Salamander (T-Chi, v1.2)</description>
+		<year>2020-04-30</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Salamander (T-Chi, v1.2).nes" size="393232" crc="fbe84b97"/>
 		<driver status="good"/>
 	</game>
 	<game name="sansaranagaj" cloneof="sansaranaga" romof="sansaranaga">
@@ -7138,6 +8104,13 @@
 		<rom name="Seicross (USA).nes" size="40976" crc="c0d823ed"/>
 		<driver status="good"/>
 	</game>
+	<game name="seiredenlic" cloneof="littlesamson" romof="littlesamson">
+		<description>Seirei Densetsu Lickle (Japan)</description>
+		<year>1992</year>
+		<manufacturer>Taito</manufacturer>
+		<rom name="Seirei Densetsu Lickle (Japan).nes" size="393232" crc="2823a809"/>
+		<driver status="good"/>
+	</game>
 	<game name="senjounoookami">
 		<description>Senjou no Ookami (Japan)</description>
 		<year>1986</year>
@@ -7157,6 +8130,20 @@
 		<year>1990</year>
 		<manufacturer>Natsume</manufacturer>
 		<rom name="Shadow of the Ninja (USA).nes" size="262160" crc="f74a04ab"/>
+		<driver status="good"/>
+	</game>
+	<game name="shadowwarriors" cloneof="ninjagaiden" romof="ninjagaiden">
+		<description>Shadow Warriors (Europe)</description>
+		<year>1991</year>
+		<manufacturer>Tecmo</manufacturer>
+		<rom name="Shadow Warriors (Europe).nes" size="262160" crc="1d2fb2b7"/>
+		<driver status="good"/>
+	</game>
+	<game name="shadowarepiii" cloneof="ninjagaiii" romof="ninjagaiii">
+		<description>Shadow Warriors Episode II - The Dark Sword of Chaos (Europe)</description>
+		<year>1991</year>
+		<manufacturer>Tecmo</manufacturer>
+		<rom name="Shadow Warriors Episode II - The Dark Sword of Chaos (Europe).nes" size="262160" crc="96b6a919"/>
 		<driver status="good"/>
 	</game>
 	<game name="shadowgate">
@@ -7192,6 +8179,13 @@
 		<year>1991</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Shin 4 Nin Uchi Mahjong (Japan).nes" size="393232" crc="44df4a58"/>
+		<driver status="good"/>
+	</game>
+	<game name="shinsamspi2">
+		<description>Shin Samurai Spirits 2 - Haoumaru Jigoku Hen (China)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Shin Samurai Spirits 2 - Haoumaru Jigoku Hen (China).nes" size="655376" crc="3398afe5"/>
 		<driver status="good"/>
 	</game>
 	<game name="shinobi">
@@ -7250,6 +8244,13 @@
 		<rom name="Silent Service (USA).nes" size="131088" crc="8b4a38b0"/>
 		<driver status="good"/>
 	</game>
+	<game name="silkwormc" cloneof="silkworm" romof="silkworm">
+		<description>Silk Worm (T-Chi, v1.1)</description>
+		<year>2020-01-07</year>
+		<manufacturer>Sammy</manufacturer>
+		<rom name="Silk Worm (T-Chi, v1.1).nes" size="393232" crc="3d53c8ad"/>
+		<driver status="good"/>
+	</game>
 	<game name="silkworm">
 		<description>Silk Worm (USA)</description>
 		<year>1990</year>
@@ -7269,6 +8270,13 @@
 		<year>1990</year>
 		<manufacturer>Arcadia</manufacturer>
 		<rom name="Silver Surfer (USA).nes" size="393232" crc="9a83817c"/>
+		<driver status="good"/>
+	</game>
+	<game name="simcity">
+		<description>Sim City (Prototype)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Sim City (Prototype).nes" size="262160" crc="6dcc8626"/>
 		<driver status="good"/>
 	</game>
 	<game name="simpsbarvsspamu">
@@ -7530,6 +8538,13 @@
 		<rom name="Splatter House - Wanpaku Graffiti (Japan).nes" size="262160" crc="b7eeb48b"/>
 		<driver status="good"/>
 	</game>
+	<game name="spot">
+		<description>Spot (USA)</description>
+		<year>1990</year>
+		<manufacturer>Arcadia</manufacturer>
+		<rom name="Spot (USA).nes" size="131088" crc="1d6e0953"/>
+		<driver status="good"/>
+	</game>
 	<game name="spyhunter">
 		<description>Spy Hunter (USA)</description>
 		<year>1987</year>
@@ -7726,6 +8741,13 @@
 		<rom name="Street Fighter II - The World Warrior (Unl).nes" size="262160" crc="dedfa5bb"/>
 		<driver status="good"/>
 	</game>
+	<game name="streefigiii">
+		<description>Street Fighter III (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Street Fighter III (Unl).nes" size="655376" crc="a21b5886"/>
+		<driver status="good"/>
+	</game>
 	<game name="streetheroes">
 		<description>Street Heroes (Taiwan)</description>
 		<year>1989?</year>
@@ -7782,6 +8804,13 @@
 		<rom name="Summer Carnival '92 - Recca (Japan).nes" size="262160" crc="2e15075a"/>
 		<driver status="good"/>
 	</game>
+	<game name="sundafun" cloneof="menacebeach" romof="menacebeach">
+		<description>Sunday Funday - The Ride (USA) (Unl)</description>
+		<year>1995</year>
+		<manufacturer>Wisdom Tree</manufacturer>
+		<rom name="Sunday Funday - The Ride (USA) (Unl).nes" size="262160" crc="4f7e1243"/>
+		<driver status="good"/>
+	</game>
 	<game name="sunman">
 		<description>Sunman (Europe) (Prototype)</description>
 		<year>0000</year>
@@ -7815,6 +8844,20 @@
 		<year>1991</year>
 		<manufacturer>Electro Brain</manufacturer>
 		<rom name="Super Cars (USA).nes" size="131088" crc="729db2e4"/>
+		<driver status="good"/>
+	</game>
+	<game name="superchii" cloneof="littlninbro" romof="littlninbro">
+		<description>Super Chinese II - Dragon Kid (T-Chi, v1.4)</description>
+		<year>2019-01-01</year>
+		<manufacturer>Culture Brain</manufacturer>
+		<rom name="Super Chinese II - Dragon Kid (T-Chi, v1.4).nes" size="524304" crc="a9e92ef3"/>
+		<driver status="good"/>
+	</game>
+	<game name="supercontrac" cloneof="superc" romof="superc">
+		<description>Super Contra (T-Chi)</description>
+		<year>2017-08-01</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Super Contra (T-Chi).nes" size="393232" crc="048f7dd8"/>
 		<driver status="good"/>
 	</game>
 	<game name="superdodgeball">
@@ -7866,11 +8909,25 @@
 		<rom name="Super Mario Bros. 2 J (Japan, MMC3 Conversion).nes" size="81936" crc="0133ebf9"/>
 		<driver status="good"/>
 	</game>
+	<game name="smb3c" cloneof="smb3" romof="smb3">
+		<description>Super Mario Bros. 3 (T-Chi)</description>
+		<year>2016-06-03</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Super Mario Bros. 3 (T-Chi).nes" size="458768" crc="e39b725d"/>
+		<driver status="good"/>
+	</game>
 	<game name="smb3">
 		<description>Super Mario Bros. 3 (USA) (Rev A)</description>
 		<year>1990</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Super Mario Bros. 3 (USA) (Rev A).nes" size="393232" crc="0b742b33"/>
+		<driver status="good"/>
+	</game>
+	<game name="supermarwor">
+		<description>Super Mario World (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Super Mario World (Unl).nes" size="786448" crc="6d5953a8"/>
 		<driver status="good"/>
 	</game>
 	<game name="superpainter">
@@ -8048,6 +9105,13 @@
 		<rom name="T&amp;C Surf Design (USA).nes" size="65552" crc="9c94ed32"/>
 		<driver status="good"/>
 	</game>
+	<game name="taboo">
+		<description>Taboo - The Sixth Sense (USA)</description>
+		<year>1989</year>
+		<manufacturer>Tradewest</manufacturer>
+		<rom name="Taboo - The Sixth Sense (USA).nes" size="65552" crc="e057b507"/>
+		<driver status="good"/>
+	</game>
 	<game name="tagteawre">
 		<description>Tag Team Wrestling (USA)</description>
 		<year>1986</year>
@@ -8055,11 +9119,32 @@
 		<rom name="Tag Team Wrestling (USA).nes" size="40976" crc="41f82f6e"/>
 		<driver status="good"/>
 	</game>
+	<game name="tagindragon">
+		<description>Tagin' Dragon (Unl)</description>
+		<year>1990</year>
+		<manufacturer>Bunch Games</manufacturer>
+		<rom name="Tagin' Dragon (Unl).nes" size="49168" crc="163720d6"/>
+		<driver status="good"/>
+	</game>
 	<game name="taitochasehq">
 		<description>Taito Chase H.Q. (Japan)</description>
 		<year>1989</year>
 		<manufacturer>Taito</manufacturer>
 		<rom name="Taito Chase H.Q. (Japan).nes" size="262160" crc="b3408ee4"/>
+		<driver status="good"/>
+	</game>
+	<game name="taitograprij" cloneof="taitograpri" romof="taitograpri">
+		<description>Taito Grand Prix - Eikou e no License (Japan)</description>
+		<year>1987</year>
+		<manufacturer>Taito</manufacturer>
+		<rom name="Taito Grand Prix - Eikou e no License (Japan).nes" size="262160" crc="613bd034"/>
+		<driver status="good"/>
+	</game>
+	<game name="taitograpri">
+		<description>Taito Grand Prix - Eikou e no License (T-Eng)</description>
+		<year>1987</year>
+		<manufacturer>Taito</manufacturer>
+		<rom name="Taito Grand Prix - Eikou e no License (T-Eng).nes" size="262160" crc="b58f4f5a"/>
 		<driver status="good"/>
 	</game>
 	<game name="taiyonoyuufirj" cloneof="taiyonoyuufir" romof="taiyonoyuufir">
@@ -8081,6 +9166,27 @@
 		<year>1987</year>
 		<manufacturer>Hudson Soft</manufacturer>
 		<rom name="Takahashi Meijin no Bugutte Honey (Japan).nes" size="163856" crc="312e6a31"/>
+		<driver status="good"/>
+	</game>
+	<game name="takesnosenfuu">
+		<description>Takeshi no Sengoku Fuuunji (Japan)</description>
+		<year>1988</year>
+		<manufacturer>Taito</manufacturer>
+		<rom name="Takeshi no Sengoku Fuuunji (Japan).nes" size="262160" crc="5c80a4a2"/>
+		<driver status="good"/>
+	</game>
+	<game name="takesschaj" cloneof="takesscha" romof="takesscha">
+		<description>Takeshi's Challenge (Japan)</description>
+		<year>1986</year>
+		<manufacturer>Taito</manufacturer>
+		<rom name="Takeshi's Challenge (Japan).nes" size="131088" crc="e810b35c"/>
+		<driver status="good"/>
+	</game>
+	<game name="takesscha">
+		<description>Takeshi's Challenge (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Takeshi's Challenge (T-Eng).nes" size="262160" crc="18c9b8ad"/>
 		<driver status="good"/>
 	</game>
 	<game name="talespin">
@@ -8181,6 +9287,13 @@
 		<rom name="Tecmo World Wrestling (USA).nes" size="262160" crc="12444337"/>
 		<driver status="good"/>
 	</game>
+	<game name="tmntc" cloneof="tmnt" romof="tmnt">
+		<description>Teenage Mutant Ninja Turtles (T-Chi, v1.0)</description>
+		<year>2020-06-09</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Teenage Mutant Ninja Turtles (T-Chi, v1.0).nes" size="393232" crc="43ae114f"/>
+		<driver status="good"/>
+	</game>
 	<game name="tmnt">
 		<description>Teenage Mutant Ninja Turtles (USA)</description>
 		<year>1989</year>
@@ -8188,11 +9301,25 @@
 		<rom name="Teenage Mutant Ninja Turtles (USA).nes" size="262160" crc="83213ca0"/>
 		<driver status="good"/>
 	</game>
-	<game name="tmntii">
+	<game name="tmntiiarcgamj" cloneof="tmntiiarcgam" romof="tmntiiarcgam">
+		<description>Teenage Mutant Ninja Turtles II - The Arcade Game (Japan)</description>
+		<year>1990</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Teenage Mutant Ninja Turtles II - The Arcade Game (Japan).nes" size="524304" crc="7a476257"/>
+		<driver status="good"/>
+	</game>
+	<game name="tmntiiarcgam">
 		<description>Teenage Mutant Ninja Turtles II - The Arcade Game (USA)</description>
 		<year>1990</year>
 		<manufacturer>Ultra Games</manufacturer>
 		<rom name="Teenage Mutant Ninja Turtles II - The Arcade Game (USA).nes" size="524304" crc="c9ffbbdb"/>
+		<driver status="good"/>
+	</game>
+	<game name="tmntiimanpro" cloneof="tmntiii" romof="tmntiii">
+		<description>Teenage Mutant Ninja Turtles II - The Manhattan Project (Japan)</description>
+		<year>1991</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Teenage Mutant Ninja Turtles II - The Manhattan Project (Japan).nes" size="524304" crc="7929f237"/>
 		<driver status="good"/>
 	</game>
 	<game name="tmntiii">
@@ -8207,6 +9334,20 @@
 		<year>1994</year>
 		<manufacturer>Konami</manufacturer>
 		<rom name="Teenage Mutant Ninja Turtles Tournament Fighters (USA).nes" size="262160" crc="ac05464f"/>
+		<driver status="good"/>
+	</game>
+	<game name="tekken2">
+		<description>Tekken 2 (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Tekken 2 (Unl).nes" size="655376" crc="9a51e26c"/>
+		<driver status="good"/>
+	</game>
+	<game name="tekken3">
+		<description>Tekken 3 (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Tekken 3 (Unl).nes" size="393232" crc="c61358ab"/>
 		<driver status="good"/>
 	</game>
 	<game name="tenkanogoi">
@@ -8447,6 +9588,13 @@
 		<rom name="Tiny Toon Adventures 2 - Trouble in Wackyland (USA).nes" size="262160" crc="ab36e3f7"/>
 		<driver status="good"/>
 	</game>
+	<game name="tinytooadv6">
+		<description>Tiny Toon Adventures 6 (Unl)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Tiny Toon Adventures 6 (Unl).nes" size="524304" crc="476cb108"/>
+		<driver status="good"/>
+	</game>
 	<game name="titan">
 		<description>Titan (Japan)</description>
 		<year>1990</year>
@@ -8475,11 +9623,18 @@
 		<rom name="Toki (USA).nes" size="393232" crc="5bd50be6"/>
 		<driver status="good"/>
 	</game>
-	<game name="tokkyshisol">
+	<game name="tokkyshisolj" cloneof="shatterhand" romof="shatterhand">
 		<description>Tokkyuu Shirei Solbrain (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Tokkyuu Shirei Solbrain (Japan).nes" size="262160" crc="6a09e2bb"/>
+		<driver status="good"/>
+	</game>
+	<game name="tokkyshisol" cloneof="shatterhand" romof="shatterhand">
+		<description>Tokkyuu Shirei Solbrain (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Tokkyuu Shirei Solbrain (T-Eng).nes" size="262160" crc="f84e3211"/>
 		<driver status="good"/>
 	</game>
 	<game name="tokorsannomammosemo">
@@ -8546,10 +9701,10 @@
 		<driver status="good"/>
 	</game>
 	<game name="touhourououmu">
-		<description>TouhouRououmu (HB) [Homebrew]</description>
+		<description>Touhou Rououmu - Perfect Cherry Blossom (HB, v0.71) [Homebrew]</description>
 		<year>2019</year>
 		<manufacturer>takahirox</manufacturer>
-		<rom name="TouhouRououmu (HB).nes" size="524304" crc="4cf11179"/>
+		<rom name="TouhouRououmu (HB).nes" size="524304" crc="0f240b9c"/>
 		<driver status="good"/>
 	</game>
 	<game name="toukonclub">
@@ -8909,6 +10064,13 @@
 		<rom name="Wai Wai World (Japan).nes" size="262160" crc="b27bcf3d"/>
 		<driver status="good"/>
 	</game>
+	<game name="waiwaiworldc" cloneof="waiwaiworld" romof="waiwaiworld">
+		<description>Wai Wai World (T-Chi)</description>
+		<year>2012-09-04</year>
+		<manufacturer>Konami</manufacturer>
+		<rom name="Wai Wai World (T-Chi).nes" size="524304" crc="ae26fdde"/>
+		<driver status="good"/>
+	</game>
 	<game name="waiwaiwor2">
 		<description>Wai Wai World 2 - SOS!! Paseri Jou (Japan)</description>
 		<year>1991</year>
@@ -8930,11 +10092,25 @@
 		<rom name="Wall Street Kid (USA).nes" size="131088" crc="75917108"/>
 		<driver status="good"/>
 	</game>
+	<game name="wallybeanogan">
+		<description>Wally Bear &amp; the No Gang (Unl)</description>
+		<year>1990</year>
+		<manufacturer>AVE</manufacturer>
+		<rom name="Wally Bear &amp; the No Gang (Unl).nes" size="131088" crc="c562f258"/>
+		<driver status="good"/>
+	</game>
 	<game name="wanpakoknogouwo">
 		<description>Wanpaku Kokkun no Gourmet World (Japan)</description>
 		<year>1992</year>
 		<manufacturer>Taito</manufacturer>
 		<rom name="Wanpaku Kokkun no Gourmet World (Japan).nes" size="262160" crc="fffb5ead"/>
+		<driver status="good"/>
+	</game>
+	<game name="warinthegulf">
+		<description>War in the Gulf (Unl)</description>
+		<year>1991</year>
+		<manufacturer>Gluk Video</manufacturer>
+		<rom name="War in the Gulf (Unl).nes" size="262160" crc="e45d5d88"/>
 		<driver status="good"/>
 	</game>
 	<game name="warioswoods">
@@ -9103,6 +10279,13 @@
 		<year>1991</year>
 		<manufacturer>Asmik</manufacturer>
 		<rom name="Wurm - Journey to the Center of the Earth! (USA).nes" size="262160" crc="c1133e82"/>
+		<driver status="good"/>
+	</game>
+	<game name="xenophobe">
+		<description>Xenophobe (USA)</description>
+		<year>1988</year>
+		<manufacturer>Sunsoft</manufacturer>
+		<rom name="Xenophobe (USA).nes" size="163856" crc="fc2188db"/>
 		<driver status="good"/>
 	</game>
 	<game name="xevious">

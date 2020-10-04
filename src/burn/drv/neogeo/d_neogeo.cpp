@@ -546,6 +546,50 @@ static struct BurnInputInfo vlinerInputList[] = {
 
 STDINPUTINFO(vliner)
 
+// The input actually uses P2!
+// Exchange inputs for P1 & P2
+static struct BurnInputInfo nsmbInputList[] = {
+	{"P1 Coin",		BIT_DIGITAL,	NeoButton2 + 0,	"p1 coin"},			//  0
+	{"P1 Start",	BIT_DIGITAL,	NeoButton1 + 0,	"p1 start"},		//	1
+	{"P1 Select",	BIT_DIGITAL,	NeoButton1 + 1,	"p1 select"},		//  2
+
+	{"P1 Up",		BIT_DIGITAL,	NeoJoy2 + 0,	"p1 up"},			//  3
+	{"P1 Down",		BIT_DIGITAL,	NeoJoy2 + 1,	"p1 down"},			//  4
+	{"P1 Left",		BIT_DIGITAL,	NeoJoy2 + 2,	"p1 left"},			//	5
+	{"P1 Right",	BIT_DIGITAL,	NeoJoy2 + 3,	"p1 right"},		//	6
+	{"P1 Button A",	BIT_DIGITAL,	NeoJoy2 + 4,	"p1 fire 1"},		//	7
+	{"P1 Button B",	BIT_DIGITAL,	NeoJoy2 + 5,	"p1 fire 2"},		//	8
+	{"P1 Button C",	BIT_DIGITAL,	NeoJoy2 + 6,	"p1 fire 3"},		//	9
+	{"P1 Button D",	BIT_DIGITAL,	NeoJoy2 + 7,	"p1 fire 4"},		//	A
+
+	{"P2 Coin",		BIT_DIGITAL,	NeoButton2 + 1,	"p2 coin"},			//	B
+	{"P2 Start",	BIT_DIGITAL,	NeoButton1 + 2,	"p2 start"},		//	C
+	{"P2 Select",	BIT_DIGITAL,	NeoButton1 + 3,	"p2 select"},		//	D
+
+	{"P2 Up",		BIT_DIGITAL,	NeoJoy1 + 0,	"p2 up"},			//	E
+	{"P2 Down",		BIT_DIGITAL,	NeoJoy1 + 1,	"p2 down"},			//  F
+	{"P2 Left",		BIT_DIGITAL,	NeoJoy1 + 2,	"p2 left"},			// 10
+	{"P2 Right",	BIT_DIGITAL,	NeoJoy1 + 3,	"p2 right"},		// 11
+	{"P2 Button A",	BIT_DIGITAL,	NeoJoy1 + 4,	"p2 fire 1"},		// 12
+	{"P2 Button B",	BIT_DIGITAL,	NeoJoy1 + 5,	"p2 fire 2"},		// 13
+	{"P2 Button C",	BIT_DIGITAL,	NeoJoy1 + 6,	"p2 fire 3"},		// 14
+	{"P2 Button D",	BIT_DIGITAL,	NeoJoy1 + 7,	"p2 fire 4"},		// 15
+
+	{"Reset",		BIT_DIGITAL,	&NeoReset,		"reset"},			// 16
+	{"Test",		BIT_DIGITAL,	NeoDiag + 0,	"diag"},			// 17
+	{"Service",		BIT_DIGITAL,	NeoButton2 + 2,	"service"},			// 18
+	{"Dip 1",		BIT_DIPSWITCH,	NeoInput + 4,	"dip"},				// 19
+	{"Dip 2",		BIT_DIPSWITCH,	NeoInput + 5,	"dip"},				// 1A
+
+	{"System",		BIT_DIPSWITCH,	&NeoSystem,		"dip"},				// 1B
+	{"Slots",		BIT_DIPSWITCH,	&nNeoNumSlots,	"dip"},				// 1C
+
+	{"Debug Dip 1",	BIT_DIPSWITCH,	NeoDebugDip + 0,"dip"},				// 1D
+	{"Debug Dip 2",	BIT_DIPSWITCH,	NeoDebugDip + 1,"dip"},				// 1E
+};
+
+STDINPUTINFO(nsmb)
+
 static struct BurnDIPInfo neodefaultDIPList[] = {
 	// Offset
 	{0x19,	0xF0, 0x00,	0x00, NULL},
@@ -15281,7 +15325,7 @@ struct BurnDriver BurnDrvMslug5w = {
 	0x1000,	304, 224, 4, 3
 };
 
-// Real Bout Fatal Fury 2 - The Newcomers / Real Bout Garou Densetsu 2 - the newcomers (Secret Character Hack) 
+// Real Bout Fatal Fury 2 - The Newcomers / Real Bout Garou Densetsu 2 - the newcomers (Secret Character Hack)
 // Enable Alfred v3 and Fix Alfred's player 2 color - hack by Eddids[FCHT]
 
 static struct BurnRomInfo rbff2bhRomDesc[] = {
@@ -16532,36 +16576,76 @@ struct BurnDriver BurnDrvkof97t = {
 	0x1000, 304, 224, 4, 3
 };
 
-// The King of Fighters '97 (Anniversary Edition Build 2.1.1811, EGHT hack)
-// Hacked by AndyChan
+// The King of Fighters '97 - Anniversary Edition (Build 2.1.0212)
+// Hack by AndyChan
 
 static struct BurnRomInfo kof97aeRomDesc[] = {
-	{ "kof97ae-p1.p1",		0x100000, 0xe453b221, 1 | BRF_ESS | BRF_PRG },	//  0 68K code
-	{ "kof97ae-p2.sp2",		0x400000, 0xf00ba90d, 1 | BRF_ESS | BRF_PRG },	//  1 
+	{ "232ae-p1.p1",		0x100000, 0xcecc4f64, 1 | BRF_ESS | BRF_PRG },	//  0 68K code
+	{ "232ae-p2.sp2",		0x400000, 0x228aa8d1, 1 | BRF_ESS | BRF_PRG },	//  1 
 
-	{ "kof97ae-s1.s1",		0x020000, 0x30a6b3b8, 2 | BRF_GRA },			//  2 Text layer tiles
+	{ "232ae-s1.s1",		0x020000, 0x30a6b3b8, 2 | BRF_GRA },			//  2 Text layer tiles
 
-	{ "kof97ae-c1.c1",		0x800000, 0x5f0133eb, 3 | BRF_GRA },			//  3 Sprite data
-	{ "kof97ae-c2.c2",		0x800000, 0x136b8449, 3 | BRF_GRA },			//  4 
+	{ "232ae-c1.c1",		0x800000, 0x5f0133eb, 3 | BRF_GRA },			//  3 Sprite data
+	{ "232ae-c2.c2",		0x800000, 0x136b8449, 3 | BRF_GRA },			//  4 
 	{ "232-c3.c3",			0x800000, 0x581d6618, 3 | BRF_GRA },			//  5 
 	{ "232-c4.c4",			0x800000, 0x49bb1e68, 3 | BRF_GRA },			//  6 
-	{ "kof97ae-c5.c5",		0x800000, 0x8167b444, 3 | BRF_GRA },			//  7 
-	{ "kof97ae-c6.c6",		0x800000, 0xa410f3ca, 3 | BRF_GRA },			//  8 
-	{ "kof97ae-c7.c7",		0x800000, 0x50a48a56, 3 | BRF_GRA },			//  9 
-	{ "kof97ae-c8.c8",		0x800000, 0x80d7ec00, 3 | BRF_GRA },			//  10 
+	{ "232ae-c5.c5",		0x800000, 0x8167b444, 3 | BRF_GRA },			//  7 
+	{ "232ae-c6.c6",		0x800000, 0xa410f3ca, 3 | BRF_GRA },			//  8 
+	{ "232ae-c7.c7",		0x800000, 0x50a48a56, 3 | BRF_GRA },			//  9 
+	{ "232ae-c8.c8",		0x800000, 0x80d7ec00, 3 | BRF_GRA },			//  10 
 
-	{ "kof97ae-m1.m1",		0x020000, 0xf7b7ee13, 4 | BRF_ESS | BRF_PRG },	//  11 Z80 code
+	{ "232ae-m1.m1",		0x020000, 0xf7b7ee13, 4 | BRF_ESS | BRF_PRG },	//  11 Z80 code
 
 	{ "232-v1.v1",			0x400000, 0x22a2b5b5, 5 | BRF_SND },			//  12 Sound data
 	{ "232-v2.v2",			0x400000, 0x2304e744, 5 | BRF_SND },			//  13 
 	{ "232-v3.v3",			0x400000, 0x759eb954, 5 | BRF_SND },			//  14 
-	{ "kof97ae-v4.v4",		0x200000, 0x7d37caa0, 5 | BRF_SND },			//  15 
+	{ "232ae-v4.v4",		0x200000, 0x7d37caa0, 5 | BRF_SND },			//  15 
 };
 
 STDROMPICKEXT(kof97ae, kof97ae, neogeo)
 STD_ROM_FN(kof97ae)
 
-static INT32 kof97aeInit()
+struct BurnDriver BurnDrvkof97ae = {
+	"kof97ae", "kof97", "neogeo", NULL, "2018",
+	"The King of Fighters '97 - Anniversary Edition (Build 2.1.0212)\0", NULL, "EGHT", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_VSFIGHT, FBF_KOF,
+	NULL, kof97aeRomInfo, kof97aeRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neoaesjapanDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000, 304, 224, 4, 3
+};
+
+// The King of Fighters '97 - Anniversary Edition (Fork Build 2.1.1811)
+// Second hack by Ice Flame Fantasy
+// Fork from Kof97ae (Original author - AndyChan)
+
+static struct BurnRomInfo kof97aefRomDesc[] = {
+	{ "232aef-p1.p1",		0x100000, 0xe453b221, 1 | BRF_ESS | BRF_PRG },	//  0 68K code
+	{ "232aef-p2.sp2",		0x400000, 0xf00ba90d, 1 | BRF_ESS | BRF_PRG },	//  1 
+
+	{ "232ae-s1.s1",		0x020000, 0x30a6b3b8, 2 | BRF_GRA },			//  2 Text layer tiles
+
+	{ "232ae-c1.c1",		0x800000, 0x5f0133eb, 3 | BRF_GRA },			//  3 Sprite data
+	{ "232ae-c2.c2",		0x800000, 0x136b8449, 3 | BRF_GRA },			//  4 
+	{ "232-c3.c3",			0x800000, 0x581d6618, 3 | BRF_GRA },			//  5 
+	{ "232-c4.c4",			0x800000, 0x49bb1e68, 3 | BRF_GRA },			//  6 
+	{ "232ae-c5.c5",		0x800000, 0x8167b444, 3 | BRF_GRA },			//  7 
+	{ "232ae-c6.c6",		0x800000, 0xa410f3ca, 3 | BRF_GRA },			//  8 
+	{ "232ae-c7.c7",		0x800000, 0x50a48a56, 3 | BRF_GRA },			//  9 
+	{ "232ae-c8.c8",		0x800000, 0x80d7ec00, 3 | BRF_GRA },			//  10 
+
+	{ "232ae-m1.m1",		0x020000, 0xf7b7ee13, 4 | BRF_ESS | BRF_PRG },	//  11 Z80 code
+
+	{ "232-v1.v1",			0x400000, 0x22a2b5b5, 5 | BRF_SND },			//  12 Sound data
+	{ "232-v2.v2",			0x400000, 0x2304e744, 5 | BRF_SND },			//  13 
+	{ "232-v3.v3",			0x400000, 0x759eb954, 5 | BRF_SND },			//  14 
+	{ "232ae-v4.v4",		0x200000, 0x7d37caa0, 5 | BRF_SND },			//  15 
+};
+
+STDROMPICKEXT(kof97aef, kof97aef, neogeo)
+STD_ROM_FN(kof97aef)
+
+static INT32 kof97aefInit()
 {
 	INT32 nRet = NeoInit();
 	
@@ -16571,32 +16655,32 @@ static INT32 kof97aeInit()
 	return nRet;
 }
 
-struct BurnDriver BurnDrvkof97ae = {
-	"kof97ae", "kof97", "neogeo", NULL, "2020-08-10",
-	"The King of Fighters '97 (Anniversary Edition build 2.1.1811)\0", NULL, "EGHT", "Neo Geo MVS",
+struct BurnDriver BurnDrvkof97aef = {
+	"kof97aef", "kof97", "neogeo", NULL, "2020-08-10",
+	"The King of Fighters '97 - Anniversary Edition (Fork Build 2.1.1811)\0", NULL, "Hack", "Neo Geo MVS",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HISCORE_SUPPORTED | BDF_HACK, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_VSFIGHT, FBF_KOF,
-	NULL, kof97aeRomInfo, kof97aeRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neoaesjapanDIPInfo,
-	kof97aeInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	NULL, kof97aefRomInfo, kof97aefRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neoaesjapanDIPInfo,
+	kof97aefInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000, 304, 224, 4, 3
 };
 
 // The King of Fighters '97 (Optimised Edition 2020)
-// Hacked by unknown
-// Prototype - GOTVG kof97t (Optimised Edition)
+// Second hack by Unknown
+// Fork from kof97t (GOTVG)
 
 static struct BurnRomInfo kof97t2020RomDesc[] = {
-	{ "kof97t2020_p1.bin",	0x100000, 0x53d9851d, 1 | BRF_ESS | BRF_PRG },	//  0 68K code
-	{ "kof97t2020_p2.bin",	0x400000, 0x6d448462, 1 | BRF_ESS | BRF_PRG },	//  1 
+	{ "232t2020-p1.p1",		0x100000, 0x53d9851d, 1 | BRF_ESS | BRF_PRG },	//  0 68K code
+	{ "232t2020-p2.sp2",	0x400000, 0x6d448462, 1 | BRF_ESS | BRF_PRG },	//  1 
 
-	{ "kof97t2020_s1.bin",	0x020000, 0xe338d57f, 2 | BRF_GRA },			//  2 Text layer tiles
+	{ "232t2020-s1.s1",		0x020000, 0xe338d57f, 2 | BRF_GRA },			//  2 Text layer tiles
 
-	{ "kof97t2020_c1.bin",	0x800000, 0x848040cb, 3 | BRF_GRA },			//  3 Sprite data
-	{ "kof97t2020_c2.bin",	0x800000, 0xd01ad7c9, 3 | BRF_GRA },			//  4 
+	{ "232t2020-c1.c1",		0x800000, 0x848040cb, 3 | BRF_GRA },			//  3 Sprite data
+	{ "232t2020-c2.c2",		0x800000, 0xd01ad7c9, 3 | BRF_GRA },			//  4 
 	{ "232-c3.c3",			0x800000, 0x581d6618, 3 | BRF_GRA },			//  5 
 	{ "232-c4.c4",			0x800000, 0x49bb1e68, 3 | BRF_GRA },			//  6 
-	{ "kof97t2020_c5.bin",	0x800000, 0x7bb13ff4, 3 | BRF_GRA },			//  7 
-	{ "kof97t2020_c6.bin",	0x800000, 0x6846a8a5, 3 | BRF_GRA },			//  8 
+	{ "232t2020-c5.c5",		0x800000, 0x7bb13ff4, 3 | BRF_GRA },			//  7 
+	{ "232t2020-c6.c6",		0x800000, 0x6846a8a5, 3 | BRF_GRA },			//  8 
 
 	{ "232-m1.m1",			0x020000, 0x45348747, 4 | BRF_ESS | BRF_PRG },	//  9 Z80 code
 
@@ -16622,26 +16706,26 @@ struct BurnDriver BurnDrvkof97t2020 = {
 // Hacked by Ice Flame Fantasy
 
 static struct BurnRomInfo kof97invplusRomDesc[] = {
-	{ "kof97invplus_p1.bin",	0x100000, 0x149e80cb, 1 | BRF_ESS | BRF_PRG },	//  0 68K code
-	{ "kof97invplus_p2.bin",	0x400000, 0xf11c77d0, 1 | BRF_ESS | BRF_PRG },	//  1 
+	{ "232inv-p1.p1",		0x100000, 0x149e80cb, 1 | BRF_ESS | BRF_PRG },	//  0 68K code
+	{ "232inv-p2.sp2",		0x400000, 0xf11c77d0, 1 | BRF_ESS | BRF_PRG },	//  1 
 
-	{ "kof97invplus_s1.bin",	0x020000, 0xde61d11c, 2 | BRF_GRA },			//  2 Text layer tiles
+	{ "232inv-s1.s1",		0x020000, 0xde61d11c, 2 | BRF_GRA },			//  2 Text layer tiles
 
-	{ "kof97invplus_c1.bin",	0x800000, 0xb496fb6e, 3 | BRF_GRA },			//  3 Sprite data
-	{ "kof97invplus_c2.bin",	0x800000, 0xff3fde05, 3 | BRF_GRA },			//  4 
-	{ "kof97invplus_c3.bin",	0x800000, 0x46db93d9, 3 | BRF_GRA },			//  5 
-	{ "kof97invplus_c4.bin",	0x800000, 0xb1a4ac4a, 3 | BRF_GRA },			//  6 
-	{ "kof97invplus_c5.bin",	0x800000, 0x1a921988, 3 | BRF_GRA },			//  7 
-	{ "kof97invplus_c6.bin",	0x800000, 0x07630b58, 3 | BRF_GRA },			//  8 
-	{ "kof97invplus_c7.bin",	0x400000, 0x6d51eaeb, 3 | BRF_GRA },			//  9 
-	{ "kof97invplus_c8.bin",	0x400000, 0x632bcf8e, 3 | BRF_GRA },			//  10
+	{ "232inv-c1.c1",		0x800000, 0xb496fb6e, 3 | BRF_GRA },			//  3 Sprite data
+	{ "232inv-c2.c2",		0x800000, 0xff3fde05, 3 | BRF_GRA },			//  4 
+	{ "232inv-c3.c3",		0x800000, 0x46db93d9, 3 | BRF_GRA },			//  5 
+	{ "232inv-c4.c4",		0x800000, 0xb1a4ac4a, 3 | BRF_GRA },			//  6 
+	{ "232inv-c5.c5",		0x800000, 0x1a921988, 3 | BRF_GRA },			//  7 
+	{ "232inv-c6.c6",		0x800000, 0x07630b58, 3 | BRF_GRA },			//  8 
+	{ "232inv-c7.c7",		0x400000, 0x6d51eaeb, 3 | BRF_GRA },			//  9 
+	{ "232inv-c8.c8",		0x400000, 0x632bcf8e, 3 | BRF_GRA },			//  10
 
-	{ "kof97invplus_m1.bin",	0x020000, 0x7b933dd8, 4 | BRF_ESS | BRF_PRG },	//  11 Z80 code
+	{ "232inv-m1.m1",		0x020000, 0x7b933dd8, 4 | BRF_ESS | BRF_PRG },	//  11 Z80 code
 
-	{ "232-v1.v1",				0x400000, 0x22a2b5b5, 5 | BRF_SND },			//  12 Sound data
-	{ "232-v2.v2",				0x400000, 0x2304e744, 5 | BRF_SND },			//  13 
-	{ "232-v3.v3",				0x400000, 0x759eb954, 5 | BRF_SND },			//  14 
-	{ "kof97invplus_v4.bin",	0x400000, 0x225996c3, 5 | BRF_SND },			//  15 
+	{ "232-v1.v1",			0x400000, 0x22a2b5b5, 5 | BRF_SND },			//  12 Sound data
+	{ "232-v2.v2",			0x400000, 0x2304e744, 5 | BRF_SND },			//  13 
+	{ "232-v3.v3",			0x400000, 0x759eb954, 5 | BRF_SND },			//  14 
+	{ "232inv-v4.v4",		0x400000, 0x225996c3, 5 | BRF_SND },			//  15 
 };
 
 STDROMPICKEXT(kof97invplus, kof97invplus, neogeo)
@@ -17646,6 +17730,7 @@ struct BurnDriver BurnDrvkf2k2ps2 = {
 };
 
 // The King of Fighters 2002 (PlayStation 2, Hack)
+// Hack by Dream
 
 static struct BurnRomInfo kf2k2ps2bRomDesc[] = {
 	{ "265-p1ps2.p1",		0x100000, 0x9da95b36, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
@@ -18512,6 +18597,40 @@ struct BurnDriver BurnDrvzintrkcd = {
 	NULL, zintrkcdRomInfo, zintrkcdRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
 	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000,	304, 224, 4, 3
+};
+
+// Breakers Revenge - Extra Mode (Hack)
+
+static struct BurnRomInfo brkrevextRomDesc[] = {
+	{ "245-p1ext.p1", 0x200000, 0x603b47a4, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+
+	{ "245-s1.s1",    0x020000, 0xe7660a5d, 2 | BRF_GRA },           //  1 Text layer tiles
+
+	/* The chip labels and sizes are correct */
+	{ "245-c1.c1",    0x400000, 0x68d4ae76, 3 | BRF_GRA },           //  2 Sprite data
+	{ "245-c2.c2",    0x400000, 0xfdee05cd, 3 | BRF_GRA },           //  3 
+	{ "245-c3.c3",    0x400000, 0x645077f3, 3 | BRF_GRA },           //  4 
+	{ "245-c4.c4",    0x400000, 0x63aeb74c, 3 | BRF_GRA },           //  5 
+	{ "245-c5.c5",    0x400000, 0xb5f40e7f, 3 | BRF_GRA },           //  6 
+	{ "245-c6.c6",    0x400000, 0xd0337328, 3 | BRF_GRA },           //  7 
+
+	{ "245-m1.m1",    0x020000, 0x00f31c66, 4 | BRF_ESS | BRF_PRG }, //  8 Z80 code
+
+	{ "245-v1.v1",    0x400000, 0xe255446c, 5 | BRF_SND },           //  9 Sound data
+	{ "245-v2.v2",    0x400000, 0x9068198a, 5 | BRF_SND },           // 10 
+};
+
+STDROMPICKEXT(brkrevext, brkrevext, neogeo)
+STD_ROM_FN(brkrevext)
+
+struct BurnDriver BurnDrvbrkrevext = {
+	"brkrevext", "breakrev", "neogeo", NULL, "2018",
+	"Breakers Revenge - Extra Mode (Hack)\0", NULL, "Visco", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK | BDF_HISCORE_SUPPORTED, 2, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO | HARDWARE_SNK_SWAPP, GBF_VSFIGHT, 0,
+	NULL, brkrevextRomInfo, brkrevextRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000,	320, 224, 4, 3
 };
 
 // -----------------------------------------------------------------------------
@@ -19615,29 +19734,28 @@ struct BurnDriver BurnDrvproneon = {
 };
 
 
-// NeoTRIS (Free beta Ver. 202005) 
+// NeoTRIS (Free beta 2 Ver. 202009) 
 // https://www.chipsonsteroids.com/
-// https://www.youtube.com/watch?v=0P7Y5cEtUDs
 // 3 & 4 players not working (needs Multitap) 
 
 static struct BurnRomInfo neotrisRomDesc[] = {
-	{ "neotris-p1.bin",    0x080000, 0x33a71f8d, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+	{ "neotris-p1.bin",    0x080000, 0x4cd619cf, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
 
 	{ "neotris-s1.bin",    0x020000, 0x6809043a, 2 | BRF_GRA },           //  1 Text layer tiles
 
-	{ "neotris-c1.bin",    0x400000, 0x7f9c1a22, 3 | BRF_GRA },           //  2 Sprite data
-	{ "neotris-c2.bin",    0x400000, 0x4896e921, 3 | BRF_GRA },           //  3 
-	{ "neotris-c3.bin",    0x400000, 0xe8e2fcc3, 3 | BRF_GRA },           //  4 
-	{ "neotris-c4.bin",    0x400000, 0xec219a96, 3 | BRF_GRA },           //  5 
-	{ "neotris-c5.bin",    0x400000, 0xb8873b09, 3 | BRF_GRA },           //  6 
-	{ "neotris-c6.bin",    0x400000, 0xfb994623, 3 | BRF_GRA },           //  7 
+	{ "neotris-c1.bin",    0x400000, 0xe1c8eca9, 3 | BRF_GRA },           //  2 Sprite data
+	{ "neotris-c2.bin",    0x400000, 0x11ca6e64, 3 | BRF_GRA },           //  3 
+	{ "neotris-c3.bin",    0x400000, 0x1d9e2046, 3 | BRF_GRA },           //  4 
+	{ "neotris-c4.bin",    0x400000, 0x9091e795, 3 | BRF_GRA },           //  5 
+	{ "neotris-c5.bin",    0x400000, 0xbf278afe, 3 | BRF_GRA },           //  6 
+	{ "neotris-c6.bin",    0x400000, 0x8eb17e24, 3 | BRF_GRA },           //  7 
 
-	{ "neotris-m1.bin",    0x010000, 0x2f9f8265, 4 | BRF_ESS | BRF_PRG }, //  8 Z80 code
+	{ "neotris-m1.bin",    0x010000, 0x5a63bb9d, 4 | BRF_ESS | BRF_PRG }, //  8 Z80 code
 
-	{ "neotris-v1.bin",    0x400000, 0x9855b179, 5 | BRF_SND },           //  9 Sound data
-	{ "neotris-v2.bin",    0x400000, 0xb187368b, 5 | BRF_SND },           // 10 
-	{ "neotris-v3.bin",    0x400000, 0x5506b016, 5 | BRF_SND },           // 11
-	{ "neotris-v4.bin",    0x400000, 0x6bb8a938, 5 | BRF_SND },           // 12
+	{ "neotris-v1.bin",    0x400000, 0xfef16eb4, 5 | BRF_SND },           //  9 Sound data
+	{ "neotris-v2.bin",    0x400000, 0xf0d28e19, 5 | BRF_SND },           // 10 
+	{ "neotris-v3.bin",    0x400000, 0xfc652c8b, 5 | BRF_SND },           // 11
+	{ "neotris-v4.bin",    0x400000, 0xc25764ca, 5 | BRF_SND },           // 12
 };
 
 STDROMPICKEXT(neotris, neotris, neogeo)
@@ -19645,10 +19763,56 @@ STD_ROM_FN(neotris)
 
 struct BurnDriver BurnDrvneotris = {
 	"neotris", NULL, "neogeo", NULL, "2020",
-	"NeoTRIS (Free Beta Ver. 202005)\0", NULL, "Chipsonsteroids", "Neo Geo MVS",
+	"NeoTRIS (Free Beta 2 Ver. 202009)\0", NULL, "Chipsonsteroids", "Neo Geo MVS",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING, 4, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_PUZZLE, 0,
+	BDF_GAME_WORKING | BDF_HOMEBREW, 4, HARDWARE_PREFIX_CARTRIDGE | HARDWARE_SNK_NEOGEO, GBF_PUZZLE, 0,
 	NULL, neotrisRomInfo, neotrisRomName, NULL, NULL, NULL, NULL, neogeoInputInfo, neogeoDIPInfo,
 	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
 	0x1000,	304, 224, 4, 3
+};
+
+
+// Neo Super Mario Bros Demo!
+// https://ozzyouzo.itch.io/neosmb
+
+static struct BurnRomInfo nsmbRomDesc[] = {
+	{ "nsmb-p1.bin",    0x100000, 0x6abacc0f, 1 | BRF_ESS | BRF_PRG }, //  0 68K code
+
+	{ "nsmb-s1.bin",    0x020000, 0xa545b593, 2 | BRF_GRA },           //  1 Text layer tiles
+
+	{ "nsmb-c1.bin",    0x800000, 0x81ac72e5, 3 | BRF_GRA },           //  2 Sprite data
+	{ "nsmb-c2.bin",    0x800000, 0xa94a817b, 3 | BRF_GRA },           //  3 
+#if 0
+	{ "nsmb-c3.bin",    0x800000, 0x81ac72e5, 3 | BRF_GRA },           //  Duplicate Sprite data files
+	{ "nsmb-c4.bin",    0x800000, 0xa94a817b, 3 | BRF_GRA },           //  
+	{ "nsmb-c5.bin",    0x800000, 0x81ac72e5, 3 | BRF_GRA },           //  
+	{ "nsmb-c6.bin",    0x800000, 0xa94a817b, 3 | BRF_GRA },           //  
+	{ "nsmb-c7.bin",    0x800000, 0x81ac72e5, 3 | BRF_GRA },           //  
+	{ "nsmb-c8.bin",    0x800000, 0xa94a817b, 3 | BRF_GRA },           //  
+#endif
+
+	{ "nsmb-m1.bin",    0x010000, 0x40d6f48d, 4 | BRF_ESS | BRF_PRG }, //  4 Z80 code
+
+	{ "nsmb-v1.bin",    0x100000, 0xd94bea55, 5 | BRF_SND },           //  5 Sound data
+	{ "nsmb-v2.bin",    0x100000, 0xb110df8b, 5 | BRF_SND },           //  6 
+	{ "nsmb-v3.bin",    0x100000, 0x3c623679, 5 | BRF_SND },           //  7 
+	{ "nsmb-v4.bin",    0x100000, 0xfbf00c96, 5 | BRF_SND },           //  8
+	{ "nsmb-v5.bin",    0x100000, 0x9b2031d4, 5 | BRF_SND },           //  9 
+	{ "nsmb-v6.bin",    0x100000, 0x107cfc89, 5 | BRF_SND },           // 10 
+	{ "nsmb-v7.bin",    0x100000, 0x0703b761, 5 | BRF_SND },           // 11
+	{ "nsmb-v8.bin",    0x100000, 0x8d525588, 5 | BRF_SND },           // 12 
+	{ "nsmb-v9.bin",    0x100000, 0x97f073b6, 5 | BRF_SND },           // 13 
+};
+
+STDROMPICKEXT(nsmb, nsmb, neogeo)
+STD_ROM_FN(nsmb)
+
+struct BurnDriver BurnDrvNsmb = {
+	"nsmb", NULL, "neogeo", NULL, "2020",
+	"Neo Super Mario Bros Demo!\0", NULL, "OzzyOuzo", "Neo Geo MVS",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_HOMEBREW | BDF_DEMO, 1, HARDWARE_SNK_NEOGEO, GBF_PLATFORM, 0,
+	NULL, nsmbRomInfo, nsmbRomName, NULL, NULL, NULL, NULL, nsmbInputInfo, neoaesjapanDIPInfo,
+	NeoInit, NeoExit, NeoFrame, NeoRender, NeoScan, &NeoRecalcPalette,
+	0x1000, 304, 224, 4, 3
 };

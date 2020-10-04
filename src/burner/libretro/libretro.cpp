@@ -524,8 +524,10 @@ static int create_variables_from_cheats()
 			for (int i = 0; i < count; i++) {
 				cheat_core_option_value *cheat_value = &cheat_option->values[i];
 				cheat_value->nValue = i;
-				cheat_value->friendly_name = pCurrentCheat->pOption[i]->szOptionName;
-				if (pCurrentCheat->nDefault == i) cheat_option->default_value = pCurrentCheat->pOption[i]->szOptionName;
+				// prepending name with value, some cheats from official pack have 2 values matching default's name,
+				// and picking the wrong one prevents some games to boot
+				cheat_value->friendly_name = SSTR( i << " - " << pCurrentCheat->pOption[i]->szOptionName);
+				if (pCurrentCheat->nDefault == i) cheat_option->default_value = SSTR( i << " - " << pCurrentCheat->pOption[i]->szOptionName);
 			}
 		}
 		num++;
@@ -711,7 +713,10 @@ static void locate_archive(std::vector<located_archive>& pathList, const char* c
 		located->path = path;
 		located->ignoreCrc = true;
 		ZipClose();
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Patched romset found at %s\n", path);
 	}
+	else
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] No patched romset found at %s\n", path);
 	// Search rom dir
 	snprintf_nowarn(path, sizeof(path), "%s%c%s", g_rom_dir, path_default_slash_c(), romName);
 	if (ZipOpen(path) == 0)
@@ -721,7 +726,10 @@ static void locate_archive(std::vector<located_archive>& pathList, const char* c
 		located->path = path;
 		located->ignoreCrc = false;
 		ZipClose();
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
 	}
+	else
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
 	// Search system fbneo subdirectory (where samples/hiscore are stored)
 	snprintf_nowarn(path, sizeof(path), "%s%cfbneo%c%s", g_system_dir, path_default_slash_c(), path_default_slash_c(), romName);
 	if (ZipOpen(path) == 0)
@@ -731,7 +739,10 @@ static void locate_archive(std::vector<located_archive>& pathList, const char* c
 		located->path = path;
 		located->ignoreCrc = false;
 		ZipClose();
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
 	}
+	else
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
 	// Search system directory
 	snprintf_nowarn(path, sizeof(path), "%s%c%s", g_system_dir, path_default_slash_c(), romName);
 	if (ZipOpen(path) == 0)
@@ -741,7 +752,10 @@ static void locate_archive(std::vector<located_archive>& pathList, const char* c
 		located->path = path;
 		located->ignoreCrc = false;
 		ZipClose();
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Romset found at %s\n", path);
 	}
+	else
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] No romset found at %s\n", path);
 }
 
 // This code is very confusing. The original code is even more confusing :(
@@ -764,7 +778,7 @@ static bool open_archive()
 		if (BurnDrvGetZipName(&rom_name, index))
 			continue;
 
-		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Archive: %s\n", rom_name);
+		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Searching all possible locations for romset %s\n", rom_name);
 
 		locate_archive(g_find_list_path, rom_name);
 	}

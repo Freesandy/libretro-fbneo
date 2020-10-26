@@ -58,6 +58,7 @@ bool allow_neogeo_mode = true;
 bool neogeo_use_specific_default_bios = false;
 bool bAllowDepth32 = false;
 bool bLightgunHideCrosshairEnabled = true;
+bool bPatchedRomsetsEnabled = true;
 UINT32 nVerticalMode = 0;
 UINT32 nFrameskip = 1;
 INT32 g_audio_samplerate = 48000;
@@ -155,6 +156,17 @@ static const struct retro_core_option_definition var_fbneo_hiscores = {
 	{
 		{ "disabled", "禁用" },
 		{ "enabled", "启用" },
+		{ NULL, NULL },
+	},
+	"enabled"
+};
+static const struct retro_core_option_definition var_fbneo_allow_patched_romsets = {
+	"fbneo-allow-patched-romsets",
+	"Allow patched romsets",
+	"Allow romsets from your system/fbneo/patched/ folder to override your romsets, crcs will be ignored but sizes and names must still match, you need to close content for this setting to take effect",
+	{
+		{ "disabled", NULL },
+		{ "enabled", NULL },
 		{ NULL, NULL },
 	},
 	"enabled"
@@ -532,6 +544,7 @@ void set_environment()
 	vars_systems.push_back(&var_fbneo_frameskip);
 	vars_systems.push_back(&var_fbneo_cpu_speed_adjust);
 	vars_systems.push_back(&var_fbneo_hiscores);
+	vars_systems.push_back(&var_fbneo_allow_patched_romsets);
 	if (nGameType != RETRO_GAME_TYPE_NEOCD)
 		vars_systems.push_back(&var_fbneo_samplerate);
 	vars_systems.push_back(&var_fbneo_sample_interpolation);
@@ -965,6 +978,15 @@ void check_variables(void)
 			EnableHiscores = true;
 		else
 			EnableHiscores = false;
+	}
+
+	var.key = var_fbneo_allow_patched_romsets.key;
+	if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var))
+	{
+		if (strcmp(var.value, "enabled") == 0)
+			bPatchedRomsetsEnabled = true;
+		else
+			bPatchedRomsetsEnabled = false;
 	}
 
 	if (nGameType != RETRO_GAME_TYPE_NEOCD)

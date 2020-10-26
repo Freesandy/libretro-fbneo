@@ -506,7 +506,7 @@ static int create_variables_from_cheats()
 		// Ignore "empty" cheats, they seem common in cheat bundles (as separators and/or hints ?)
 		int count = 0;
 		for (int i = 0; i < CHEAT_MAX_OPTIONS; i++) {
-			if(pCurrentCheat->pOption[i]->szOptionName == NULL) break;
+			if(pCurrentCheat->pOption[i] == NULL || pCurrentCheat->pOption[i]->szOptionName == NULL) break;
 			count++;
 		}
 		if (count > 0)
@@ -704,19 +704,22 @@ static void locate_archive(std::vector<located_archive>& pathList, const char* c
 {
 	static char path[MAX_PATH];
 
-	// Search system fbneo "patched" subdirectory
-	snprintf_nowarn(path, sizeof(path), "%s%cfbneo%cpatched%c%s", g_system_dir, path_default_slash_c(), path_default_slash_c(), path_default_slash_c(), romName);
-	if (ZipOpen(path) == 0)
+	if (bPatchedRomsetsEnabled)
 	{
-		g_find_list_path.push_back(located_archive());
-		located_archive *located = &g_find_list_path.back();
-		located->path = path;
-		located->ignoreCrc = true;
-		ZipClose();
-		HandleMessage(RETRO_LOG_INFO, "[FBNeo] Patched romset found at %s\n", path);
+		// Search system fbneo "patched" subdirectory
+		snprintf_nowarn(path, sizeof(path), "%s%cfbneo%cpatched%c%s", g_system_dir, path_default_slash_c(), path_default_slash_c(), path_default_slash_c(), romName);
+		if (ZipOpen(path) == 0)
+		{
+			g_find_list_path.push_back(located_archive());
+			located_archive *located = &g_find_list_path.back();
+			located->path = path;
+			located->ignoreCrc = true;
+			ZipClose();
+			HandleMessage(RETRO_LOG_INFO, "[FBNeo] Patched romset found at %s\n", path);
+		}
+		else
+			HandleMessage(RETRO_LOG_INFO, "[FBNeo] No patched romset found at %s\n", path);
 	}
-	else
-		HandleMessage(RETRO_LOG_INFO, "[FBNeo] No patched romset found at %s\n", path);
 	// Search rom dir
 	snprintf_nowarn(path, sizeof(path), "%s%c%s", g_rom_dir, path_default_slash_c(), romName);
 	if (ZipOpen(path) == 0)
@@ -822,7 +825,7 @@ static bool open_archive()
 			}
 
 			// Load patched romset if it exists
-			if (index < 0 && g_find_list_path[z].ignoreCrc)
+			if (index < 0 && g_find_list_path[z].ignoreCrc && bPatchedRomsetsEnabled)
 			{
 				index = find_rom_by_name(rom_name, list, count);
 				if (index >= 0)

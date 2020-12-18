@@ -4,19 +4,27 @@
 <datafile>
 	<header>
 		<name>FinalBurn Neo - FDS Games</name>
-		<description>FinalBurn Neo v0.2.97.44 FDS Games</description>
+		<description>FinalBurn Neo v1.0.0.01 FDS Games</description>
 		<category>Standard DatFile</category>
-		<version>0.2.97.44</version>
+		<version>1.0.0.01</version>
 		<author>FinalBurn Neo</author>
 		<homepage>https://neo-source.com/</homepage>
 		<url>https://neo-source.com/</url>
 		<clrmamepro forcenodump="ignore"/>
 	</header>
-	<game name="19neunzehn" romof="fdsbios">
+	<game name="19neunzehnj" cloneof="19neunzehn" romof="19neunzehn">
 		<description>19 - Neunzehn (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="19 - Neunzehn (Japan).fds" size="131016" crc="e6e06610"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="19neunzehn" romof="fdsbios">
+		<description>19 - Neunzehn (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="19 - Neunzehn (T-Eng).fds" size="131000" crc="da11432a"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -92,11 +100,19 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="armananokiseki" romof="fdsbios">
+	<game name="armananokisekij" cloneof="armananokiseki" romof="armananokiseki">
 		<description>Armana no Kiseki (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Armana no Kiseki (Japan).fds" size="131016" crc="0bad64a5"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="armananokiseki" romof="fdsbios">
+		<description>Armana no Kiseki (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Armana no Kiseki (T-Eng).fds" size="131000" crc="8b61e398"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -196,7 +212,7 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="dandy" romof="fdsbios">
+	<game name="dandyj" cloneof="dandy" romof="dandy">
 		<description>Dandy - Zeuon no Fukkatsu (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
@@ -204,11 +220,27 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="deadzone" romof="fdsbios">
+	<game name="dandy" romof="fdsbios">
+		<description>Dandy - Zeuon no Fukkatsu (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Dandy - Zeuon no Fukkatsu (T-Eng).fds" size="131000" crc="ee9bdc93"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="deadzonej" cloneof="deadzone" romof="deadzone">
 		<description>Dead Zone (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Dead Zone (Japan).fds" size="131000" crc="de673254"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="deadzone" romof="fdsbios">
+		<description>Dead Zone (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Dead Zone (T-Eng).fds" size="131000" crc="1bf2409a"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -228,11 +260,19 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="dirtypai" romof="fdsbios">
+	<game name="dirtypaij" cloneof="dirtypai" romof="dirtypai">
 		<description>Dirty Pair - Project Eden (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Dirty Pair - Project Eden (Japan).fds" size="131016" crc="0bba3177"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="dirtypai" romof="fdsbios">
+		<description>Dirty Pair - Project Eden (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Dirty Pair - Project Eden (T-Eng).fds" size="131000" crc="5707b40a"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -476,11 +516,19 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="gallfor" romof="fdsbios">
+	<game name="gallforj" cloneof="gallfor" romof="gallfor">
 		<description>Gall Force - Eternal Story (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Gall Force - Eternal Story (Japan).fds" size="131016" crc="51ef74fb"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="gallfor" romof="fdsbios">
+		<description>Gall Force - Eternal Story (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Gall Force - Eternal Story (T-Eng).fds" size="131000" crc="d66e007f"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -573,10 +621,10 @@
 		<driver status="good"/>
 	</game>
 	<game name="hikarshi" romof="fdsbios">
-		<description>Hikari Shinwa - Palthena no Kagami (Japan)</description>
+		<description>Hikari Shinwa - Palutena no Kagami (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
-		<rom name="Hikari Shinwa - Palthena no Kagami (Japan).fds" size="131016" crc="0c177561"/>
+		<rom name="Hikari Shinwa - Palutena no Kagami (Japan).fds" size="131000" crc="32516fcf"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -585,6 +633,22 @@
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Ice Hockey (Japan).fds" size="65516" crc="7bb390de"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="ishidouj" cloneof="ishidou" romof="ishidou">
+		<description>Ishidou (Japan)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Ishidou (Japan).fds" size="131000" crc="0c54a19e"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="ishidou" romof="fdsbios">
+		<description>Ishidou (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Ishidou (T-Eng).fds" size="131000" crc="ebfcf648"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -604,11 +668,19 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="kalinnotsurugi" romof="fdsbios">
+	<game name="kalinnotsurugij" cloneof="kalinnotsurugi" romof="kalinnotsurugi">
 		<description>Kalin no Tsurugi (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Kalin no Tsurugi (Japan).fds" size="131000" crc="c63a0059"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="kalinnotsurugi" romof="fdsbios">
+		<description>Kalin no Tsurugi (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Kalin no Tsurugi (T-Eng).fds" size="131000" crc="7825c974"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -648,7 +720,7 @@
 		<description>Kiki Kaikai - Dotou Hen (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
-		<rom name="Kiki Kaikai - Dotou Hen (Japan).fds" size="131016" crc="851c555b"/>
+		<rom name="Kiki Kaikai - Dotou Hen (Japan).fds" size="131000" crc="7f446c09"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -668,6 +740,22 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
+	<game name="knightmovej" cloneof="knightmove" romof="knightmove">
+		<description>Knight Move (Japan)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Knight Move (Japan).fds" size="65500" crc="6d365e2f"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="knightmove" romof="fdsbios">
+		<description>Knight Move (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Knight Move (T-Eng).fds" size="65500" crc="474b83c4"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
 	<game name="konamictennis" romof="fdsbios">
 		<description>Konamic Tennis (Japan)</description>
 		<year>1989?</year>
@@ -684,11 +772,19 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="linknobou" romof="fdsbios">
+	<game name="linknobouj" cloneof="linknobou" romof="linknobou">
 		<description>Link no Bouken - The Legend of Zelda 2 (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Link no Bouken - The Legend of Zelda 2 (Japan).fds" size="131016" crc="a118214f"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="linknobou" romof="fdsbios">
+		<description>Link no Bouken - The Legend of Zelda 2 (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Link no Bouken - The Legend of Zelda 2 (T-Eng).fds" size="131000" crc="359d3f2b"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -724,7 +820,7 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="meikyjiidab" romof="fdsbios">
+	<game name="meikyjiidabj" cloneof="meikyjiidab" romof="meikyjiidab">
 		<description>Meikyuu Jiin Dababa (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
@@ -732,11 +828,27 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="metroid" romof="fdsbios">
+	<game name="meikyjiidab" romof="fdsbios">
+		<description>Meikyuu Jiin Dababa (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Meikyuu Jiin Dababa (T-Eng).fds" size="131000" crc="4d13e6b7"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="metroidj" cloneof="metroid" romof="metroid">
 		<description>Metroid (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
-		<rom name="Metroid (Japan).fds" size="131016" crc="1b3ee73d"/>
+		<rom name="Metroid (Japan).fds" size="131000" crc="5e4f013d"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="metroid" romof="fdsbios">
+		<description>Metroid (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Metroid (T-Eng).fds" size="131000" crc="2711adba"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -756,11 +868,19 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="montyonrun" romof="fdsbios">
+	<game name="montyonrunj" cloneof="montyonrun" romof="montyonrun">
 		<description>Monty on the Run - Monty no Doki Doki Dai Dassou (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Monty on the Run - Monty no Doki Doki Dai Dassou (Japan).fds" size="131016" crc="bb7ab325"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="montyonrun" romof="fdsbios">
+		<description>Monty on the Run - Monty no Doki Doki Dai Dassou (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Monty on the Run - Monty no Doki Doki Dai Dassou (T-Eng).fds" size="131001" crc="d7242483"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -828,11 +948,19 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="puzzleboys" romof="fdsbios">
+	<game name="puzzleboysj" cloneof="puzzleboys" romof="puzzleboys">
 		<description>Puzzle Boys (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
-		<rom name="Puzzle Boys (Japan).fds" size="131016" crc="096dffe6"/>
+		<rom name="Puzzle Boys (Japan).fds" size="131000" crc="b9f22094"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="puzzleboys" romof="fdsbios">
+		<description>Puzzle Boys (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Puzzle Boys (T-Eng).fds" size="131000" crc="fa03eba9"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -892,11 +1020,19 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="seikepsy" romof="fdsbios">
+	<game name="seikepsyj" cloneof="seikepsy" romof="seikepsy">
 		<description>Seiken Psychocalibur - Majuu no Mori Densetsu (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Seiken Psychocalibur - Majuu no Mori Densetsu (Japan).fds" size="131000" crc="aea5691a"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="seikepsy" romof="fdsbios">
+		<description>Seiken Psychocalibur - Majuu no Mori Densetsu (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Seiken Psychocalibur - Majuu no Mori Densetsu (T-Eng).fds" size="131000" crc="1ec1552b"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -908,11 +1044,19 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="silvi" romof="fdsbios">
+	<game name="silvij" cloneof="silvi" romof="silvi">
 		<description>Silviana - Ai Ippai no Little Angel (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Silviana - Ai Ippai no Little Angel (Japan).fds" size="131016" crc="4d721d90"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="silvi" romof="fdsbios">
+		<description>Silviana - Ai Ippai no Little Angel (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Silviana - Ai Ippai no Little Angel (T-Eng).fds" size="131000" crc="c5b1bff7"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -1076,6 +1220,14 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
+	<game name="wintergames" romof="fdsbios">
+		<description>Winter Games (Japan)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Winter Games (Japan).fds" size="131000" crc="6ab5e1d6"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
 	<game name="wreckingcrew" romof="fdsbios">
 		<description>Wrecking Crew (Japan)</description>
 		<year>1989?</year>
@@ -1084,11 +1236,19 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="youkaiyashiki" romof="fdsbios">
+	<game name="youkaiyashikij" cloneof="youkaiyashiki" romof="youkaiyashiki">
 		<description>Youkai Yashiki (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Youkai Yashiki (Japan).fds" size="131016" crc="a888c6df"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="youkaiyashiki" romof="fdsbios">
+		<description>Youkai Yashiki (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Youkai Yashiki (T-Eng).fds" size="131000" crc="546589ab"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
@@ -1108,11 +1268,19 @@
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>
-	<game name="zeldanoden" romof="fdsbios">
+	<game name="zeldanodenj" cloneof="zeldanoden" romof="zeldanoden">
 		<description>Zelda no Densetsu - The Hyrule Fantasy (Japan)</description>
 		<year>1989?</year>
 		<manufacturer>Nintendo</manufacturer>
 		<rom name="Zelda no Densetsu - The Hyrule Fantasy (Japan).fds" size="131016" crc="3fbdddcd"/>
+		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
+		<driver status="good"/>
+	</game>
+	<game name="zeldanoden" romof="fdsbios">
+		<description>Zelda no Densetsu - The Hyrule Fantasy (T-Eng)</description>
+		<year>1989?</year>
+		<manufacturer>Nintendo</manufacturer>
+		<rom name="Zelda no Densetsu - The Hyrule Fantasy (T-Eng).fds" size="131016" crc="ee11aa63"/>
 		<rom name="fdsbios.nes" merge="fdsbios.nes" size="8192" crc="5e607dcf"/>
 		<driver status="good"/>
 	</game>

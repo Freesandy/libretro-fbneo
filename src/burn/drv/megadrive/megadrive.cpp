@@ -43,12 +43,6 @@
 #define MAX_CARTRIDGE_SIZE      0xc00000
 #define MAX_SRAM_SIZE           0x010000
 
-#if defined (__GNUC__) && defined (__LIBRETRO__)
-#define OPTIMIZE_ATTR __attribute__((optimize("O2")))
-#else
-#define OPTIMIZE_ATTR
-#endif
-
 // PicoDrive Sek interface
 static UINT64 SekCycleCnt, SekCycleAim, SekCycleCntDELTA, line_base_cycles;
 
@@ -174,7 +168,7 @@ struct MegadriveJoyPad {
 	TeamPlayer teamplayer[2]; // Sega "team player" 4 port adapter
 };
 
-static UINT8 *Mem = NULL, *MemEnd = NULL;
+static UINT8 *AllMem = NULL, *MemEnd = NULL;
 static UINT8 *RamStart, *RamEnd;
 
 static UINT8 *RomMain;
@@ -384,7 +378,7 @@ inline static void CalcCol(INT32 index, UINT16 nColour)
 
 static INT32 MemIndex()
 {
-	UINT8 *Next; Next = Mem;
+	UINT8 *Next; Next = AllMem;
 	RomMain 	= Next; Next += MAX_CARTRIDGE_SIZE;	// 68000 ROM, Max enough
 
 	RamStart	= Next;
@@ -408,7 +402,7 @@ static INT32 MemIndex()
 
 	MegadriveCurPal		= (UINT32 *) Next; Next += 0x000040 * sizeof(UINT32) * 4;
 
-	HighColFull	= Next; Next += (8 + 320 + 8) * 240 + 1;
+	HighColFull	= Next; Next += (8 + 320 + 8) * 240 + 1 + 3; // +3 alignment
 
 	LineBuf     = (UINT16 *) Next; Next += 320 * 320 * sizeof(UINT16); // palete-processed line-buffer (dink / for sonic mode)
 
@@ -2480,6 +2474,18 @@ static UINT16 __fastcall TopfigReadWord(UINT32 sekAddress)
 	return 0;
 }
 
+static UINT16 __fastcall _16ZhangReadWord(UINT32 sekAddress)
+{
+	if (sekAddress == 0x400004) return 0xc900;
+
+	return 0xffff;
+}
+
+static UINT8 __fastcall _16ZhangReadByte(UINT32 sekAddress)
+{
+	return _16ZhangReadWord(sekAddress) >> ((~sekAddress & 1) << 3);
+}
+
 static void __fastcall TopfigWriteByte(UINT32 /*sekAddress*/, UINT8 byteValue)
 {
 	if (byteValue == 0x002a)
@@ -2842,6 +2848,15 @@ static void SetupCustomCartridgeMappers()
 		SekClose();
 	}
 
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_16ZHANG) {
+		bprintf(0, _T("md 16zhang mapper\n"));
+		SekOpen(0);
+		SekMapHandler(7, 0x400000, 0x400004 | 0x3ff, MAP_READ);
+		SekSetReadByteHandler(7, _16ZhangReadByte);
+		SekSetReadWordHandler(7, _16ZhangReadWord);
+		SekClose();
+	}
+
 	switch ((BurnDrvGetHardwareCode() & 0xc0)) {
 		case HARDWARE_SEGA_MEGADRIVE_FOURWAYPLAY:
 			FourWayPlayMode = 1;
@@ -3142,7 +3157,7 @@ static void MegadriveSetupSRAM()
 		SekClose();
 	}
 
-	if (((BurnDrvGetHardwareCode() & 0xff) & HARDWARE_SEGA_MEGADRIVE_PCB_NBA_JAM) == HARDWARE_SEGA_MEGADRIVE_PCB_NBA_JAM) {
+	if ((BurnDrvGetHardwareCode() & 0xff) == HARDWARE_SEGA_MEGADRIVE_PCB_NBA_JAM) {
 		RamMisc->SRamHasSerialEEPROM = 1;
 		bprintf(PRINT_IMPORTANT, _T("Serial EEPROM, NBAJam.\n"));
 		EEPROM_init(2, 1, 0, 1, SRam);
@@ -3262,12 +3277,13 @@ static INT32 __fastcall MegadriveTAScallback(void)
 
 INT32 MegadriveInit()
 {
-	Mem = NULL;
-	MemIndex();
-	INT32 nLen = MemEnd - (UINT8 *)0;
-	if ((Mem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
-	memset(Mem, 0, nLen);
-	MemIndex();
+	BurnAllocMemIndex();
+
+	// unmapped cart-space must return 0xff -dink (Nov.27, 2020)
+	// Fido Dido (Prototype) goes into a weird debug mode in bonus stage #2
+	// if 0x645046 is 0x00 - making the game unplayable.
+
+	memset(RomMain, 0xff, MAX_CARTRIDGE_SIZE);
 
 	MegadriveLoadRoms(0);
 	if (MegadriveLoadRoms(1)) return 1;
@@ -3381,10 +3397,7 @@ INT32 MegadriveExit()
 	BurnMD2612Exit();
 	SN76496Exit();
 
-	if (Mem) {
-		BurnFree(Mem);
-		Mem = NULL;
-	}
+	BurnFreeMemIndex();
 
 	if (OriginalRom) {
 		BurnFree(OriginalRom);
@@ -3457,6 +3470,50 @@ static INT32 TileFlip(INT32 sx,INT32 addr,INT32 pal)
 		return 0;
 	}
 	return 1; // Tile blank
+}
+
+static INT32 TileNormRlim(INT32 sx,INT32 addr,INT32 pal,INT32 rlim)
+{
+	UINT8 *pd = HighCol+sx;
+	UINT32 pack=0;
+	UINT32 t=0;
+
+	pack = BURN_ENDIAN_SWAP_INT32(*(UINT32 *)(RamVid + addr)); // Get 8 pixels
+	if (pack) {
+		switch (rlim) {
+			case 7: t=pack&0x00f00000; if (t) pd[6]=(UINT8)(pal|(t>>20)); // no breaks!
+			case 6: t=pack&0x0f000000; if (t) pd[5]=(UINT8)(pal|(t>>24));
+			case 5: t=pack&0xf0000000; if (t) pd[4]=(UINT8)(pal|(t>>28));
+			case 4: t=pack&0x0000000f; if (t) pd[3]=(UINT8)(pal|(t    ));
+			case 3: t=pack&0x000000f0; if (t) pd[2]=(UINT8)(pal|(t>> 4));
+			case 2: t=pack&0x00000f00; if (t) pd[1]=(UINT8)(pal|(t>> 8));
+			case 1: t=pack&0x0000f000; if (t) pd[0]=(UINT8)(pal|(t>>12));
+		}
+		return 0;
+	}
+	return 1;
+}
+
+static INT32 TileFlipRlim(INT32 sx,INT32 addr,INT32 pal,INT32 rlim)
+{
+	UINT8 *pd = HighCol+sx;
+	UINT32 pack=0;
+	UINT32 t=0;
+
+	pack = BURN_ENDIAN_SWAP_INT32(*(UINT32 *)(RamVid + addr)); // Get 8 pixels
+	if (pack) {
+		switch (rlim) {
+			case 7: t=pack&0x00000f00; if (t) pd[6]=(UINT8)(pal|(t>> 8)); // no breaks!
+			case 6: t=pack&0x000000f0; if (t) pd[5]=(UINT8)(pal|(t>> 4));
+			case 5: t=pack&0x0000000f; if (t) pd[4]=(UINT8)(pal|(t    ));
+			case 4: t=pack&0xf0000000; if (t) pd[3]=(UINT8)(pal|(t>>28));
+			case 3: t=pack&0x0f000000; if (t) pd[2]=(UINT8)(pal|(t>>24));
+			case 2: t=pack&0x00f00000; if (t) pd[1]=(UINT8)(pal|(t>>20));
+			case 1: t=pack&0x000f0000; if (t) pd[0]=(UINT8)(pal|(t>>16));
+		}
+		return 0;
+	}
+	return 1;
 }
 
 // tile renderers for hacky operator sprite support
@@ -3904,7 +3961,7 @@ static void DrawWindow(INT32 tstart, INT32 tend, INT32 prio, INT32 sh)
 	//*hcache = 0;
 }
 
-static void DrawTilesFromCache(INT32 *hc, INT32 sh)
+static void DrawTilesFromCache(INT32 *hc, INT32 sh, INT32 rlim)
 {
 	INT32 code, addr, zero, dx;
 	INT32 pal;
@@ -3941,8 +3998,13 @@ static void DrawTilesFromCache(INT32 *hc, INT32 sh)
 
 		pal=((code>>9)&0x30);
 
-		if (code&0x0800) zero=TileFlip(dx,addr,pal);
-		else             zero=TileNorm(dx,addr,pal);
+		if (rlim - dx < 0) {
+			if (code&0x0800) zero=TileFlipRlim(dx,addr,pal,rlim-dx+8);
+			else             zero=TileNormRlim(dx,addr,pal,rlim-dx+8);
+		} else {
+			if (code&0x0800) zero=TileFlip(dx,addr,pal);
+			else             zero=TileNorm(dx,addr,pal);
+		}
 
 		if(zero) blank=(INT16)code;
 	}
@@ -4189,7 +4251,7 @@ static void DrawSpritesFromCache(INT32 *hc, INT32 sh)
 // Index + 0  :    hhhhvvvv ab--hhvv yyyyyyyy yyyyyyyy // a: offscreen h, b: offs. v, h: horiz. size
 // Index + 4  :    xxxxxxxx xxxxxxxx pccvhnnn nnnnnnnn // x: x coord + 8
 
-static void OPTIMIZE_ATTR PrepareSprites(INT32 full)
+static void PrepareSprites(INT32 full)
 {
 	INT32 u=0,link=0,sblocks=0;
 	INT32 table=0;
@@ -4424,14 +4486,14 @@ static INT32 DrawDisplay(INT32 sh)
 	if (nSpriteEnable & 1) DrawAllSprites(HighCacheS, maxw, 0, sh);
 
 	if(HighCacheB[0])
-		DrawTilesFromCache(HighCacheB, sh);
+		DrawTilesFromCache(HighCacheB, sh, maxw);
 	if(hvwind == 1)
 		DrawWindow(0, maxcells>>1, 1, sh);
 	else if(hvwind == 2) {
-		if(HighCacheA[0]) DrawTilesFromCache(HighCacheA, sh);
+		if(HighCacheA[0]) DrawTilesFromCache(HighCacheA, sh, (win&0x80) ? edge<<4 : maxw);
 		DrawWindow((win&0x80) ? edge : 0, (win&0x80) ? maxcells>>1 : edge, 1, sh);
 	} else
-		if(HighCacheA[0]) DrawTilesFromCache(HighCacheA, sh);
+		if(HighCacheA[0]) DrawTilesFromCache(HighCacheA, sh, maxw);
 	if (nSpriteEnable & 2) DrawAllSprites(HighCacheS, maxw, 1, sh);
 
 	return 0;
@@ -4554,7 +4616,7 @@ INT32 MegadriveDraw()
 #define CYCLES_M68K_VINT_LAG  68
 #define CYCLES_M68K_ASD      148
 
-INT32 OPTIMIZE_ATTR MegadriveFrame()
+INT32 MegadriveFrame()
 {
 	if (MegadriveReset) {
 		MegadriveResetDo();

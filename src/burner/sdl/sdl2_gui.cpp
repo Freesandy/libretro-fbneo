@@ -5,7 +5,6 @@
 
 extern char videofiltering[3];
 
-static SDL_Window* sdlWindow = NULL;
 static SDL_Renderer* sdlRenderer = NULL;
 
 static SDL_Texture* titleTexture = NULL;
@@ -776,9 +775,14 @@ void gui_init()
 	sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (sdlRenderer == NULL)
 	{
-		// In the case that the window could not be made...
-		printf("Could not create renderer: %s\n", SDL_GetError());
-		return;
+		// failed back to SOFTWARE renderer
+		sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_SOFTWARE);	
+		if (sdlRenderer == NULL)
+		{
+			// In the case that the window could not be made...
+			printf("Could not create renderer: %s\n", SDL_GetError());
+			return;
+		}
 	}
 	if (bIntegerScale)
 	{
@@ -1006,10 +1010,17 @@ int gui_process()
 					findPrevLetter();
 					break;
 				case SDLK_RETURN:
-					nBurnDrvActive = gametoplay;
-					if (gameAv[nBurnDrvActive])
+					if (e.key.keysym.mod & KMOD_ALT) 
 					{
-						return gametoplay;
+						SetFullscreen(!GetFullscreen());
+					} 
+					else 
+					{
+						nBurnDrvActive = gametoplay;
+						if (gameAv[nBurnDrvActive])
+						{
+							return gametoplay;
+						}
 					}
 					break;
 				case SDLK_F1:

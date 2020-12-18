@@ -4,9 +4,9 @@
 <datafile>
 	<header>
 		<name>FinalBurn Neo - Game Gear Games</name>
-		<description>FinalBurn Neo v0.2.97.44 Game Gear Games</description>
+		<description>FinalBurn Neo v1.0.0.01 Game Gear Games</description>
 		<category>Standard DatFile</category>
-		<version>0.2.97.44</version>
+		<version>1.0.0.01</version>
 		<author>FinalBurn Neo</author>
 		<homepage>https://neo-source.com/</homepage>
 		<url>https://neo-source.com/</url>
@@ -1559,7 +1559,7 @@
 		<rom name="head buster (japan).bin" size="131072" crc="7e689995"/>
 		<driver status="good"/>
 	</game>
-	<game name="heavyw">
+	<game name="heavyw" cloneof="georgeko" romof="georgeko">
 		<description>Heavy Weight Champ (Jpn)</description>
 		<year>1991</year>
 		<manufacturer>SIMS</manufacturer>

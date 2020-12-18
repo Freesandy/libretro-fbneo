@@ -827,19 +827,20 @@ struct BurnDriver BurnDrvOrlegend112e = {
 // Oriental Legend / Xi Yo Gi Shi Re Zuang (V112, China)
 
 static struct BurnRomInfo orlegend112cRomDesc[] = {
-	{ "p0101.160",					0x0200000, 0xb24f0c1e, 1 | BRF_PRG | BRF_ESS },	//  0 68K Code
+	{ "pgm_p0101.u2",			    0x0200000, 0xb24f0c1e, 1 | BRF_PRG | BRF_ESS },	//  0 68K Code
 
 	{ "pgm_t0100.u8",				0x0400000, 0x61425e1e, 2 | BRF_GRA },			//  1 Tile data
 
-	{ "pgm_a0100.u5",				0x0400000, 0x8b3bd88a, 3 | BRF_GRA },			//  2 Sprite Color Data
-	{ "pgm_a0101.u6",				0x0400000, 0x3b9e9644, 3 | BRF_GRA },			//  3	  
-	{ "pgm_a0102.u7",				0x0400000, 0x069e2c38, 3 | BRF_GRA },			//  4
-	{ "pgm_a0103.u8",				0x0400000, 0x4460a3fd, 3 | BRF_GRA },			//  5
-	{ "pgm_a0104.u11",				0x0400000, 0x5f8abb56, 3 | BRF_GRA },			//  6
-	{ "pgm_a0105.u12",				0x0400000, 0xa17a7147, 3 | BRF_GRA },			//  7
+	/* Different labels comparing to others sets except for PGM B0102 in U15 and PGM M0100 in U1; it probably needs to be dumped */
+	{ "pgm_a0100-1.u5",				0x0400000, 0x8b3bd88a, 3 | BRF_GRA },			//  2 Sprite Color Data
+	{ "pgm_a0101-1.u6",				0x0400000, 0x3b9e9644, 3 | BRF_GRA },			//  3	  
+	{ "pgm_a0102-1.u7",				0x0400000, 0x069e2c38, 3 | BRF_GRA },			//  4
+	{ "pgm_a0103-1.u8",				0x0400000, 0x4460a3fd, 3 | BRF_GRA },			//  5
+	{ "pgm_a0104-1.u11",			0x0400000, 0x5f8abb56, 3 | BRF_GRA },			//  6
+	{ "pgm_a0105-1.u12",			0x0400000, 0xa17a7147, 3 | BRF_GRA },			//  7
 
-	{ "pgm_b0100.u9",				0x0400000, 0x69d2e48c, 4 | BRF_GRA },			//  8 Sprite Masks & Color Indexes
-	{ "pgm_b0101.u10",				0x0400000, 0x0d587bf3, 4 | BRF_GRA },			//  9
+	{ "pgm_b0100-1.u9",				0x0400000, 0x69d2e48c, 4 | BRF_GRA },			//  8 Sprite Masks & Color Indexes
+	{ "pgm_b0101-1.u10",			0x0400000, 0x0d587bf3, 4 | BRF_GRA },			//  9
 	{ "pgm_b0102.u15",				0x0400000, 0x43823c1e, 4 | BRF_GRA },			// 10
 	
 	{ "pgm_m0100.u1",				0x0200000, 0xe5c36c83, 5 | BRF_SND },			// 11 Samples
@@ -6058,7 +6059,7 @@ struct BurnDriver BurnDrvThegladpcba = {
 // Demon Front (VM107KR, S106KR, S101KR, Korea, Single PCB Version)
 
 static struct BurnRomInfo dmnfrntpcbRomDesc[] = {
-	{ "v107kr_u43.u43",				0x0200000, 0x671d8a31, 1 | BRF_PRG | BRF_ESS },  //  0 68K Code
+	{ "demonfront_v107kr_u43.u43",	0x0200000, 0x671d8a31, 1 | BRF_PRG | BRF_ESS },  //  0 68K Code
 
 	{ "igs_t04501w064.u71",			0x0800000, 0x900eaaac, 2 | BRF_GRA },			 //  1 Tile data
 
@@ -6073,7 +6074,7 @@ static struct BurnRomInfo dmnfrntpcbRomDesc[] = {
 
 	{ "dmnfrnt_igs027a.bin",		0x0004000, 0x00000000, 7 | BRF_PRG | BRF_ESS | BRF_NODUMP },  //  8 Internal ARM7 Rom
 
-	{ "v107kr_u62.u62",				0x0400000, 0xcb94772e, 8 | BRF_PRG | BRF_ESS },	 //  9 External ARM7 Rom
+	{ "demonfront_v107kr_u62.u62",	0x0400000, 0xcb94772e, 8 | BRF_PRG | BRF_ESS },	 //  9 External ARM7 Rom
 };
 
 STDROMPICKEXT(dmnfrntpcb, dmnfrntpcb, dmnfrntBIOS) // custom bios
@@ -7501,10 +7502,10 @@ struct BurnDriver BurnDrvkov2pshpd = {
 
 // Oriental Legend Special / Da Sheng Gui Lai (Hack)
 // Hacked by XIAOYUER
-// GOTVG 20201009
+// GOTVG 20201123
 
 static struct BurnRomInfo oldsdsglRomDesc[] = {
-	{ "dsgl_p0500_v100.u24",	0x0400000, 0x9db0d56b, 1 | BRF_PRG | BRF_ESS }, //  0 68K Code
+	{ "dsgl_p0500_v100.u24",	0x0400000, 0x575bc7eb, 1 | BRF_PRG | BRF_ESS }, //  0 68K Code
 
 	{ "dsgl_t0500.u18",			0x0400000, 0x434ddae8, 2 | BRF_GRA },			//  1 Tile data
 	{ "pgm_t0501.u19",			0x0200000, 0xd2106864, 2 | BRF_GRA },			//  2
@@ -7535,7 +7536,7 @@ STDROMPICKEXT(oldsdsgl, oldsdsgl, pgm)
 STD_ROM_FN(oldsdsgl)
 
 struct BurnDriver BurnDrvoldsdsgl = {
-	"oldsdsgl", "olds", "pgm", NULL, "2020-10-09",
+	"oldsdsgl", "olds", "pgm", NULL, "2020-11-23",
 	"Oriental Legend Special - Da Sheng Gui Lai (Hack)\0", NULL, "Hack", "PolyGameMaster",
 	L"Oriental Legend Super - Da Sheng Gui Lai (Hack)\0\u897f\u884c\u5e73\u5996\u8a18 - \u5927\u8056\u6b78\u4f86 (\u4fee\u6539\u7248)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 4, HARDWARE_IGS_PGM, GBF_SCRFIGHT, 0,

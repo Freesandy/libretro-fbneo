@@ -138,6 +138,8 @@ bool AlienSyndrome = false;
 bool HammerAway = false;
 bool Lockonph = false;
 bool AltbeastMode = false;
+bool ThndrbldMode = false;
+bool TturfMode = false;
 bool System16Z80Enable = true;
 bool System1668KEnable = true;
 
@@ -532,7 +534,6 @@ void __fastcall System16Z80PortWrite(UINT16 a, UINT8 d)
 					if (!(d & 0x10)) UPD7759BankAddress = 0x20000;
 					if (!(d & 0x20)) UPD7759BankAddress = 0x30000;
 					UPD7759BankAddress += (d & 0x03) * 0x4000;
-					
 				}
 				
 				if (((BurnDrvGetHardwareCode() & HARDWARE_SEGA_PCB_MASK) == HARDWARE_SEGA_5521) || ((BurnDrvGetHardwareCode() & HARDWARE_SEGA_PCB_MASK) == HARDWARE_SEGA_5704) || ((BurnDrvGetHardwareCode() & HARDWARE_SEGA_PCB_MASK) == HARDWARE_SEGA_5704_PS2)) {
@@ -1167,7 +1168,11 @@ INT32 System16LoadRoms(bool bLoad)
 			System16Z80RomNum += System16RF5C68DataNum;
 			System16Z80RomSize = 0x210000;
 		}
-		
+
+		if (TturfMode) { // Japan version only!
+			System16UPD7759DataSize += 0x10000;
+		}
+
 #if 1 && defined FBNEO_DEBUG	
 		bprintf(PRINT_NORMAL, _T("68K Rom Size: 0x%X (%i roms)\n"), System16RomSize, System16RomNum);
 		if (System16Rom2Size) bprintf(PRINT_NORMAL, _T("68K #2 Rom Size: 0x%X (%i roms)\n"), System16Rom2Size, System16Rom2Num);
@@ -2642,6 +2647,8 @@ INT32 System16Exit()
 	HammerAway = false;
 	Lockonph = false;
 	AltbeastMode = false;
+	ThndrbldMode = false;
+	TturfMode = false;
 	System1668KEnable = true;
 	System16Z80Enable = true;
 
@@ -2733,9 +2740,17 @@ INT32 System16Exit()
 Frame Functions
 ====================================================*/
 
+void sys16_sync_mcu()
+{
+	INT32 todo = ((double)SekTotalCycles() * (8000000/12) / 10000000) - mcs51TotalCycles();
+	if (todo > 0) {
+		mcs51Run(todo);
+	}
+}
+
 INT32 System16AFrame()
 {
-	INT32 nInterleave = 100; // alien syndrome needs high interleave for the DAC sounds to be processed
+	INT32 nInterleave = 262; // alien syndrome needs high interleave for the DAC sounds to be processed
 	
 	if (System16Reset) System16DoReset();
 
@@ -2751,7 +2766,8 @@ INT32 System16AFrame()
 
 	SekNewFrame();
 	ZetNewFrame();
-	I8039NewFrame();
+	I8039NewFrame(); // dac?
+	mcs51NewFrame(); // prot mcu
 
 	SekOpen(0);
 
@@ -2793,14 +2809,17 @@ INT32 System16AFrame()
 			nCyclesSegment = nNext - nSystem16CyclesDone[nCurrentCPU];
 			nSystem16CyclesDone[nCurrentCPU] += mcs51Run(nCyclesSegment);
 			
-			if (i == (nInterleave - 1)) {
+			if (i == 224) { // irq must be open duration of vblank (testcase: quartet, missing trapdoor @ beginning of level 15)
 				mcs51_set_irq_line(MCS51_INT0_LINE, CPU_IRQSTATUS_ACK);
+			}
+
+			if (i == nInterleave - 1) {
 				mcs51_set_irq_line(MCS51_INT0_LINE, CPU_IRQSTATUS_NONE);
 			}
 		}
 
-		if (pBurnSoundOut) {
-			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
+		if (pBurnSoundOut && i&1) {
+			INT32 nSegmentLength = nBurnSoundLen / (nInterleave / 2);
 			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
 
 			ZetOpen(0);
@@ -3359,6 +3378,10 @@ INT32 XBoardFrame()
 			ZetClose();
 		}
 
+		if (i == 0 && ThndrbldMode && pBurnDraw) {
+			XBoardRender();
+		}
+
 		if (pBurnSoundOut) {
 			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
 			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
@@ -3384,7 +3407,7 @@ INT32 XBoardFrame()
 		}
 	}
 
-	if (pBurnDraw) {
+	if (pBurnDraw && ThndrbldMode == false) {
 		XBoardRender();
 	}
 

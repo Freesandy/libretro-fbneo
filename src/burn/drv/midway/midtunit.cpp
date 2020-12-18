@@ -992,6 +992,7 @@ INT32 TUnitInit()
 
 	TMS34010MapReset();
 	TMS34010Init();
+	TMS34010TimerSetCB(TUnitDmaCallback);
 
 	TMS34010SetScanlineRender(ScanlineRender);
 	TMS34010SetToShift(TUnitToShift);
@@ -1194,17 +1195,7 @@ INT32 TUnitDraw()
 
 static void HandleDCSIRQ(INT32 line)
 {
-	if (nBurnFPS == 6000) {
-		// 60hz needs 2 irq's/frame (this is here for "force 60hz"/etc)
-		if (line == 0 || line == 144) DcsIRQ(); // 2x per frame
-	} else {
-		// 54.71hz needs 5 irq's every 2 frames
-		if (nCurrentFrame & 1) {
-			if (line == 0 || line == 144) DcsIRQ(); // 2x per frame
-		} else {
-			if (line == 0 || line == 96 || line == 192) DcsIRQ(); // 3x
-		}
-	}
+	if (line == 0 || line == 96 || line == 192) DcsCheckIRQ(); // 3x
 }
 
 INT32 TUnitFrame()
@@ -1230,7 +1221,7 @@ INT32 TUnitFrame()
 	if (nSoundType == SOUND_ADPCM) M6809Open(0);
 
 	for (INT32 i = 0; i < nInterleave; i++) {
-		nCyclesDone[0] += TMS34010Run((nCyclesTotal[0] * (i + 1) / nInterleave) - nCyclesDone[0]);
+		CPU_RUN(0, TMS34010);
 
 		TMS34010GenerateScanline(i);
 
@@ -1281,7 +1272,7 @@ INT32 TUnitFrame()
 	}
 
 	// Buffering palette for 1 frame, fix mk2 palette glitch in intro fadeouts
-	memcpy(DrvPaletteB2,DrvPaletteB,0x8000);
+	memcpy(DrvPaletteB2, DrvPaletteB, 0x8000 * sizeof(UINT32));
 
 	return 0;
 }

@@ -7848,6 +7848,45 @@ struct BurnDriver BurnDrvtg_rtype = {
 	&PCEPaletteRecalc, 0x400, 512, 240, 4, 3
 };
 
+// R-Type - Chris Covell's Unfinished SGX Hack
+// https://www.chrismcovell.com/creations.html#courrtype
+
+static struct BurnRomInfo sgx_rtypeuhRomDesc[] = {
+	{ "r-type (unfinished hack).sgx", 0x080000, 0xcdc9bb74, BRF_PRG | BRF_ESS },
+};
+
+STD_ROM_PICK(sgx_rtypeuh)
+STD_ROM_FN(sgx_rtypeuh)
+
+struct BurnDriver BurnDrvsgx_rtypeuh = {
+	"sgx_rtypeuh", NULL, NULL, NULL, "2019",
+	"R-Type - Chris Covell's Unfinished SGX Hack\0", NULL, "NEC", "SuperGrafx",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING, 5, HARDWARE_PCENGINE_SGX, GBF_MISC, 0,
+	SgxGetZipName, sgx_rtypeuhRomInfo, sgx_rtypeuhRomName, NULL, NULL, NULL, NULL, pceInputInfo, pceDIPInfo,
+	SGXInit, PCEExit, PCEFrame, PCEDraw, PCEScan,
+	&PCEPaletteRecalc, 0x400, 512, 240, 4, 3
+};
+
+// RTA2 - Homebrew conversion of RTA2, bonus game present on Revivel Chase CD
+// https://www.gamopat-forum.com/t86439-rt2a-sur-supergrafx
+
+static struct BurnRomInfo sgx_rta2RomDesc[] = {
+	{ "rta2.sgx", 0x028200, 0x4a4db3da, BRF_PRG | BRF_ESS },
+};
+
+STD_ROM_PICK(sgx_rta2)
+STD_ROM_FN(sgx_rta2)
+
+struct BurnDriver BurnDrvsgx_rta2 = {
+	"sgx_rta2", NULL, NULL, NULL, "2016",
+	"RTA2 - Homebrew conversion of RTA2\0", NULL, "REVIVAL GAMES", "SuperGrafx",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING, 5, HARDWARE_PCENGINE_SGX, GBF_MISC, 0,
+	SgxGetZipName, sgx_rta2RomInfo, sgx_rta2RomName, NULL, NULL, NULL, NULL, pceInputInfo, pceDIPInfo,
+	SGXInit, PCEExit, PCEFrame, PCEDraw, PCEScan,
+	&PCEPaletteRecalc, 0x400, 512, 240, 4, 3
+};
 
 // Raiden
 
@@ -8782,3 +8821,78 @@ struct BurnDriver BurnDrvpce_mikkokue = {
 	&PCEPaletteRecalc, 0x400, 512, 240, 4, 3
 };
 
+// Nantettatte Engine
+
+static struct BurnRomInfo pce_nantetRomDesc[] = {
+	{ "Nantettatte Engine.pce", 0x040000, 0x3974fb41, BRF_PRG | BRF_ESS },
+};
+
+STD_ROM_PICK(pce_nantet)
+STD_ROM_FN(pce_nantet)
+
+struct BurnDriver BurnDrvpce_nantet = {
+	"pce_nantet", NULL, NULL, NULL, "2017",
+	"Nantettatte Engine\0", NULL, "Atherbyte", "PC Engine",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING, 5, HARDWARE_PCENGINE_PCENGINE, GBF_MISC, 0,
+	PceGetZipName, pce_nantetRomInfo, pce_nantetRomName, NULL, NULL, NULL, NULL, pceInputInfo, pceDIPInfo,
+	PCEInit, PCEExit, PCEFrame, PCEDraw, PCEScan,
+	&PCEPaletteRecalc, 0x400, 512, 240, 4, 3
+};
+
+// Tongueman's Logic
+
+static struct BurnRomInfo pce_tonguemanRomDesc[] = {
+	{ "Tongueman's Logic (FINAL 1.0).pce", 0x080000, 0xfe451c22, BRF_PRG | BRF_ESS },
+};
+
+STD_ROM_PICK(pce_tongueman)
+STD_ROM_FN(pce_tongueman)
+
+struct BurnDriver BurnDrvpce_tongueman = {
+	"pce_tongueman", NULL, NULL, NULL, "2007",
+	"Tongueman's Logic\0", NULL, "Chris Covell", "PC Engine",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING, 5, HARDWARE_PCENGINE_PCENGINE, GBF_MISC, 0,
+	PceGetZipName, pce_tonguemanRomInfo, pce_tonguemanRomName, NULL, NULL, NULL, NULL, pceInputInfo, pceDIPInfo,
+	PCEInit, PCEExit, PCEFrame, PCEDraw, PCEScan,
+	&PCEPaletteRecalc, 0x400, 512, 240, 4, 3
+};
+
+// HuZERO
+
+static struct BurnRomInfo pce_huzeroRomDesc[] = {
+	{ "HuZERO_by_Chris_Covell.pce", 0x040000, 0x2871c4c0, BRF_PRG | BRF_ESS },
+};
+
+STD_ROM_PICK(pce_huzero)
+STD_ROM_FN(pce_huzero)
+
+struct BurnDriver BurnDrvpce_huzero = {
+	"pce_huzero", NULL, NULL, NULL, "2014",
+	"HuZERO\0", NULL, "Chris Covell", "PC Engine",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING, 5, HARDWARE_PCENGINE_PCENGINE, GBF_MISC, 0,
+	PceGetZipName, pce_huzeroRomInfo, pce_huzeroRomName, NULL, NULL, NULL, NULL, pceInputInfo, pceDIPInfo,
+	PCEInit, PCEExit, PCEFrame, PCEDraw, PCEScan,
+	&PCEPaletteRecalc, 0x400, 512, 240, 4, 3
+};
+
+// Off the Wall (Prototype)
+
+static struct BurnRomInfo pce_offthewallRomDesc[] = {
+	{ "Off the Wall [Proto 1].pce", 0x080200, 0x40f04a7c, BRF_PRG | BRF_ESS },
+};
+
+STD_ROM_PICK(pce_offthewall)
+STD_ROM_FN(pce_offthewall)
+
+struct BurnDriver BurnDrvpce_offthewall = {
+	"pce_offthewall", NULL, NULL, NULL, "1992",
+	"Off the Wall (Prototype)\0", NULL, "Tengen/Atari", "PC Engine",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING, 5, HARDWARE_PCENGINE_PCENGINE, GBF_MISC, 0,
+	PceGetZipName, pce_offthewallRomInfo, pce_offthewallRomName, NULL, NULL, NULL, NULL, pceInputInfo, pceDIPInfo,
+	PCEInit, PCEExit, PCEFrame, PCEDraw, PCEScan,
+	&PCEPaletteRecalc, 0x400, 512, 240, 4, 3
+};

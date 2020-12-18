@@ -127,6 +127,8 @@ static UINT8 *dmc_buffer;
 INT16 *nes_ext_buffer;
 INT16 (*nes_ext_sound_cb)();
 
+static const INT32 *dpcm_clocks;
+
 static int8 apu_dpcm(struct nesapu_info *info, dpcm_t *chan);
 
 void nesapu_runclock(INT32 cycle)
@@ -819,7 +821,9 @@ static void apu_update(struct nesapu_info *info)
 		INT32 dmc = dmc_buffer[dmcoffs];
 		INT32 ext = nes_ext_buffer[dmcoffs];
 
-		INT32 out = (INT32)(((float)info->tnd_table[3*triangle + 2*noise + dmc] +
+		// dink nov7,2020: note, supposed to be 2*noise, but shot doesn't sound right in kid icarus.
+
+		INT32 out = (INT32)(((float)info->tnd_table[3*triangle + 1*noise + dmc] +
 							  info->square_table[square1 + square2] + info->square_table[square3 + square4]) * 0x2fff);
 
 		if (~nesapu_mixermode & MIXER_APU) out = 0;
@@ -1018,6 +1022,9 @@ void nesapuInit(INT32 chip, INT32 clock, INT32 is_pal, UINT32 (*pSyncCallback)(I
 
 	/* Initialize global variables */
 	cycles_per_frame = (is_pal) ? 33248 : 29781;
+
+	dpcm_clocks = &dpcm_freq[(is_pal) ? 1 : 0][0];
+
 	info->samps_per_sync = 7445; //(rate * 100) / nBurnFPS;
 	info->buffer_size = info->samps_per_sync;
 	info->real_rate = (info->samps_per_sync * nBurnFPS) / 100;

@@ -16,7 +16,6 @@
 
 #include <streams/file_stream.h>
 
-#define FBNEO_VERSION "v0.2.97.44"
 #define snprintf_nowarn(...) (snprintf(__VA_ARGS__) < 0 ? abort() : (void)0)
 #define PRINTF_BUFFER_SIZE 512
 
@@ -79,6 +78,26 @@ INT32 nAudSegLen = 0;
 static UINT8* pVidImage = NULL;
 static bool bVidImageNeedRealloc = false;
 static int16_t *g_audio_buf = NULL;
+
+// Frameskipping v2 Support
+#define FRAMESKIP_MAX 30
+
+UINT32 nFrameskipType                      = 0;
+UINT32 nFrameskipThreshold                 = 0;
+static UINT32 nFrameskipCounter            = 0;
+static UINT32 nAudioLatency                = 0;
+static bool bUpdateAudioLatency            = false;
+
+static bool retro_audio_buff_active        = false;
+static unsigned retro_audio_buff_occupancy = 0;
+static bool retro_audio_buff_underrun      = false;
+
+static void retro_audio_buff_status_cb(bool active, unsigned occupancy, bool underrun_likely)
+{
+	retro_audio_buff_active    = active;
+	retro_audio_buff_occupancy = occupancy;
+	retro_audio_buff_underrun  = underrun_likely;
+}
 
 // Mapping of PC inputs to game inputs
 struct GameInp* GameInp = NULL;
@@ -255,14 +274,20 @@ extern unsigned int (__cdecl *BurnHighCol) (signed int r, signed int g, signed i
 
 void retro_get_system_info(struct retro_system_info *info)
 {
+	char *library_version = (char*)calloc(22, sizeof(char));
+
+	sprintf(library_version, "v%x.%x.%x.%02x %s", nBurnVer >> 20, (nBurnVer >> 16) & 0x0F, (nBurnVer >> 8) & 0xFF, nBurnVer & 0xFF, GIT_VERSION);
+
 	info->library_name = APP_TITLE;
 #ifndef GIT_VERSION
 #define GIT_VERSION ""
 #endif
-	info->library_version = FBNEO_VERSION GIT_VERSION;
+	info->library_version = strdup(library_version);
 	info->need_fullpath = true;
 	info->block_extract = true;
 	info->valid_extensions = "zip|7z|cue|ccd";
+
+	free(library_version);
 }
 
 static void InpDIPSWGetOffset (void)
@@ -577,14 +602,14 @@ void Reinitialise(void)
 	nNextGeometryCall = RETRO_ENVIRONMENT_SET_GEOMETRY;
 }
 
-static void ForceFrameStep(int bDraw)
+static void ForceFrameStep(bool bSkip)
 {
 #ifdef FBNEO_DEBUG
 	nFramesEmulated++;
 #endif
 	nCurrentFrame++;
 
-	if (!bDraw)
+	if (bSkip)
 		pBurnDraw = NULL;
 #ifdef FBNEO_DEBUG
 	else
@@ -1022,6 +1047,18 @@ void retro_init()
 #ifdef AUTOGEN_DATS
 	CreateAllDatfiles();
 #endif
+
+	nFrameskipType             = 0;
+	nFrameskipThreshold        = 0;
+	nFrameskipCounter          = 0;
+	nAudioLatency              = 0;
+	bUpdateAudioLatency        = false;
+	retro_audio_buff_active    = false;
+	retro_audio_buff_occupancy = 0;
+	retro_audio_buff_underrun  = false;
+
+	// Check RETRO_ENVIRONMENT_SET_AUDIO_BUFFER_STATUS_CALLBACK support
+	bLibretroSupportsAudioBuffStatus = environ_cb(RETRO_ENVIRONMENT_SET_AUDIO_BUFFER_STATUS_CALLBACK, NULL);
 }
 
 void retro_deinit()
@@ -1054,10 +1091,57 @@ void retro_run()
 {
 	pBurnDraw = pVidImage;
 	bDisableSerialize = 0;
+	bool bSkipFrame = false;
 
 	InputMake();
 
-	ForceFrameStep(nCurrentFrame % nFrameskip == 0);
+	// Check whether current frame should be skipped
+	if ((nFrameskipType > 0) && retro_audio_buff_active)
+	{
+		switch (nFrameskipType)
+		{
+			case 1:
+				bSkipFrame = retro_audio_buff_underrun;
+			break;
+			case 2:
+				bSkipFrame = (retro_audio_buff_occupancy < nFrameskipThreshold);
+			break;
+		}
+
+		if (!bSkipFrame || nFrameskipCounter >= FRAMESKIP_MAX)
+		{
+			bSkipFrame        = false;
+			nFrameskipCounter = 0;
+		}
+		else
+			nFrameskipCounter++;
+	}
+	else if (!bLibretroSupportsAudioBuffStatus)
+		bSkipFrame = !(nCurrentFrame % nFrameskip == 0);
+
+	// if frameskip settings have changed, update frontend audio latency
+	if (bUpdateAudioLatency)
+	{
+		if (nFrameskipType > 0)
+		{
+			float frame_time_msec = 100000.0f / nBurnFPS;
+			nAudioLatency = (UINT32)((6.0f * frame_time_msec) + 0.5f);
+			nAudioLatency = (nAudioLatency + 0x1F) & ~0x1F;
+
+			struct retro_audio_buffer_status_callback buf_status_cb;
+			buf_status_cb.callback = retro_audio_buff_status_cb;
+			environ_cb(RETRO_ENVIRONMENT_SET_AUDIO_BUFFER_STATUS_CALLBACK, &buf_status_cb);
+		}
+		else
+		{
+			nAudioLatency = 0;
+			environ_cb(RETRO_ENVIRONMENT_SET_AUDIO_BUFFER_STATUS_CALLBACK, NULL);
+		}
+		environ_cb(RETRO_ENVIRONMENT_SET_MINIMUM_AUDIO_LATENCY, &nAudioLatency);
+		bUpdateAudioLatency = false;
+	}
+
+	ForceFrameStep(bSkipFrame);
 
 	audio_batch_cb(g_audio_buf, nBurnSoundLen);
 	bool updated = false;
@@ -1079,6 +1163,7 @@ void retro_run()
 	{
 		neo_geo_modes old_g_opt_neo_geo_mode = g_opt_neo_geo_mode;
 		UINT32 old_nVerticalMode = nVerticalMode;
+		UINT32 old_nFrameskipType = nFrameskipType;
 
 		check_variables();
 
@@ -1101,6 +1186,9 @@ void retro_run()
 			// Readahead randomly crashes the core when switching bios
 			bDisableSerialize = 1;
 		}
+
+		if (old_nFrameskipType != nFrameskipType)
+			bUpdateAudioLatency = true;
 	}
 }
 
@@ -1202,6 +1290,12 @@ bool retro_unserialize(const void *data, size_t size)
 	SCAN_VAR(nCurrentFrame);
 	BurnAreaScan(ACB_FULLSCAN | ACB_WRITE, 0);
 	BurnRecalcPal();
+#if 0
+	// Used to convert the libretro savestate we are loading into a savestate compatible with standalone
+	char convert_save_path[MAX_PATH];
+	snprintf_nowarn (convert_save_path, sizeof(convert_save_path), "%s%cfbneo%c%s.save", g_save_dir, path_default_slash_c(), path_default_slash_c(), BurnDrvGetTextA(DRV_NAME));
+	BurnStateSave(convert_save_path, 1);
+#endif
 	return true;
 }
 
@@ -1582,10 +1676,12 @@ static bool retro_load_game_common()
 
 		// Define nMaxPlayers early;
 		nMaxPlayers = BurnDrvGetMaxPlayers();
-		SetControllerInfo();
 
 		// Initialize inputs
 		InputInit();
+
+		// Calling RETRO_ENVIRONMENT_SET_CONTROLLER_INFO after RETRO_ENVIRONMENT_SET_INPUT_DESCRIPTORS shouldn't hurt ?
+		SetControllerInfo();
 
 		// Initialize dipswitches
 		create_variables_from_dipswitches();
@@ -1599,6 +1695,9 @@ static bool retro_load_game_common()
 
 		set_environment();
 		check_variables();
+
+		if (nFrameskipType > 0)
+			bUpdateAudioLatency = true;
 
 #ifdef USE_CYCLONE
 		SetSekCpuCore();
@@ -1704,7 +1803,7 @@ bool retro_load_game(const struct retro_game_info *info)
 	extract_directory(g_rom_dir, info->path, sizeof(g_rom_dir));
 	extract_basename(g_rom_parent_dir, g_rom_dir, sizeof(g_rom_parent_dir),"");
 	char * prefix="";
-	if(strcmp(g_rom_parent_dir, "coleco")==0) {
+	if(strcmp(g_rom_parent_dir, "coleco")==0 || strcmp(g_rom_parent_dir, "colecovision")==0) {
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem cv identified from parent folder\n");
 		if (strncmp(g_driver_name, "cv_", 3) != 0) prefix = "cv_";
 	}
@@ -1712,15 +1811,15 @@ bool retro_load_game(const struct retro_game_info *info)
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem gg identified from parent folder\n");
 		if (strncmp(g_driver_name, "gg_", 3) != 0) prefix = "gg_";
 	}
-	if(strcmp(g_rom_parent_dir, "megadriv")==0) {
+	if(strcmp(g_rom_parent_dir, "megadriv")==0 || strcmp(g_rom_parent_dir, "megadrive")==0 || strcmp(g_rom_parent_dir, "genesis")==0) {
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem md identified from parent folder\n");
 		if (strncmp(g_driver_name, "md_", 3) != 0) prefix = "md_";
 	}
-	if(strcmp(g_rom_parent_dir, "msx")==0) {
+	if(strcmp(g_rom_parent_dir, "msx")==0 || strcmp(g_rom_parent_dir, "msx1")==0) {
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem msx identified from parent folder\n");
 		if (strncmp(g_driver_name, "msx_", 4) != 0) prefix = "msx_";
 	}
-	if(strcmp(g_rom_parent_dir, "pce")==0) {
+	if(strcmp(g_rom_parent_dir, "pce")==0 || strcmp(g_rom_parent_dir, "pcengine")==0) {
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem pce identified from parent folder\n");
 		if (strncmp(g_driver_name, "pce_", 4) != 0) prefix = "pce_";
 	}
@@ -1728,15 +1827,15 @@ bool retro_load_game(const struct retro_game_info *info)
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem sg1k identified from parent folder\n");
 		if (strncmp(g_driver_name, "sg1k_", 5) != 0) prefix = "sg1k_";
 	}
-	if(strcmp(g_rom_parent_dir, "sgx")==0) {
+	if(strcmp(g_rom_parent_dir, "sgx")==0 || strcmp(g_rom_parent_dir, "supergrafx")==0) {
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem sgx identified from parent folder\n");
 		if (strncmp(g_driver_name, "sgx_", 4) != 0) prefix = "sgx_";
 	}
-	if(strcmp(g_rom_parent_dir, "sms")==0) {
+	if(strcmp(g_rom_parent_dir, "sms")==0 || strcmp(g_rom_parent_dir, "mastersystem")==0) {
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem sms identified from parent folder\n");
 		if (strncmp(g_driver_name, "sms_", 4) != 0) prefix = "sms_";
 	}
-	if(strcmp(g_rom_parent_dir, "spectrum")==0) {
+	if(strcmp(g_rom_parent_dir, "spectrum")==0 || strcmp(g_rom_parent_dir, "zxspectrum")==0) {
 		HandleMessage(RETRO_LOG_INFO, "[FBNeo] subsystem spec identified from parent folder\n");
 		if (strncmp(g_driver_name, "spec_", 5) != 0) prefix = "spec_";
 	}

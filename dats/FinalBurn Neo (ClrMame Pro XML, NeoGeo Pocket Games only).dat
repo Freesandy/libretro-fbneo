@@ -4,15 +4,15 @@
 <datafile>
 	<header>
 		<name>FinalBurn Neo - Neo Geo Pocket Games</name>
-		<description>FinalBurn Neo v0.2.97.44 Neo Geo Pocket Games</description>
+		<description>FinalBurn Neo v1.0.0.01 Neo Geo Pocket Games</description>
 		<category>Standard DatFile</category>
-		<version>0.2.97.44</version>
+		<version>1.0.0.01</version>
 		<author>FinalBurn Neo</author>
 		<homepage>https://neo-source.com/</homepage>
 		<url>https://neo-source.com/</url>
 		<clrmamepro forcenodump="ignore"/>
 	</header>
-	<game name="bakumats" romof="ngp">
+	<game name="bakumats" cloneof="lastblad" romof="lastblad">
 		<description>Bakumatsu Rouman Tokubetsu Hen - Gekka no Kenshi - Tsuki ni Saku Hana, Chiri Yuku Hana (Jpn)</description>
 		<year>2000</year>
 		<manufacturer>SNK</manufacturer>
@@ -282,6 +282,15 @@
 		<rom name="SNK Neo-Geo Pocket Color BIOS (1999)(SNK)(en-ja).bin" merge="SNK Neo-Geo Pocket Color BIOS (1999)(SNK)(en-ja).bin" size="65536" crc="6eeb6f40"/>
 		<driver status="good"/>
 	</game>
+	<game name="gearsoffate" romof="ngp">
+		<description>Gears of Fate (HB) [Homebrew]</description>
+		<year>2000</year>
+		<manufacturer>SNK</manufacturer>
+		<rom name="Gears of Fate (2009)(Thor).ngp" size="1917732" crc="3c75807e"/>
+		<rom name="SNK Neo-Geo Pocket BIOS (1998)(SNK)(en-ja).bin" merge="SNK Neo-Geo Pocket BIOS (1998)(SNK)(en-ja).bin" size="65536" crc="6232df8d"/>
+		<rom name="SNK Neo-Geo Pocket Color BIOS (1999)(SNK)(en-ja).bin" merge="SNK Neo-Geo Pocket Color BIOS (1999)(SNK)(en-ja).bin" size="65536" crc="6eeb6f40"/>
+		<driver status="good"/>
+	</game>
 	<game name="infinity" romof="ngp">
 		<description>Infinity Cure (Jpn)</description>
 		<year>2000</year>
@@ -435,7 +444,7 @@
 		<rom name="SNK Neo-Geo Pocket Color BIOS (1999)(SNK)(en-ja).bin" merge="SNK Neo-Geo Pocket Color BIOS (1999)(SNK)(en-ja).bin" size="65536" crc="6eeb6f40"/>
 		<driver status="good"/>
 	</game>
-	<game name="oekakip" romof="ngp">
+	<game name="oekakip" cloneof="picturep" romof="picturep">
 		<description>Oekaki Puzzle (Jpn)</description>
 		<year>2000</year>
 		<manufacturer>Success</manufacturer>
@@ -741,7 +750,7 @@
 		<rom name="SNK Neo-Geo Pocket Color BIOS (1999)(SNK)(en-ja).bin" merge="SNK Neo-Geo Pocket Color BIOS (1999)(SNK)(en-ja).bin" size="65536" crc="6eeb6f40"/>
 		<driver status="good"/>
 	</game>
-	<game name="pockrevj" romof="ngp">
+	<game name="pockrevj" cloneof="pockrev" romof="pockrev">
 		<description>Pocket Reversi (Jpn)</description>
 		<year>2000</year>
 		<manufacturer>Success</manufacturer>
@@ -912,7 +921,7 @@
 		<rom name="SNK Neo-Geo Pocket Color BIOS (1999)(SNK)(en-ja).bin" merge="SNK Neo-Geo Pocket Color BIOS (1999)(SNK)(en-ja).bin" size="65536" crc="6eeb6f40"/>
 		<driver status="good"/>
 	</game>
-	<game name="rockmanbd" romof="ngp">
+	<game name="rockmanbd" cloneof="rockmanb" romof="rockmanb">
 		<description>Rockman - Battle &amp; Fighters (Jpn, Demo)</description>
 		<year>2000</year>
 		<manufacturer>Capcom</manufacturer>

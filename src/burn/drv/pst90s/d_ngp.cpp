@@ -510,6 +510,11 @@ static void initialize_flash_config()
 	m_flash_chip[0].state = F_READ;
 	m_flash_chip[0].manufacturer_id = 0x98;
 
+	if (ri.nLen > 0x100000 && ri.nLen < 0x200000) {
+		bprintf(0, _T("Weird cart size, padding up to 0x200000.\n"));
+		ri.nLen = 0x200000;
+	}
+
 	switch ( ri.nLen )
 	{
 		case 0x08000:
@@ -1152,10 +1157,10 @@ STDROMPICKEXT(ngpc_bakumats, ngpc_bakumats, ngpc_ngp)
 STD_ROM_FN(ngpc_bakumats)
 
 struct BurnDriver BurnDrvngpc_bakumats = {
-	"ngp_bakumats", NULL, "ngp_ngp", NULL, "2000",
+	"ngp_bakumats", "ngp_lastblad", "ngp_ngp", NULL, "2000",
 	"Bakumatsu Rouman Tokubetsu Hen - Gekka no Kenshi - Tsuki ni Saku Hana, Chiri Yuku Hana (Jpn)\0", NULL, "SNK", "NeoGeo Pocket Color",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING, 2, HARDWARE_SNK_NGPC, GBF_VSFIGHT, 0,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SNK_NGPC, GBF_VSFIGHT, 0,
 	NgpGetZipName, ngpc_bakumatsRomInfo, ngpc_bakumatsRomName, NULL, NULL, NULL, NULL, NgpInputInfo, NgpDIPInfo,
 	DrvInit, DrvExit, DrvFrame, k1geDraw, DrvScan, &BurnRecalc, 0x1000,
 	160, 152, 4, 3
@@ -2432,10 +2437,10 @@ STDROMPICKEXT(ngpc_oekakip, ngpc_oekakip, ngpc_ngp)
 STD_ROM_FN(ngpc_oekakip)
 
 struct BurnDriver BurnDrvngpc_oekakip = {
-	"ngp_oekakip", NULL, "ngp_ngp", NULL, "2000",
+	"ngp_oekakip", "ngp_picturep", "ngp_ngp", NULL, "2000",
 	"Oekaki Puzzle (Jpn)\0", NULL, "Success", "NeoGeo Pocket Color",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING, 1, HARDWARE_SNK_NGPC, GBF_PUZZLE, 0,
+	BDF_GAME_WORKING | BDF_CLONE, 1, HARDWARE_SNK_NGPC, GBF_PUZZLE, 0,
 	NgpGetZipName, ngpc_oekakipRomInfo, ngpc_oekakipRomName, NULL, NULL, NULL, NULL, NgpInputInfo, NgpDIPInfo,
 	DrvInit, DrvExit, DrvFrame, k1geDraw, DrvScan, &BurnRecalc, 0x1000,
 	160, 152, 4, 3
@@ -2632,10 +2637,10 @@ STDROMPICKEXT(ngpc_pockrevj, ngpc_pockrevj, ngpc_ngp)
 STD_ROM_FN(ngpc_pockrevj)
 
 struct BurnDriver BurnDrvngpc_pockrevj = {
-	"ngp_pockrevj", NULL, "ngp_ngp", NULL, "2000",
+	"ngp_pockrevj", "ngp_pockrev", "ngp_ngp", NULL, "2000",
 	"Pocket Reversi (Jpn)\0", NULL, "Success", "NeoGeo Pocket Color",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING, 2, HARDWARE_SNK_NGPC, GBF_PUZZLE, 0,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_SNK_NGPC, GBF_PUZZLE, 0,
 	NgpGetZipName, ngpc_pockrevjRomInfo, ngpc_pockrevjRomName, NULL, NULL, NULL, NULL, NgpInputInfo, NgpDIPInfo,
 	DrvInit, DrvExit, DrvFrame, k1geDraw, DrvScan, &BurnRecalc, 0x1000,
 	160, 152, 4, 3
@@ -3012,10 +3017,10 @@ STDROMPICKEXT(ngpc_rockmanbd, ngpc_rockmanbd, ngpc_ngp)
 STD_ROM_FN(ngpc_rockmanbd)
 
 struct BurnDriver BurnDrvngpc_rockmanbd = {
-	"ngp_rockmanbd", NULL, "ngp_ngp", NULL, "2000",
+	"ngp_rockmanbd", "ngp_rockmanb", "ngp_ngp", NULL, "2000",
 	"Rockman - Battle & Fighters (Jpn, Demo)\0", NULL, "Capcom", "NeoGeo Pocket Color",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING, 1, HARDWARE_SNK_NGPC, GBF_PLATFORM, 0,
+	BDF_GAME_WORKING | BDF_CLONE, 1, HARDWARE_SNK_NGPC, GBF_PLATFORM, 0,
 	NgpGetZipName, ngpc_rockmanbdRomInfo, ngpc_rockmanbdRomName, NULL, NULL, NULL, NULL, NgpInputInfo, NgpDIPInfo,
 	DrvInit, DrvExit, DrvFrame, k1geDraw, DrvScan, &BurnRecalc, 0x1000,
 	160, 152, 4, 3
@@ -3501,3 +3506,21 @@ struct BurnDriverX BurnDrvngpc_ppaa01 = {
 	160, 152, 4, 3
 };
 
+// Gears of Fate (HB)
+
+static struct BurnRomInfo ngpc_gearsoffateRomDesc[] = {
+	{ "Gears of Fate (2009)(Thor).ngp", 1917732, 0x3c75807e, 1 | BRF_PRG | BRF_ESS }, // Cartridge
+};
+
+STDROMPICKEXT(ngpc_gearsoffate, ngpc_gearsoffate, ngpc_ngp)
+STD_ROM_FN(ngpc_gearsoffate)
+
+struct BurnDriver BurnDrvngpc_gearsoffate = {
+	"ngp_gearsoffate", NULL, "ngp_ngp", NULL, "2000",
+	"Gears of Fate (HB)\0", NULL, "SNK", "NeoGeo Pocket Color",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_HOMEBREW, 2, HARDWARE_SNK_NGPC, GBF_VSFIGHT, 0,
+	NgpGetZipName, ngpc_gearsoffateRomInfo, ngpc_gearsoffateRomName, NULL, NULL, NULL, NULL, NgpInputInfo, NgpDIPInfo,
+	DrvInit, DrvExit, DrvFrame, k1geDraw, DrvScan, &BurnRecalc, 0x1000,
+	160, 152, 4, 3
+};

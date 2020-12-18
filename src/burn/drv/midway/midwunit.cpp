@@ -28,6 +28,7 @@ static UINT8 *DrvRAM;
 static UINT8 *DrvNVRAM;
 static UINT8 *DrvPalette;
 static UINT32 *DrvPaletteB;
+static UINT32 *DrvPaletteB2;
 static UINT8 *DrvVRAM;
 static UINT16 *DrvVRAM16;
 
@@ -81,6 +82,7 @@ static INT32 MemIndex()
 	DrvRAM		= Next;				Next += TOBYTE(0x400000) * sizeof(UINT16);
 	DrvPalette	= Next;				Next += 0x20000 * sizeof(UINT8);
 	DrvPaletteB	= (UINT32*)Next;	Next += 0x8000 * sizeof(UINT32);
+	DrvPaletteB2	= (UINT32*)Next;	Next += 0x8000 * sizeof(UINT32);
 	DrvVRAM		= Next;				Next += 0x80000 * sizeof(UINT16);
 	DrvVRAM16	= (UINT16*)DrvVRAM;
 
@@ -374,6 +376,8 @@ static void WolfDoReset()
 {
 	memset (AllRam, 0, RamEnd - AllRam);
 
+	MidwaySerialPicReset();
+
 	bCMOSWriteEnable = false;
 	nVideoBank = 1;
 	nWolfUnitCtrl = 0;
@@ -382,6 +386,7 @@ static void WolfDoReset()
 	nGfxBankOffset[1] = 0x400000;
 
 	TMS34010Reset();
+
 	Dcs2kReset();
 }
 
@@ -423,10 +428,11 @@ INT32 WolfUnitInit()
 	Dcs2kSetVolume(5.50);
 
     MidwaySerialPicInit(528);
-    MidwaySerialPicReset();
+	MidwaySerialPicReset();
 
     TMS34010MapReset();
     TMS34010Init();
+	TMS34010TimerSetCB(TUnitDmaCallback);
 
     TMS34010SetScanlineRender(ScanlineRender);
     TMS34010SetToShift(WolfUnitToShift);
@@ -474,7 +480,7 @@ INT32 WolfUnitInit()
 	GenericTilesInit();
 	
 	WolfDoReset();
-	
+
     return 0;
 }
 
@@ -494,23 +500,13 @@ static void MakeInputs()
 
 static void HandleDCSIRQ(INT32 line)
 {
-	if (nBurnFPS == 6000) {
-		// 60hz needs 2 irq's/frame (this is here for "force 60hz"/etc)
-		if (line == 0 || line == 144) DcsIRQ(); // 2x per frame
-	} else {
-		// 54.71hz needs 5 irq's every 2 frames
-		if (nCurrentFrame & 1) {
-			if (line == 0 || line == 144) DcsIRQ(); // 2x per frame
-		} else {
-			if (line == 0 || line == 96 || line == 192) DcsIRQ(); // 3x
-		}
-	}
+	if (line == 0 || line == 96 || line == 192) DcsCheckIRQ();
 }
 
 INT32 WolfUnitFrame()
 {
 	if (nWolfReset) WolfDoReset();
-	
+
 	MakeInputs();
 
 	TMS34010NewFrame();
@@ -521,7 +517,7 @@ INT32 WolfUnitFrame()
 	INT32 nCyclesDone[2] = { 0, 0 };
 
 	for (INT32 i = 0; i < nInterleave; i++) {
-		nCyclesDone[0] += TMS34010Run((nCyclesTotal[0] * (i + 1) / nInterleave) - nCyclesDone[0]);
+		CPU_RUN(0, TMS34010);
 
 		TMS34010GenerateScanline(i);
 
@@ -530,17 +526,21 @@ INT32 WolfUnitFrame()
 		sound_sync(); // sync to main cpu
 		if (i == nInterleave - 1)
 			sound_sync_end();
-    }
+	}
 
 	if (pBurnDraw) {
 		WolfUnitDraw();
 	}
-	
-	if (pBurnSoundOut) {
-        Dcs2kRender(pBurnSoundOut, nBurnSoundLen);
-    }
 
-    return 0;
+	// Buffering palette for 1 frame, fix umk3pb1 palette glitch when
+	// transitioning from title screen to select screen
+	memcpy(DrvPaletteB2, DrvPaletteB, 0x8000 * sizeof(UINT32));
+
+	if (pBurnSoundOut) {
+		Dcs2kRender(pBurnSoundOut, nBurnSoundLen);
+	}
+
+	return 0;
 }
 
 INT32 WolfUnitExit()
@@ -563,7 +563,7 @@ INT32 WolfUnitDraw()
 	}
 
 	// TMS34010 renders scanlines direct to pTransDraw
-	BurnTransferCopy(DrvPaletteB);
+	BurnTransferCopy(DrvPaletteB2);
 
 	return 0;
 }
@@ -588,11 +588,13 @@ INT32 WolfUnitScan(INT32 nAction, INT32 *pnMin)
 		TMS34010Scan(nAction);
 
 		Dcs2kScan(nAction, pnMin);
+		MidwaySerialPicScan(nAction, pnMin);
 
 		SCAN_VAR(nVideoBank);
 		SCAN_VAR(nWolfUnitCtrl);
 		SCAN_VAR(bCMOSWriteEnable);
 		SCAN_VAR(nGfxBankOffset);
+		SCAN_VAR(nIOShuffle);
 	}
 
 	if (nAction & ACB_NVRAM) {

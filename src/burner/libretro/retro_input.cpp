@@ -176,6 +176,9 @@ static inline int input_cb_wrapper(unsigned port, unsigned device, unsigned inde
 		return input_cb(port, device, index, id);
 }
 
+// Deadzone when faking digital controls through analog sticks
+#define FAKE_ANALOG_DEADZONE 10000
+
 static inline int CinpState(int nCode)
 {
 	unsigned id = sKeyBinds[nCode].id;
@@ -190,17 +193,17 @@ static inline int CinpState(int nCode)
 		if (pDirections[port][PGI_ANALOG_X] == NULL && pDirections[port][PGI_LEFT] != NULL && pDirections[port][PGI_RIGHT] != NULL)
 		{
 			int s = input_cb_wrapper(port, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_X);
-			if (s < -10000 && id == RETRO_DEVICE_ID_JOYPAD_LEFT)
+			if (s < -FAKE_ANALOG_DEADZONE && id == RETRO_DEVICE_ID_JOYPAD_LEFT)
 				ret = 1;
-			if (s > 10000 && id == RETRO_DEVICE_ID_JOYPAD_RIGHT)
+			if (s > FAKE_ANALOG_DEADZONE && id == RETRO_DEVICE_ID_JOYPAD_RIGHT)
 				ret = 1;
 		}
 		if (pDirections[port][PGI_ANALOG_Y] == NULL && pDirections[port][PGI_UP] != NULL && pDirections[port][PGI_DOWN] != NULL)
 		{
 			int s = input_cb_wrapper(port, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_Y);
-			if (s < -10000 && id == RETRO_DEVICE_ID_JOYPAD_UP)
+			if (s < -FAKE_ANALOG_DEADZONE && id == RETRO_DEVICE_ID_JOYPAD_UP)
 				ret = 1;
-			if (s > 10000 && id == RETRO_DEVICE_ID_JOYPAD_DOWN)
+			if (s > FAKE_ANALOG_DEADZONE && id == RETRO_DEVICE_ID_JOYPAD_DOWN)
 				ret = 1;
 		}
 
@@ -212,13 +215,15 @@ static inline int CinpState(int nCode)
 		unsigned position = sKeyBinds[nCode].position;
 		// Using a large deadzone when mapping microswitches to analog axis
 		// Or said axis become way too sensitive and some game become unplayable (assault)
-		if(s < -10000 && position == JOY_NEG)
+		if(s < -FAKE_ANALOG_DEADZONE && position == JOY_NEG)
 			return 1;
-		if(s > 10000 && position == JOY_POS)
+		if(s > FAKE_ANALOG_DEADZONE && position == JOY_POS)
 			return 1;
 	}
 	return 0;
 }
+
+#undef FAKE_ANALOG_DEADZONE
 
 static inline int CinpJoyAxis(int port, int axis)
 {
@@ -262,10 +267,10 @@ static inline int CinpJoyAxis(int port, int axis)
 
 static inline void CinpDirectCoord(int port, int axis)
 {
-	UINT16 val = (32767 + input_cb_wrapper(port, nDeviceType[port], 0, sAxiBinds[port][axis].id));
+	UINT16 val = (0x7FFF + input_cb_wrapper(port, nDeviceType[port], 0, sAxiBinds[port][axis].id));
 	INT32 width, height;
 	BurnDrvGetVisibleSize(&width, &height);
-	pointerValues[port][axis] = (INT32)((axis == 0 ? width : height) * (double(val)/double(65536)));
+	pointerValues[port][axis] = (INT32)((axis == 0 ? width : height) * (double(val)/double(0x10000)));
 	BurnGunSetCoords(port, pointerValues[port][0], pointerValues[port][1]);
 }
 
@@ -344,6 +349,7 @@ static INT32 GameInpAnalog2RetroInpAnalog(struct GameInp* pgi, unsigned port, un
 			pgi->nInput = GIT_JOYAXIS_FULL;
 			pgi->Input.JoyAxis.nAxis = axis;
 			pgi->Input.JoyAxis.nJoy = (UINT8)port;
+			if (nDeviceType[port] == RETRO_DEVICE_NONE) return 0;
 			sAxiBinds[port][axis].index = index;
 			sAxiBinds[port][axis].id = id;
 			retro_input_descriptor descriptor;
@@ -395,6 +401,7 @@ static INT32 GameInpAnalog2RetroInpAnalog(struct GameInp* pgi, unsigned port, un
 			pgi->nInput = GIT_MOUSEAXIS;
 			pgi->Input.MouseAxis.nAxis = axis;
 			pgi->Input.MouseAxis.nMouse = (UINT8)port;
+			if (nDeviceType[port] == RETRO_DEVICE_NONE) return 0;
 			sAxiBinds[port][axis].index = index;
 			sAxiBinds[port][axis].id = id;
 			retro_input_descriptor descriptor;
@@ -411,6 +418,7 @@ static INT32 GameInpAnalog2RetroInpAnalog(struct GameInp* pgi, unsigned port, un
 			pgi->nInput = GIT_DIRECT_COORD;
 			pgi->Input.MouseAxis.nAxis = axis;
 			pgi->Input.MouseAxis.nMouse = (UINT8)port;
+			if (nDeviceType[port] == RETRO_DEVICE_NONE) return 0;
 			sAxiBinds[port][axis].index = index;
 			sAxiBinds[port][axis].id = id;
 			retro_input_descriptor descriptor;
@@ -434,6 +442,7 @@ static INT32 GameInpDigital2RetroInpKey(struct GameInp* pgi, unsigned port, unsi
 	pgi->nInput = GIT_SWITCH;
 	if (!bInputInitialized)
 		pgi->Input.Switch.nCode = (UINT16)(nSwitchCode++);
+	if (nDeviceType[port] == RETRO_DEVICE_NONE) return 0;
 	sKeyBinds[pgi->Input.Switch.nCode].id = id;
 	sKeyBinds[pgi->Input.Switch.nCode].port = port;
 	sKeyBinds[pgi->Input.Switch.nCode].device = device;
@@ -480,6 +489,7 @@ static INT32 GameInpDigital2RetroInpAnalogRight(struct GameInp* pgi, unsigned po
 	pgi->nInput = GIT_SWITCH;
 	if (!bInputInitialized)
 		pgi->Input.Switch.nCode = (UINT16)(nSwitchCode++);
+	if (nDeviceType[port] == RETRO_DEVICE_NONE) return 0;
 	sKeyBinds[pgi->Input.Switch.nCode].id = id;
 	sKeyBinds[pgi->Input.Switch.nCode].port = port;
 	sKeyBinds[pgi->Input.Switch.nCode].device = RETRO_DEVICE_ANALOG;
@@ -509,6 +519,7 @@ static INT32 GameInpAnalog2RetroInpDualKeys(struct GameInp* pgi, unsigned port, 
 	pgi->nInput = GIT_JOYAXIS_FULL;
 	pgi->Input.JoyAxis.nAxis = axis;
 	pgi->Input.JoyAxis.nJoy = (UINT8)port;
+	if (nDeviceType[port] == RETRO_DEVICE_NONE) return 0;
 	sAxiBinds[port][axis].index = -1;
 	sAxiBinds[port][axis].id_pos = id_pos;
 	sAxiBinds[port][axis].id_neg = id_neg;
@@ -782,6 +793,21 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szi, ch
 		}
 		if (strcmp("Fire 3", description) == 0) {
 			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_A, "Jump");
+		}
+	}
+
+	// Altered Beast
+	if ((parentrom && strcmp(parentrom, "altbeast") == 0) ||
+		(drvname && strcmp(drvname, "altbeast") == 0)
+	) {
+		if (strcmp("Fire 1", description) == 0) {
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Y, "Jump");
+		}
+		if (strcmp("Fire 2", description) == 0) {
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_B, "Punch");
+		}
+		if (strcmp("Fire 3", description) == 0) {
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_A, "Kick");
 		}
 	}
 
@@ -1700,6 +1726,7 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szi, ch
 		(strcmp("Right Up", description) == 0) ||
 		(strcmp("Right Stick Up", description) == 0) ||
 		(strcmp("Rght Stick Up", description) == 0) ||
+		(strcmp("Fire Up", description) == 0) ||
 		(strcmp("up 2", szi + 3) == 0)
 	) {
 		GameInpDigital2RetroInpAnalogRight(pgi, nPlayer, RETRO_DEVICE_ID_ANALOG_Y, JOY_NEG, "Up/Down (Right Stick)");
@@ -1709,6 +1736,7 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szi, ch
 		(strcmp("Right Down", description) == 0) ||
 		(strcmp("Right Stick Down", description) == 0) ||
 		(strcmp("Rght Stick Down", description) == 0) ||
+		(strcmp("Fire Down", description) == 0) ||
 		(strcmp("down 2", szi + 3) == 0)
 	) {
 		GameInpDigital2RetroInpAnalogRight(pgi, nPlayer, RETRO_DEVICE_ID_ANALOG_Y, JOY_POS, "Up/Down (Right Stick)");
@@ -1718,6 +1746,7 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szi, ch
 		(strcmp("Right Left", description) == 0) ||
 		(strcmp("Right Stick Left", description) == 0) ||
 		(strcmp("Rght Stick Left", description) == 0) ||
+		(strcmp("Fire Left", description) == 0) ||
 		(strcmp("left 2", szi + 3) == 0)
 	) {
 		GameInpDigital2RetroInpAnalogRight(pgi, nPlayer, RETRO_DEVICE_ID_ANALOG_X, JOY_NEG, "Left/Right (Right Stick)");
@@ -1727,6 +1756,7 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szi, ch
 		(strcmp("Right Right", description) == 0) ||
 		(strcmp("Right Stick Right", description) == 0) ||
 		(strcmp("Rght Stick Right", description) == 0) ||
+		(strcmp("Fire Right", description) == 0) ||
 		(strcmp("right 2", szi + 3) == 0)
 	) {
 		GameInpDigital2RetroInpAnalogRight(pgi, nPlayer, RETRO_DEVICE_ID_ANALOG_X, JOY_POS, "Left/Right (Right Stick)");

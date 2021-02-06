@@ -34,6 +34,9 @@ ifeq ($(platform),)
 	else ifneq ($(findstring Darwin,$(shell uname -a)),)
 		platform = osx
 		arch = intel
+		ifeq ($(shell uname -p),arm)
+			arch = arm
+		endif
 		ifeq ($(shell uname -p),powerpc)
 			arch = ppc
 		endif
@@ -113,7 +116,7 @@ else ifeq ($(platform), osx)
 	TARGET := $(TARGET_NAME)_libretro.dylib
 	fpic := -fPIC
 	SHARED := -dynamiclib
-	ifeq ($(arch),ppc)
+	ifeq ($(shell uname -p),powerpc)
 		ENDIANNESS_DEFINES =  -DWORDS_BIGENDIAN
 	else
 		ENDIANNESS_DEFINES := -DLSB_FIRST
@@ -123,7 +126,14 @@ else ifeq ($(platform), osx)
 	ifeq ($(OSX_LT_MAVERICKS),"YES")
 		fpic += -mmacosx-version-min=10.5
 	endif
-	ifndef ($(NOUNIVERSAL))
+   ifeq ($(CROSS_COMPILE),1)
+		TARGET_RULE   = -target $(LIBRETRO_APPLE_PLATFORM) -isysroot $(LIBRETRO_APPLE_ISYSROOT)
+		CFLAGS   += $(TARGET_RULE)
+		CPPFLAGS += $(TARGET_RULE)
+		CXXFLAGS += $(TARGET_RULE)
+		LDFLAGS  += $(TARGET_RULE)
+   endif
+	ifeq ($(UNIVERSAL),1)
 		CFLAGS += $(ARCHFLAGS)
 		CXXFLAGS += $(ARCHFLAGS)
 		LDFLAGS += $(ARCHFLAGS)
@@ -199,10 +209,10 @@ else ifeq ($(platform), qnx)
 	USE_CYCLONE = 1
 
 # PS3
-else ifneq (,$(filter $(platform), ps3 sncps3 psl1ght))
+else ifneq (,$(filter $(platform), psl1ght))
 	TARGET := $(TARGET_NAME)_libretro_ps3.a
 	ENDIANNESS_DEFINES =  -DWORDS_BIGENDIAN
-	PLATFORM_DEFINES += -D__CELLOS_LV2__
+	PLATFORM_DEFINES += -D__PSL1GHT__
 	EXTERNAL_ZLIB = 1
 	STATIC_LINKING = 1
 

@@ -328,10 +328,14 @@ double BurnGetTime();
 
 // Handy debug binary-file dumper
 #if defined (FBNEO_DEBUG)
-void BurnDump_(char *filename, UINT8 *buffer, INT32 bufsize);
+void BurnDump_(char *filename, UINT8 *buffer, INT32 bufsize, INT32 append);
 #define BurnDump(fn, b, bs) do { \
     bprintf(0, _T("Dumping %S (0x%x bytes) to %S\n"), #b, bs, #fn); \
-    BurnDump_(fn, b, bs); } while (0)
+    BurnDump_(fn, b, bs, 0); } while (0)
+
+#define BurnDumpAppend(fn, b, bs) do { \
+    bprintf(0, _T("Dumping %S (0x%x bytes) to %S (append)\n"), #b, bs, #fn); \
+    BurnDump_(fn, b, bs, 1); } while (0)
 
 void BurnDumpLoad_(char *filename, UINT8 *buffer, INT32 bufsize);
 #define BurnDumpLoad(fn, b, bs) do { \
@@ -575,7 +579,10 @@ void IpsApplyPatches(UINT8* base, char* rom_name);
 #define HARDWARE_SEGA_MEGADRIVE							(HARDWARE_PREFIX_SEGA_MEGADRIVE)
 
 #define HARDWARE_SEGA_SG1000                            (HARDWARE_PREFIX_SEGA_SG1000)
-#define HARDWARE_SEGA_SG1000_RAMEXP                     (0x2000)
+#define HARDWARE_SEGA_SG1000_RAMEXP_A                   (0x1000)
+#define HARDWARE_SEGA_SG1000_RAMEXP_B                   (0x2000)
+#define HARDWARE_SEGA_SG1000_RAMEXP_2K                  (0x4000)
+#define HARDWARE_SEGA_SG1000_RAMEXP_8K                  (0x8000)
 #define HARDWARE_COLECO                                 (HARDWARE_PREFIX_COLECO)
 
 #define HARDWARE_MSX                                    (HARDWARE_PREFIX_MSX)

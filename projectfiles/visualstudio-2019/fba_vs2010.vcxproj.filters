@@ -850,9 +850,6 @@
     <ClInclude Include="..\..\src\cpu\tlcs90_intf.h">
       <Filter>cpus</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\cpu\tms34010_intf.h">
-      <Filter>cpus</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\cpu\upd7810_intf.h">
       <Filter>cpus</Filter>
     </ClInclude>
@@ -1029,6 +1026,24 @@
     </ClInclude>
     <ClInclude Include="..\..\src\burn\devices\poly.h">
       <Filter>Burn\devices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cpu\tms34_intf.h">
+      <Filter>cpus</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burn\devices\tlc34076.h">
+      <Filter>Burn\devices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burn\drv\midway\narc_sound.h">
+      <Filter>Burn\drv\midway</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burn\drv\midway\williams_adpcm.h">
+      <Filter>Burn\drv\midway</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burn\drv\midway\williams_cvsd.h">
+      <Filter>Burn\drv\midway</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\burn\drv\midway\yawdim_sound.h">
+      <Filter>Burn\drv\midway</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3816,9 +3831,6 @@
     <ClCompile Include="..\..\src\cpu\adsp2100\adsp2100.cpp">
       <Filter>cpus\adsp2100</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\cpu\i8x41\i8x41.cpp">
-      <Filter>cpus\i8x41</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\cpu\i8051\mcs51.cpp">
       <Filter>cpus\i8051</Filter>
     </ClCompile>
@@ -3839,9 +3851,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\cpu\tms32010\tms32010.cpp">
       <Filter>cpus\tms32010</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cpu\tms34010\tms34010.cpp">
-      <Filter>cpus\tms34010</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cpu\upd7725\upd7725.cpp">
       <Filter>cpus\upd7725</Filter>
@@ -3874,9 +3883,6 @@
       <Filter>cpus</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cpu\tlcs90_intf.cpp">
-      <Filter>cpus</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cpu\tms34010_intf.cpp">
       <Filter>cpus</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\cpu\z180_intf.cpp">
@@ -4025,9 +4031,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\burner\win32\placeholder.cpp">
       <Filter>burner\win32</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\cpu\tms34010\tms34010_optable.cpp">
-      <Filter>cpus\tms34010</Filter>
     </ClCompile>
     <ClCompile Include="generated\m68kops.c">
       <Filter>generated</Filter>
@@ -4240,6 +4243,51 @@
     </ClCompile>
     <ClCompile Include="..\..\src\burn\drv\megadrive\d_mdarcbl.cpp">
       <Filter>Burn\drv\megadrive</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cpu\i8x41\mcs48.cpp">
+      <Filter>cpus\i8x41</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\taito\d_gladiatr.cpp">
+      <Filter>Burn\drv\taito</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\taito\d_lsasquad.cpp">
+      <Filter>Burn\drv\taito</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cpu\tms34\tms34010.cpp">
+      <Filter>cpus\tms34010</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cpu\tms34_intf.cpp">
+      <Filter>cpus</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\devices\tlc34076.cpp">
+      <Filter>Burn\devices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\pst90s\d_artmagic.cpp">
+      <Filter>Burn\drv\pst90s</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\pst90s\d_btoads.cpp">
+      <Filter>Burn\drv\pst90s</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\pre90s\d_exterm.cpp">
+      <Filter>Burn\drv\pre90s</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\midway\d_yunit.cpp">
+      <Filter>Burn\drv\midway</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\midway\narc_sound.cpp">
+      <Filter>Burn\drv\midway</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\midway\williams_adpcm.cpp">
+      <Filter>Burn\drv\midway</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\midway\williams_cvsd.cpp">
+      <Filter>Burn\drv\midway</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\midway\yawdim_sound.cpp">
+      <Filter>Burn\drv\midway</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\burn\drv\midway\d_xunit.cpp">
+      <Filter>Burn\drv\midway</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2104,60 +2104,13 @@ static struct BurnRomInfo kovplusRomDesc[] = {
 STDROMPICKEXT(kovplus, kovplus, pgm)
 STD_ROM_FN(kovplus)
 
-static void kovplus_patch()
-{
-	static UINT32 patch_fix[0x9b * 2] = {
-		0x00ebee, 0x71, 0x00ebef, 0x4e, 0x00ebf0, 0x71, 0x00ebf1, 0x4e, 0x01d3e4, 0x29, 0x01d3e5, 0x42, 
-		0x01d3e6, 0x54, 0x01d3e7, 0x29, 0x01d492, 0x71, 0x01d493, 0x4e, 0x01d494, 0x71, 0x01d495, 0x4e, 
-		0x01dac6, 0xf9, 0x01dac7, 0x4e, 0x01dac8, 0x38, 0x01dac9, 0x00, 0x01daca, 0x00, 0x01dacb, 0x10, 
-		0x01dacc, 0x71, 0x01dacd, 0x4e, 0x01dace, 0x71, 0x01dacf, 0x4e, 0x01dad1, 0x65, 0x01de56, 0xf9, 
-		0x01de57, 0x4e, 0x01de58, 0x38, 0x01de59, 0x00, 0x01de5a, 0x00, 0x01de5b, 0x20, 0x01de5d, 0x64, 
-		0x01de60, 0xf9, 0x01de61, 0x4e, 0x01de62, 0x38, 0x01de63, 0x00, 0x01de64, 0x00, 0x01de65, 0x30, 
-		0x01df72, 0xf9, 0x01df73, 0x4e, 0x01df74, 0x38, 0x01df75, 0x00, 0x01df76, 0x00, 0x01df77, 0x40, 
-		0x01df79, 0x64, 0x01df7c, 0xf9, 0x01df7d, 0x4e, 0x01df7e, 0x38, 0x01df7f, 0x00, 0x01df80, 0x00, 
-		0x01df81, 0x50, 0x0463a0, 0xf9, 0x0463a1, 0x4e, 0x0463a2, 0x13, 0x0463a3, 0x00, 0x0463a4, 0xd0, 
-		0x0463a5, 0xb5, 0x0463a6, 0x71, 0x0463a8, 0x71, 0x062408, 0xd0, 0x062409, 0x01, 0x0655de, 0x77, 
-		0x0655e4, 0x3a, 0x0655e6, 0x74, 0x083476, 0xd6, 0x083477, 0x01, 0x08347c, 0x62, 0x08347d, 0xb5, 
-		0x083db4, 0x64, 0x083db5, 0xb5, 0x083db6, 0x50, 0x08ddd6, 0x71, 0x08ddd7, 0x4e, 0x08dde8, 0x71, 
-		0x08dde9, 0x4e, 0x22a00a, 0x68, 0x22a00c, 0x0f, 0x22a00d, 0x04, 0x22a01e, 0xc0, 0x22a020, 0x13, 
-		0x22a021, 0x02, 0x281000, 0x39, 0x281001, 0x52, 0x281002, 0x80, 0x281003, 0x00, 0x281004, 0xee, 
-		0x281005, 0xdc, 0x281006, 0x39, 0x281007, 0x0c, 0x281008, 0x0a, 0x281009, 0x00, 0x28100a, 0x80, 
-		0x28100b, 0x00, 0x28100c, 0xee, 0x28100d, 0xdc, 0x28100e, 0xf9, 0x28100f, 0x4e, 0x281010, 0x11, 
-		0x281011, 0x00, 0x281012, 0xd0, 0x281013, 0xda, 0x282000, 0x39, 0x282001, 0x0c, 0x282002, 0x0a, 
-		0x282003, 0x00, 0x282004, 0x80, 0x282005, 0x00, 0x282006, 0xee, 0x282007, 0xdc, 0x282008, 0xf9, 
-		0x282009, 0x4e, 0x28200a, 0x11, 0x28200b, 0x00, 0x28200c, 0x5c, 0x28200d, 0xde, 0x283000, 0x39, 
-		0x283001, 0x0c, 0x283002, 0x09, 0x283003, 0x00, 0x283004, 0x80, 0x283005, 0x00, 0x283006, 0xee, 
-		0x283007, 0xdc, 0x283008, 0xf9, 0x283009, 0x4e, 0x28300a, 0x11, 0x28300b, 0x00, 0x28300c, 0x66, 
-		0x28300d, 0xde, 0x284000, 0x39, 0x284001, 0x0c, 0x284002, 0x0a, 0x284003, 0x00, 0x284004, 0x80, 
-		0x284005, 0x00, 0x284006, 0xee, 0x284007, 0xdc, 0x284008, 0xf9, 0x284009, 0x4e, 0x28400a, 0x11, 
-		0x28400b, 0x00, 0x28400c, 0x78, 0x28400d, 0xdf, 0x285000, 0x39, 0x285001, 0x0c, 0x285002, 0x09, 
-		0x285003, 0x00, 0x285004, 0x80, 0x285005, 0x00, 0x285006, 0xee, 0x285007, 0xdc, 0x285008, 0xf9, 
-		0x285009, 0x4e, 0x28500a, 0x11, 0x28500b, 0x00, 0x28500c, 0x82, 0x28500d, 0xdf
-	};
-
-	for (INT32 i = 0; i < 0x9b; i++) {
-		PGM68KROM[patch_fix[i * 2 + 0]] = patch_fix[i * 2 + 1];
-	}
-}
-
-static INT32 kovplusInit()  
-{
-	INT32 nRet = kovInit();
-	
-	if (nRet == 0) {
-		kovplus_patch();
-	}
-
-	return nRet;
-}
-
 struct BurnDriver BurnDrvKovplus = {
 	"kovplus", NULL, "pgm", NULL, "1999",
 	"Knights of Valour Plus - Sangoku Senki Plus (V119)\0", "no PLUS on screen when set to KOREA", "IGS", "PolyGameMaster",
 	L"Knights of Valour Plus\0\u4E09\u56FD\u6226\u7D00 Plus\0\u4E09\u56FD\u6218\u7EAA Plus (V119)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING, 4, HARDWARE_IGS_PGM/* | HARDWARE_IGS_USE_ARM_CPU*/, GBF_SCRFIGHT, 0,
 	NULL, kovplusRomInfo, kovplusRomName, NULL, NULL, NULL, NULL, pgmInputInfo, kovDIPInfo,
-	kovplusInit, pgmExit, pgmFrame, pgmDraw, pgmScan, &nPgmPalRecalc, 0x900,
+	kovInit, pgmExit, pgmFrame, pgmDraw, pgmScan, &nPgmPalRecalc, 0x900,
 	448, 224, 4, 3
 };
 
@@ -2202,7 +2155,7 @@ struct BurnDriver BurnDrvKovplusa = {
 	L"Knights of Valour Plus\0\u4E09\u56FD\u6226\u7D00 Plus\0\u4E09\u56FD\u6218\u7EAA Plus (V119, Korea)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_IGS_PGM/* | HARDWARE_IGS_USE_ARM_CPU*/, GBF_SCRFIGHT, 0,
 	NULL, kovplusaRomInfo, kovplusaRomName, NULL, NULL, NULL, NULL, pgmInputInfo, kovDIPInfo,
-	kovplusInit, pgmExit, pgmFrame, pgmDraw, pgmScan, &nPgmPalRecalc, 0x900,
+    kovInit, pgmExit, pgmFrame, pgmDraw, pgmScan, &nPgmPalRecalc, 0x900,
 	448, 224, 4, 3
 };
 
@@ -5289,7 +5242,7 @@ static struct BurnRomInfo ddp3RomDesc[] = {
 
 	{ "ddp3_igs027a.bin",			0x0004000, 0x00000000, 7 | BRF_PRG | BRF_ESS | BRF_NODUMP },  //  6 Internal ARM7 Rom
 	
-	{ "ddp3_defaults.nv",			0x0020000, 0x571e96c0, 0 | BRF_OPT },			//  7 NV RAM
+	{ "ddp3_defaults.nv",			0x0020000, 0x571e96c0, 0xA | BRF_PRG },			//  7 NV RAM
 };
 
 STDROMPICKEXT(ddp3, ddp3, ddp3Bios) // custom bios
@@ -5331,7 +5284,7 @@ static struct BurnRomInfo ddp3aRomDesc[] = {
 
 	{ "ddp3_igs027a.bin",			0x0004000, 0x00000000, 7 | BRF_PRG | BRF_ESS | BRF_NODUMP },  //  6 Internal ARM7 Rom
 	
-	{ "ddp3_defaults.nv",			0x0020000, 0x571e96c0, 0 | BRF_OPT },			//  7 NV RAM
+	{ "ddp3_defaults.nv",			0x0020000, 0x571e96c0, 0xA | BRF_PRG },			//  7 NV RAM
 };
 
 STDROMPICKEXT(ddp3a, ddp3a, ddp3Bios) // custom bios
@@ -5367,7 +5320,7 @@ static struct BurnRomInfo ddpdojpRomDesc[] = {
 
 	{ "sndmask.rom_mcs1.u3.27c322",	0x0400000, 0x5a0dbd76, 5 | BRF_SND },           // 10 Samples
 
-	{ "ddp3_defaults.nv",			0x0020000, 0x571e96c0, 0 | BRF_OPT },           // 11 NV RAM
+	{ "ddp3_defaults.nv",			0x0020000, 0x571e96c0, 0xA | BRF_PRG },           // 11 NV RAM
 };
 
 STDROMPICKEXT(ddpdojp, ddpdojp, ddp3Bios) // custom bios
@@ -5413,7 +5366,7 @@ static struct BurnRomInfo ddp3bRomDesc[] = {
 
 	{ "ddp3_igs027a.bin",			0x0004000, 0x00000000, 7 | BRF_PRG | BRF_ESS | BRF_NODUMP },	//  6 Internal ARM7 Rom
 	
-	{ "ddp3_defaults.nv",			0x0020000, 0x571e96c0, 0 | BRF_OPT },			//  7 NV RAM
+	{ "ddp3_defaults.nv",			0x0020000, 0x571e96c0, 0xA | BRF_PRG },			//  7 NV RAM
 };
 
 STDROMPICKEXT(ddp3b, ddp3b, ddp3Bios) // custom bios
@@ -5446,7 +5399,7 @@ static struct BurnRomInfo ddp3cRomDesc[] = {
 
 	{ "ddp3_igs027a.bin",			0x0004000, 0x00000000, 7 | BRF_PRG | BRF_ESS | BRF_NODUMP },  //  6 Internal ARM7 Rom
 	
-	{ "ddp3_defaults.nv",			0x0020000, 0x571e96c0, 0 | BRF_OPT },			//  7 NV RAM
+	{ "ddp3_defaults.nv",			0x0020000, 0x571e96c0, 0xA | BRF_PRG },			//  7 NV RAM
 };
 
 STDROMPICKEXT(ddp3c, ddp3c, ddp3Bios) // custom bios
@@ -5479,7 +5432,7 @@ static struct BurnRomInfo ddp3blkRomDesc[] = {
 
 	{ "ddp3_igs027a.bin",			0x0004000, 0x00000000, 7 | BRF_PRG | BRF_ESS | BRF_NODUMP },  //  6 Internal ARM7 Rom
 
-	{ "ddp3blk_defaults.nv",		0x0020000, 0xa1651904, 0 | BRF_OPT },			//  7 NV RAM (patch below instead)
+	{ "ddp3blk_defaults.nv",		0x0020000, 0xa1651904, 0xA | BRF_PRG },			//  7 NV RAM (patch below instead)
 };
 
 STDROMPICKEXT(ddp3blk, ddp3blk, ddp3Bios) // custom bios
@@ -5538,7 +5491,7 @@ static struct BurnRomInfo ddp3blkaRomDesc[] = {
 
 	{ "ddp3_igs027a.bin",			0x0004000, 0x00000000, 7 | BRF_PRG | BRF_ESS | BRF_NODUMP },  //  6 Internal ARM7 Rom
 
-	{ "ddp3blk_defaults.nv",		0x0020000, 0xa1651904, 0 | BRF_OPT },			//  7 NV RAM (patch below instead)
+	{ "ddp3blk_defaults.nv",		0x0020000, 0xa1651904, 0xA | BRF_PRG },			//  7 NV RAM (patch below instead)
 };
 
 STDROMPICKEXT(ddp3blka, ddp3blka, ddp3Bios) // custom bios
@@ -7441,9 +7394,9 @@ static INT32 kov2pfwllInit()
 {
 	INT32 nRet = kov2pInit();
 	
-	if (nRet == 0 && PGM68KROM[0xc3c] == 0x64 && PGM68KROM[0x336cb] == 0x4e && PGMARMROM[0x26f] == 0x0a) {
+	if (nRet == 0 && PGM68KROM[0xc3c] == 0x64 && PGM68KROM[0x336cc] == 0x63 && PGMARMROM[0x26f] == 0x0a) {
 		PGM68KROM[0xc3c] = 0x44;	// 4M address patch
-		PGM68KROM[0x336cb] = 0x02;	// scene switching patch
+		PGM68KROM[0x336cc] = 0x43;	// scene switching patch
 		PGMARMROM[0x26f] = 0xea;	// crash patch
 	}
 
@@ -7502,13 +7455,14 @@ struct BurnDriver BurnDrvkov2pshpd = {
 
 // Oriental Legend Special / Da Sheng Gui Lai (Hack)
 // Hacked by XIAOYUER
-// GOTVG 20201123
+// GOTVG 20201231
 
 static struct BurnRomInfo oldsdsglRomDesc[] = {
-	{ "dsgl_p0500_v100.u24",	0x0400000, 0x575bc7eb, 1 | BRF_PRG | BRF_ESS }, //  0 68K Code
+	{ "dsgl_p0500_v100.u24",	0x0400000, 0xadcb2a8a, 1 | BRF_PRG | BRF_ESS }, //  0 68K Code
 
 	{ "dsgl_t0500.u18",			0x0400000, 0x434ddae8, 2 | BRF_GRA },			//  1 Tile data
 	{ "pgm_t0501.u19",			0x0200000, 0xd2106864, 2 | BRF_GRA },			//  2
+	
 
 	{ "pgm_a0500.u5",			0x0400000, 0x80a59197, 3 | BRF_GRA },			//  3 Sprite Color Data
 	{ "pgm_a0501.u6",			0x0400000, 0x98c931b1, 3 | BRF_GRA },			//  4
@@ -7536,7 +7490,7 @@ STDROMPICKEXT(oldsdsgl, oldsdsgl, pgm)
 STD_ROM_FN(oldsdsgl)
 
 struct BurnDriver BurnDrvoldsdsgl = {
-	"oldsdsgl", "olds", "pgm", NULL, "2020-11-23",
+	"oldsdsgl", "olds", "pgm", NULL, "2020-12-31",
 	"Oriental Legend Special - Da Sheng Gui Lai (Hack)\0", NULL, "Hack", "PolyGameMaster",
 	L"Oriental Legend Super - Da Sheng Gui Lai (Hack)\0\u897f\u884c\u5e73\u5996\u8a18 - \u5927\u8056\u6b78\u4f86 (\u4fee\u6539\u7248)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 4, HARDWARE_IGS_PGM, GBF_SCRFIGHT, 0,
@@ -7669,7 +7623,7 @@ struct BurnDriver BurnDrvkovplus2020tx = {
 	L"Knights of Valour Plus - Qun Xiong Luan Wu 2020 (Hack)\0\u4e09\u570b\u6230\u7d00 - \u7fa4\u96c4\u4e82\u821e 2020 (\u4fee\u6539\u7248)\0", NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 4, HARDWARE_IGS_PGM, GBF_SCRFIGHT, 0,
 	NULL, kovplus2020txRomInfo, kovplus2020txRomName, NULL, NULL, NULL, NULL, pgmInputInfo, kovassgaDIPInfo,
-	kovplusInit, pgmExit, pgmFrame, pgmDraw, pgmScan, &nPgmPalRecalc, 0x900,
+    kovInit, pgmExit, pgmFrame, pgmDraw, pgmScan, &nPgmPalRecalc, 0x900,
 	448, 224, 4, 3
 };
 
@@ -7788,5 +7742,41 @@ struct BurnDriver BurnDrvMarmatsc = {
 	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 4, HARDWARE_IGS_PGM | HARDWARE_IGS_USE_ARM_CPU, GBF_VSFIGHT, 0,
 	NULL, marmatscRomInfo, marmatscRomName, NULL, NULL, NULL, NULL, pgmInputInfo, martmastDIPInfo,
 	martmastInit, pgmExit, pgmFrame, pgmDraw, pgmScan, &nPgmPalRecalc, 0x900,
+	448, 224, 4, 3
+};
+
+
+// Oriental Legend 2 (One Key Edition, Hack)
+// Hack by 哆啦A梦
+// https://www.ppxclub.com/forum.php?mod=viewthread&tid=702576&extra=page%3D1
+
+static struct BurnRomInfo oldsplusoRomDesc[] = {
+	{ "v-205cn_onekey.u10",			0x0400000, 0xa3cd1b1d, 1 | BRF_PRG | BRF_ESS },	//  0 68K Code
+
+	{ "igs_t05301w064.u2",			0x0800000, 0x8257bbb0, 2 | BRF_GRA },			//  1 Tile data
+
+	{ "igs_a05301w064.u3",			0x0800000, 0x57946fd2, 3 | BRF_GRA },	 		//  2 Sprite Color Data
+	{ "igs_a05302w064.u4",			0x0800000, 0x3459a0b8, 3 | BRF_GRA },			//  3
+	{ "igs_a05303w064.u6",			0x0800000, 0x13475d85, 3 | BRF_GRA },			//  4
+	{ "igs_a05304w064.u8",			0x0800000, 0xf03ef7a6, 3 | BRF_GRA },			//  5
+
+	{ "igs_b05301w064.u9",			0x0800000, 0xfd98f503, 4 | BRF_GRA },			//  6 Sprite Masks & Color Indexes
+	{ "igs_b05302w064.u11",			0x0800000, 0x9f6094a8, 4 | BRF_GRA },			//  7
+
+	{ "igs_w05301b032.u5",			0x0400000, 0x86ec83bc, 5 | BRF_SND },			//  8 Samples
+
+	{ "oldspluso_igs027a.bin",		0x0004000, 0x00000000, 7 | BRF_PRG | BRF_ESS | BRF_NODUMP },	//  9 Internal ARM7 Rom
+};
+
+STDROMPICKEXT(oldspluso, oldspluso, pgm)
+STD_ROM_FN(oldspluso)
+
+struct BurnDriver BurnDrvoldspluso = {
+	"oldspluso", "oldsplus", "pgm", NULL, "2020-12-10",
+	"Oriental Legend 2 (One Key Edition, Hack)\0", "Incomplete Dump", "Hack", "PolyGameMaster",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 4, HARDWARE_IGS_PGM, GBF_SCRFIGHT, 0,
+	NULL, oldsplusoRomInfo, oldsplusoRomName, NULL, NULL, NULL, NULL, pgmInputInfo, oldsplusnrDIPInfo,
+	oldsplusInit, pgmExit, pgmFrame, pgmDraw, pgmScan, &nPgmPalRecalc, 0x900,
 	448, 224, 4, 3
 };

@@ -6708,6 +6708,22 @@ static struct BurnRomInfo GalaktronRomDesc[] = {
 STD_ROM_PICK(Galaktron)
 STD_ROM_FN(Galaktron)
 
+static struct BurnRomInfo GalkamikaRomDesc[] = {
+	{ "3.bin",   			0x00800, 0x51ba70ac, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "2.bin",   			0x00800, 0xa433067e, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "1.bin",   			0x00800, 0xaaf038d4, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "4.bin",   			0x00800, 0x786d690a, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "5.bin",   			0x00800, 0xb1a8dfea, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	
+	{ "hj.bin",   			0x00800, 0x5f1b4996, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "kl.bin",   			0x00800, 0x5cd7df03, BRF_GRA | GAL_ROM_TILES_SHARED },
+	
+	{ "m866l_im5610.6l",   	0x00020, 0xb549ad5a, BRF_GRA | GAL_ROM_PROM },
+};
+
+STD_ROM_PICK(Galkamika)
+STD_ROM_FN(Galkamika)
+
 // Late-to-market bootleg with PCB mods to use a single program rom
 // Datamat is the old name of Datasat, a technical service and distributor of arcade PCB's from the 80's and 90's.
 // A lot of the bootleg PCB's around Spain have Datamat stickers on the roms. It was one of the most important PCB sellers/distributors in the country from the era.
@@ -6960,6 +6976,23 @@ static struct BurnRomInfo GalaxrfRomDesc[] = {
 STD_ROM_PICK(Galaxrf)
 STD_ROM_FN(Galaxrf)
 
+static struct BurnRomInfo GalaxianemRomDesc[] = {
+	// Found on a Recreativos Franco PCB
+	{ "fg1.bin",       0x00800, 0x3d5d9bae, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "fg2.bin",       0x00800, 0xa433067e, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "fg3.bin",       0x00800, 0x7c86fc8a, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "fg4.bin",       0x00800, 0xd74bdd2a, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	{ "fg5.bin",       0x00800, 0xf93fdd30, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
+	
+	{ "hj.bin",    	   0x00800, 0x5f1b4996, BRF_GRA | GAL_ROM_TILES_SHARED },
+	{ "kl.bin",    	   0x00800, 0x18df5c90, BRF_GRA | GAL_ROM_TILES_SHARED },
+	
+	{ "im5610.bin",    0x00020, 0x4e3caeab, BRF_GRA | GAL_ROM_PROM },
+};
+
+STD_ROM_PICK(Galaxianem)
+STD_ROM_FN(Galaxianem)
+
 static struct BurnRomInfo GalaxianrpRomDesc[] = {
 	{ "4.7k",    	   0x00800, 0xe8f3aa67, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
 	{ "5.7j",    	   0x00800, 0xf58283e3, BRF_ESS | BRF_PRG | GAL_ROM_Z80_PROG1 },
@@ -7143,6 +7176,16 @@ struct BurnDriver BurnDrvGalaktron = {
 	NULL, 392, 224, 256, 3, 4
 };
 
+struct BurnDriver BurnDrvGalkamika = {
+	"galkamika", "galaxian", NULL, NULL, "1979",
+	"Kamikaze (Electrogame, Spanish bootleg of Galaxian)\0", NULL, "bootleg (Electrogame)", "Galaxian",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
+	NULL, GalkamikaRomInfo, GalkamikaRomName, NULL, NULL, NULL, NULL, GalaxianInputInfo, ZerotimeDIPInfo,
+	GalInit, GalExit, GalFrame, GalDraw, GalScan,
+	NULL, 392, 224, 256, 3, 4
+};
+
 struct BurnDriver BurnDrvZerotimed = {
 	"zerotimed", "galaxian", NULL, NULL, "1979",
 	"Zero Time (Datamat)\0", NULL, "bootleg (Datamat)", "Galaxian",
@@ -7279,6 +7322,16 @@ struct BurnDriver BurnDrvGalaxrf = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
 	NULL, GalaxrfRomInfo, GalaxrfRomName, NULL, NULL, NULL, NULL, GalaxianInputInfo, GalaxrfDIPInfo,
+	GalInit, GalExit, GalFrame, GalDraw, GalScan,
+	NULL, 392, 224, 256, 3, 4
+};
+
+struct BurnDriver BurnDrvGalaxianem = {
+	"galaxianem", "galaxian", NULL, NULL, "1980",
+	"Galaxian (Electromar Spanish bootleg)\0", NULL, "bootleg (Electromar)", "Galaxian",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL | BDF_ORIENTATION_FLIPPED | BDF_HISCORE_SUPPORTED, 2, HARDWARE_GALAXIAN, GBF_VERSHOOT, 0,
+	NULL, GalaxianemRomInfo, GalaxianemRomName, NULL, NULL, NULL, NULL, GalaxianInputInfo, GalaxrfDIPInfo,
 	GalInit, GalExit, GalFrame, GalDraw, GalScan,
 	NULL, 392, 224, 256, 3, 4
 };

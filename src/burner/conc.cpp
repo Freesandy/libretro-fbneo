@@ -36,6 +36,22 @@ static void CheatError(TCHAR* pszFilename, INT32 nLineNumber, CheatInfo* pCheat,
 
 	FBAPopupDisplay(PUF_TYPE_ERROR);
 #endif
+
+#if defined(BUILD_SDL2)
+	printf("Cheat file %s is malformed.\nPlease remove or repair the file.\n\n", pszFilename);
+	if (pCheat) {
+		printf("Parse error at line %i, in cheat \"%s\".\n", nLineNumber, pCheat->szCheatName);
+	} else {
+		printf("Parse error at line %i.\n", nLineNumber);
+	}
+
+	if (pszInfo) {
+		printf("Problem:\t%s.\n", pszInfo);
+	}
+	if (pszLine) {
+		printf("Text:\t%s\n", pszLine);
+	}
+#endif
 }
 
 static INT32 ConfigParseFile(TCHAR* pszFilename)
@@ -291,8 +307,6 @@ static INT32 ConfigParseFile(TCHAR* pszFilename)
 //TODO: make cross platform
 static INT32 ConfigParseNebulaFile(TCHAR* pszFilename)
 {
-
-#if defined (BUILD_WIN32)
 	FILE *fp = _tfopen(pszFilename, _T("rt"));
 	if (fp == NULL) {
 		return 1;
@@ -346,7 +360,11 @@ static INT32 ConfigParseNebulaFile(TCHAR* pszFilename)
 		{
 			_tcsncpy (tmp, szLine + 8, nLen-9);
 			tmp[nLen-9] = '\0';
+#if defined(BUILD_WIN32)
 			_stscanf (tmp, _T("%d"), &(pCurrentCheat->nDefault));
+#else
+			sscanf (tmp, _T("%d"), &(pCurrentCheat->nDefault));
+#endif
 			continue;
 		}
 
@@ -382,9 +400,17 @@ static INT32 ConfigParseNebulaFile(TCHAR* pszFilename)
 				tmp[i-j] = '\0';
 
 				if (nAddress == -1) {
+#if defined(BUILD_WIN32)
 					_stscanf (tmp, _T("%x"), &nAddress);
+#else
+					sscanf (tmp, _T("%x"), &nAddress);
+#endif
 				} else {
+#if defined(BUILD_WIN32)
 					_stscanf (tmp, _T("%x"), &nValue);
+#else
+					sscanf (tmp, _T("%x"), &nValue);
+#endif
 
 					pCurrentCheat->pOption[n]->AddressInfo[nCurrentAddress].nCPU = 0; 	// Always
 					pCurrentCheat->pOption[n]->AddressInfo[nCurrentAddress].nAddress = nAddress ^ 1;
@@ -402,7 +428,7 @@ static INT32 ConfigParseNebulaFile(TCHAR* pszFilename)
 	}
 
 	fclose (fp);
-#endif
+
 	return 0;
 }
 
@@ -410,14 +436,18 @@ static INT32 ConfigParseNebulaFile(TCHAR* pszFilename)
 //TODO: make cross platform
 static INT32 ConfigParseMAMEFile()
 {
-#if defined (BUILD_WIN32)
-
 #define AddressInfo()	\
 	INT32 k = (flags >> 20) & 3;	\
 	for (INT32 i = 0; i < k+1; i++) {	\
 		pCurrentCheat->pOption[n]->AddressInfo[nCurrentAddress].nCPU = 0;	\
-		pCurrentCheat->pOption[n]->AddressInfo[nCurrentAddress].nAddress = nAddress + i;	\
+		if ((flags & 0xf0000000) == 0x80000000) { \
+			pCurrentCheat->pOption[n]->AddressInfo[nCurrentAddress].bRelAddress = 1; \
+			pCurrentCheat->pOption[n]->AddressInfo[nCurrentAddress].nRelAddressOffset = nAttrib; \
+			pCurrentCheat->pOption[n]->AddressInfo[nCurrentAddress].nRelAddressBits = (flags & 0x3000000) >> 24; \
+		} \
+		pCurrentCheat->pOption[n]->AddressInfo[nCurrentAddress].nAddress = (pCurrentCheat->pOption[n]->AddressInfo[nCurrentAddress].bRelAddress) ? nAddress : nAddress + i;	\
 		pCurrentCheat->pOption[n]->AddressInfo[nCurrentAddress].nValue = (nValue >> ((k*8)-(i*8))) & 0xff;	\
+		pCurrentCheat->pOption[n]->AddressInfo[nCurrentAddress].nMultiByte = i;	\
 		nCurrentAddress++;	\
 	}	\
 
@@ -467,7 +497,24 @@ static INT32 ConfigParseMAMEFile()
 
 		if (szLine[0] == ';') continue;
 
+		/*
+		 // find the cheat flags & 0x80000000 cheats (for debugging) -dink
+		 int derpy = 0;
+		 for (INT32 i = 0; i < nLen; i++) {
+		 	if (szLine[i] == ':') {
+		 		derpy++;
+		 		if (derpy == 2 && szLine[i+1] == '8') {
+					bprintf(0, _T("%s\n"), szLine);
+				}
+			}
+		}
+		*/
+
+#if defined(BUILD_WIN32)
 		if (_tcsncmp (szLine, gName, lstrlen(gName))) {
+#else
+		if (_tcsncmp (szLine, gName, strlen(gName))) {
+#endif
 			if (nFound) break;
 			else continue;
 		}
@@ -480,22 +527,38 @@ static INT32 ConfigParseMAMEFile()
 				c0[c1++] = i;
 
 		tmpcpy(1);						// control flags
+#if defined(BUILD_WIN32)
 		_stscanf (tmp, _T("%x"), &flags);
+#else
+		sscanf (tmp, _T("%x"), &flags);
+#endif
 
 		tmpcpy(2);						// cheat address
+#if defined(BUILD_WIN32)
 		_stscanf (tmp, _T("%x"), &nAddress);
+#else
+		sscanf (tmp, _T("%x"), &nAddress);
+#endif
 
 		tmpcpy(3);						// cheat value
+#if defined(BUILD_WIN32)
 		_stscanf (tmp, _T("%x"), &nValue);
+#else
+		sscanf (tmp, _T("%x"), &nValue);
+#endif
 
 		tmpcpy(4);						// cheat attribute
+#if defined(BUILD_WIN32)
 		_stscanf (tmp, _T("%x"), &nAttrib);
+#else
+		sscanf (tmp, _T("%x"), &nAttrib);
+#endif
 
 		tmpcpy(5);						// cheat name
 
-		//was x7f00
-		//was 7c00 (breaks riot starting level cheat)
-		if (flags & 0x80004c00) continue;			// skip various cheats (unhandled methods at this time)
+		// & 0x4000 = don't add to list
+		// & 0x0800 = BCD
+		if (flags & 0x00004800) continue;			// skip various cheats (unhandled methods at this time)
 
 		if ( flags & 0x00008000 || (flags & 0x00010000 && !menu)) { // Linked cheat "(2/2) etc.."
 			if (nCurrentAddress < CHEAT_MAX_ADDRESS) {
@@ -532,7 +595,11 @@ static INT32 ConfigParseMAMEFile()
 
 			_tcsncpy (pCurrentCheat->szCheatName, tmp, QUOTE_MAX);
 
+#if defined(BUILD_WIN32)
 			if (lstrlen(tmp) <= 0 || flags == 0x60000000) {
+#else
+			if (strlen(tmp) <= 0 || flags == 0x60000000) {
+#endif
 				n++;
 				continue;
 			}
@@ -559,7 +626,11 @@ static INT32 ConfigParseMAMEFile()
 					//bprintf(0, _T("adding .. %X. options\n"), nTotal);
 					if (nTotal > 0xff) continue; // bad entry (roughrac has this)
 					for (nValue = 0; nValue < nTotal; nValue++) {
+#if defined(UNICODE)
 						swprintf(tmp2, L"# %d.", nValue + nPlus1);
+#else
+						sprintf(tmp2, _T("# %d."), nValue + nPlus1);
+#endif
 						n++;
 						nCurrentAddress = 0;
 						OptionName(tmp2);
@@ -587,11 +658,11 @@ static INT32 ConfigParseMAMEFile()
 			if (flags & 0x2) {
 				pCurrentCheat->bWaitForModification = 1; // wait for modification before changing
 			}
-			if ((flags & 0x6) == 0x6) {
-				pCurrentCheat->bWatchMode = 1; // display value @ address
-			}
 			if (flags & 0x800000) {
 				pCurrentCheat->bRestoreOnDisable = 1; // restore previous value on disable
+			}
+			if ((flags & 0x6) == 0x6) {
+				pCurrentCheat->bWatchMode = 1; // display value @ address
 			}
 
 			OptionName(tmp);
@@ -602,7 +673,7 @@ static INT32 ConfigParseMAMEFile()
 	}
 
 	fclose (fz);
-#endif
+
 	return 0;
 }
 
@@ -632,5 +703,3 @@ INT32 ConfigCheatLoad()
 
 	return 0;
 }
-
-

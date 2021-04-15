@@ -947,7 +947,6 @@ static void GameInpInitMacros()
 				pgi->Macro.pVal[j] = bii.pVal;
 				pgi->Macro.nVal[j] = 1;
 			}
-
 			nMacroCount++;
 			pgi++;
 
@@ -958,11 +957,10 @@ static void GameInpInitMacros()
 
 				sprintf(pgi->Macro.szName, "P%i Buttons XYZ", nPlayer + 1);
 				for (INT32 j = 0; j < 3; j++) {
-					BurnDrvGetInputInfo(&bii, nPgmButtons[nPlayer][j]);
+					BurnDrvGetInputInfo(&bii, nPgmButtons[nPlayer][j+3]);
 					pgi->Macro.pVal[j] = bii.pVal;
 					pgi->Macro.nVal[j] = 1;
 				}
-
 				nMacroCount++;
 				pgi++;
 			}
@@ -1928,6 +1926,7 @@ tIniStruct gamehw_cfg[] = {
 	{_T("Sega Master System hardware"),	_T("config/presets/sms.ini"),		{ HARDWARE_SEGA_MASTER_SYSTEM, 0 } },
 	{_T("Sega Game Gear hardware"),		_T("config/presets/gg.ini"),		{ HARDWARE_SEGA_GAME_GEAR, 0 } },
 	{_T("Sinclair Spectrum hardware"),	_T("config/presets/spectrum.ini"),	{ HARDWARE_SPECTRUM, 0 } },
+	{_T("Fairchild Channel F hardware"),_T("config/presets/channelf.ini"),	{ HARDWARE_CHANNELF, 0 } },
 	{_T("\0"), _T("\0"), { 0 } } // END of list
 };
 

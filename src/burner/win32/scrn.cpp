@@ -334,6 +334,7 @@ int CreateDatfileWindows(int bType)
 	if (bType == DAT_NES_ONLY) _sntprintf(szConsoleString, 64, _T(", NES Games only"));
 	if (bType == DAT_FDS_ONLY) _sntprintf(szConsoleString, 64, _T(", FDS Games only"));
 	if (bType == DAT_NGP_ONLY) _sntprintf(szConsoleString, 64, _T(", NeoGeo Pocket Games only"));
+	if (bType == DAT_CHANNELF_ONLY) _sntprintf(szConsoleString, 64, _T(", Fairchild Channel F Games only"));
 
 	TCHAR szProgramString[25];
 	_sntprintf(szProgramString, 25, _T("ClrMame Pro XML"));
@@ -448,6 +449,9 @@ int CreateAllDatfilesWindows()
 
 	_sntprintf(szFilename, MAX_PATH, _T("%s") _T(APP_TITLE) _T(" v%.20s (%s%s).dat"), buffer, szAppBurnVer, szProgramString, _T(", Neo Geo Pocket Games only"));
 	create_datfile(szFilename, DAT_NGP_ONLY);
+
+	_sntprintf(szFilename, MAX_PATH, _T("%s") _T(APP_TITLE) _T(" v%.20s (%s%s).dat"), buffer, szAppBurnVer, szProgramString, _T(", Fairchild Channel F Games only"));
+	create_datfile(szFilename, DAT_CHANNELF_ONLY);
 
 	return nRet;
 }
@@ -2335,6 +2339,12 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 			}
 			break;
 
+		case MENU_CLRMAME_PRO_XML_CHANNELF_ONLY:
+			if (UseDialogs()) {
+				CreateDatfileWindows(DAT_CHANNELF_ONLY);
+			}
+			break;
+
 		case MENU_CLRMAME_PRO_ALL_DATS:
 			if (UseDialogs()) {
 				CreateAllDatfilesWindows();
@@ -2640,9 +2650,9 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 					POST_INITIALISE_MESSAGE;
 					break;
 				case MENU_RGBEFFECTS:
-					nVidBlitterOpt[nVidSelect] &= ~0x00100000;
+					//nVidBlitterOpt[nVidSelect] &= ~0x00100000;
 					nVidBlitterOpt[nVidSelect] |= 0x00010000;
-					bVidScanlines = 0;
+					//bVidScanlines = 0;
 					ScrnSize();
 					VidInit();
 					if (bVidScanlines) {
@@ -2654,7 +2664,7 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 					}
 					break;
 				case MENU_3DPROJECTION:
-					nVidBlitterOpt[nVidSelect] &= ~0x00010000;
+					//nVidBlitterOpt[nVidSelect] &= ~0x00010000;
 					nVidBlitterOpt[nVidSelect] |= 0x00100000;
 					POST_INITIALISE_MESSAGE;
 					break;
@@ -2763,6 +2773,7 @@ static void OnCommand(HWND /*hDlg*/, int id, HWND /*hwndCtl*/, UINT codeNotify)
 						}
 						if (nVidBlitterOpt[nVidSelect] & 0x00010000) {
 							nVidBlitterOpt[nVidSelect] &= ~0x00010000;
+
 							ScrnSize();
 							VidInit();
 							VidRedraw();
@@ -3371,6 +3382,7 @@ int ScrnSize()
 	}
 
 	if ((bVidCorrectAspect || bVidFullStretch) && !(nVidSelect == 2 && (nVidBlitterOpt[2] & 0x0100) == 0)) {
+
 		int ww = w;
 		int hh = h;
 

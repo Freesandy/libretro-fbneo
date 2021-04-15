@@ -228,41 +228,36 @@ static inline int CinpState(int nCode)
 static inline int CinpJoyAxis(int port, int axis)
 {
 	int index = sAxiBinds[port][axis].index;
-#ifdef RETRO_INPUT_DEPRECATED
-	if(index != -1)
-	{
-#endif
-		int ret;
-		ret = input_cb_wrapper(port, RETRO_DEVICE_ANALOG, index, sAxiBinds[port][axis].id);
-		// Fallback if analog trigger requested but not supported
-		if (ret == 0 && index == RETRO_DEVICE_INDEX_ANALOG_BUTTON)
-			ret = input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, sAxiBinds[port][axis].id) ? 0x7FFF : 0;
 
-		// Handle fake digital inputs
-		if (axis == RETRO_DEVICE_ID_ANALOG_X && pDirections[port][PGI_ANALOG_X] != NULL && pDirections[port][PGI_LEFT] == NULL && pDirections[port][PGI_RIGHT] == NULL)
-		{
-			if (input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
-				ret = -0x7FFF;
-			if (input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
-				ret = 0x7FFF;
-		}
-		if (axis == RETRO_DEVICE_ID_ANALOG_Y && pDirections[port][PGI_ANALOG_Y] != NULL && pDirections[port][PGI_UP] == NULL && pDirections[port][PGI_DOWN] == NULL)
-		{
-			if (input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP))
-				ret = -0x7FFF;
-			if (input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN))
-				ret = 0x7FFF;
-		}
+	// Ignore unmapped
+	if (index == -1)
+		return 0;
 
-		return ret;
-#ifdef RETRO_INPUT_DEPRECATED
-	}
-	else
+	// Handle analog input
+	int ret;
+	ret = input_cb_wrapper(port, RETRO_DEVICE_ANALOG, index, sAxiBinds[port][axis].id);
+
+	// Fallback if analog trigger requested but not supported
+	if (ret == 0 && index == RETRO_DEVICE_INDEX_ANALOG_BUTTON)
+		ret = input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, sAxiBinds[port][axis].id) ? 0x7FFF : 0;
+
+	// Handle fake digital inputs
+	if (axis == RETRO_DEVICE_ID_ANALOG_X && pDirections[port][PGI_ANALOG_X] != NULL && pDirections[port][PGI_LEFT] == NULL && pDirections[port][PGI_RIGHT] == NULL)
 	{
-		return (input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, sAxiBinds[port][axis].id_pos) - input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, sAxiBinds[port][axis].id_neg)) * 0x7FFF;
+		if (input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
+			ret = -0x7FFF;
+		if (input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
+			ret = 0x7FFF;
 	}
-	return 0;
-#endif
+	if (axis == RETRO_DEVICE_ID_ANALOG_Y && pDirections[port][PGI_ANALOG_Y] != NULL && pDirections[port][PGI_UP] == NULL && pDirections[port][PGI_DOWN] == NULL)
+	{
+		if (input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP))
+			ret = -0x7FFF;
+		if (input_cb_wrapper(port, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN))
+			ret = 0x7FFF;
+	}
+
+	return ret;
 }
 
 static inline void CinpDirectCoord(int port, int axis)
@@ -278,65 +273,6 @@ static inline int CinpMouseAxis(int port, int axis)
 {
 	return input_cb_wrapper(port, RETRO_DEVICE_MOUSE, 0, sAxiBinds[port][axis].id);
 }
-
-#ifdef RETRO_INPUT_DEPRECATED
-static INT32 InputTick()
-{
-	struct GameInp *pgi;
-	UINT32 i;
-
-	for (i = 0, pgi = GameInp; i < nGameInpCount; i++, pgi++) {
-		INT32 nAdd = 0;
-		if ((pgi->nInput &  GIT_GROUP_SLIDER) == 0) {				// not a slider
-			continue;
-		}
-
-		if (pgi->nInput == GIT_KEYSLIDER) {
-			// Get states of the two keys
-			if (CinpState(pgi->Input.Slider.SliderAxis.nSlider[0]))	{
-				nAdd -= 0x100;
-			}
-			if (CinpState(pgi->Input.Slider.SliderAxis.nSlider[1]))	{
-				nAdd += 0x100;
-			}
-		}
-
-		if (pgi->nInput == GIT_JOYSLIDER) {
-			// Get state of the axis
-			nAdd = CinpJoyAxis(pgi->Input.Slider.JoyAxis.nJoy, pgi->Input.Slider.JoyAxis.nAxis);
-			nAdd /= 0x80;
-			// May 30, 2019 -dink
-			// Was "nAdd /= 0x100;" - Current gamepads w/ thumbsticks
-			// register 0x3f <- 0x80  -> 0xbe, so we must account for that
-			// to be able to get the same range as GIT_KEYSLIDER.
-		}
-
-		// nAdd is now -0x100 to +0x100
-
-		// Change to slider speed
-		nAdd *= pgi->Input.Slider.nSliderSpeed;
-		nAdd /= 0x100;
-
-		if (pgi->Input.Slider.nSliderCenter) {						// Attact to center
-			INT32 v = pgi->Input.Slider.nSliderValue - 0x8000;
-			v *= (pgi->Input.Slider.nSliderCenter - 1);
-			v /= pgi->Input.Slider.nSliderCenter;
-			v += 0x8000;
-			pgi->Input.Slider.nSliderValue = v;
-		}
-
-		pgi->Input.Slider.nSliderValue += nAdd;
-		// Limit slider
-		if (pgi->Input.Slider.nSliderValue < 0x0100) {
-			pgi->Input.Slider.nSliderValue = 0x0100;
-		}
-		if (pgi->Input.Slider.nSliderValue > 0xFF00) {
-			pgi->Input.Slider.nSliderValue = 0xFF00;
-		}
-	}
-	return 0;
-}
-#endif
 
 // Analog to analog mapping
 static INT32 GameInpAnalog2RetroInpAnalog(struct GameInp* pgi, unsigned port, unsigned axis, unsigned id, int index, char *szn, UINT8 nInput = GIT_JOYAXIS_FULL, INT32 nSliderValue = 0x8000, INT16 nSliderSpeed = 0x0800, INT16 nSliderCenter = 10)
@@ -375,27 +311,6 @@ static INT32 GameInpAnalog2RetroInpAnalog(struct GameInp* pgi, unsigned port, un
 			}
 			break;
 		}
-#ifdef RETRO_INPUT_DEPRECATED
-		case GIT_JOYSLIDER:
-		{
-			pgi->nInput = GIT_JOYSLIDER;
-			pgi->Input.Slider.nSliderValue = nSliderValue;
-			pgi->Input.Slider.nSliderSpeed = nSliderSpeed;
-			pgi->Input.Slider.nSliderCenter = nSliderCenter;
-			pgi->Input.Slider.JoyAxis.nAxis = axis;
-			pgi->Input.Slider.JoyAxis.nJoy = (UINT8)port;
-			sAxiBinds[port][axis].index = index;
-			sAxiBinds[port][axis].id = id;
-			retro_input_descriptor descriptor;
-			descriptor.port = port;
-			descriptor.device = (index == RETRO_DEVICE_INDEX_ANALOG_BUTTON ? RETRO_DEVICE_JOYPAD : RETRO_DEVICE_ANALOG);
-			descriptor.index = (index == RETRO_DEVICE_INDEX_ANALOG_BUTTON ? 0 : index);
-			descriptor.id = id;
-			descriptor.description = szn;
-			normal_input_descriptors.push_back(descriptor);
-			break;
-		}
-#endif
 		case GIT_MOUSEAXIS:
 		{
 			pgi->nInput = GIT_MOUSEAXIS;
@@ -508,42 +423,6 @@ static INT32 GameInpDigital2RetroInpAnalogRight(struct GameInp* pgi, unsigned po
 	bButtonMapped = true;
 	return 0;
 }
-
-#ifdef RETRO_INPUT_DEPRECATED
-// 1 analog to 2 digital mapping
-// Needs pgi, player, axis, 2 buttons retropad id and 2 descriptions
-// Is this function still useful ? We are now making better use of retropad analog controls
-static INT32 GameInpAnalog2RetroInpDualKeys(struct GameInp* pgi, unsigned port, unsigned axis, unsigned id_pos, unsigned id_neg, char *szn_pos, char *szn_neg)
-{
-	if(bButtonMapped) return 0;
-	pgi->nInput = GIT_JOYAXIS_FULL;
-	pgi->Input.JoyAxis.nAxis = axis;
-	pgi->Input.JoyAxis.nJoy = (UINT8)port;
-	if (nDeviceType[port] == RETRO_DEVICE_NONE) return 0;
-	sAxiBinds[port][axis].index = -1;
-	sAxiBinds[port][axis].id_pos = id_pos;
-	sAxiBinds[port][axis].id_neg = id_neg;
-
-	retro_input_descriptor descriptor;
-
-	descriptor.id = id_pos;
-	descriptor.port = port;
-	descriptor.device = RETRO_DEVICE_JOYPAD;
-	descriptor.index = 0;
-	descriptor.description = szn_pos;
-	normal_input_descriptors.push_back(descriptor);
-
-	descriptor.id = id_neg;
-	descriptor.port = port;
-	descriptor.device = RETRO_DEVICE_JOYPAD;
-	descriptor.index = 0;
-	descriptor.description = szn_neg;
-	normal_input_descriptors.push_back(descriptor);
-
-	bButtonMapped = true;
-	return 0;
-}
-#endif
 
 // [WIP]
 // All inputs which needs special handling need to go in the next function
@@ -1261,6 +1140,18 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szi, ch
 		}
 	}
 
+	// World PK Soccer V2
+	if ((parentrom && strcmp(parentrom, "wpksocv2") == 0) ||
+		(drvname && strcmp(drvname, "wpksocv2") == 0)
+	) {
+		if (strcmp("Kick", description) == 0) {
+			GameInpAnalog2RetroInpAnalog(pgi, nPlayer, 1, RETRO_DEVICE_ID_JOYPAD_R2, RETRO_DEVICE_INDEX_ANALOG_BUTTON, description);
+		}
+		if (strcmp("Select", description) == 0) {
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_B, description);
+		}
+	}
+
 	// Lucky & Wild
 	// Dirt Fox
 	if ((parentrom && strcmp(parentrom, "luckywld") == 0) ||
@@ -1738,6 +1629,22 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szi, ch
 		}
 	}
 
+	// channelf reorder buttons
+	if ((nHardwareCode & HARDWARE_PUBLIC_MASK) == HARDWARE_CHANNELF) {
+		if (strcmp("Push Down", description) == 0) {
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_B, description);
+		}
+		if (strcmp("Pull Up", description) == 0) {
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_X, description);
+		}
+		if (strcmp("Twist Right", description) == 0) {
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_A, description);
+		}
+		if (strcmp("Twist Left", description) == 0) {
+			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Y, description);
+		}
+	}
+
 	// Handle Twin stick games
 	if ((strcmp("Up 2", description) == 0) ||
 		(strcmp("Up (right)", description) == 0) ||
@@ -2125,6 +2032,22 @@ INT32 GameInpAutoOne(struct GameInp* pgi, char* szi, char *szn)
 			GameInpDigital2RetroInpKey(pgi, 2, RETROK_COMMA, szn, RETRO_DEVICE_KEYBOARD);
 	}
 
+	// channelf console buttons
+	if ((nHardwareCode & HARDWARE_PUBLIC_MASK) == HARDWARE_CHANNELF) {
+		if (strcmp("Time (1)", szn) == 0) {
+			GameInpDigital2RetroInpKey(pgi, 0, RETRO_DEVICE_ID_JOYPAD_R, szn);
+		}
+		if (strcmp("Hold (2)", szn) == 0) {
+			GameInpDigital2RetroInpKey(pgi, 0, RETRO_DEVICE_ID_JOYPAD_L, szn);
+		}
+		if (strcmp("Mode (3)", szn) == 0) {
+			GameInpDigital2RetroInpKey(pgi, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, szn);
+		}
+		if (strcmp("Start (4)", szn) == 0) {
+			GameInpDigital2RetroInpKey(pgi, 0, RETRO_DEVICE_ID_JOYPAD_START, szn);
+		}
+	}
+
 	// FDS disk buttons
 	if ((nHardwareCode & HARDWARE_PUBLIC_MASK) == HARDWARE_FDS) {
 		if (strcmp("Swap Disk Side", szn) == 0) {
@@ -2150,6 +2073,25 @@ INT32 GameInpAutoOne(struct GameInp* pgi, char* szi, char *szn)
 		}
 		if (strcmp("Test Slew Down", szn) == 0) {
 			GameInpDigital2RetroInpKey(pgi, 0, RETRO_DEVICE_ID_JOYPAD_L, szn);
+		}
+	}
+
+	// non-single board versions of rdft2 require this button to unlock all ships
+	// see https://gamefaqs.gamespot.com/arcade/564337-raiden-fighters-2-operation-hell-dive/cheats
+	if ((drvname && strcmp(drvname, "rdft2") == 0) ||
+		(drvname && strcmp(drvname, "rdft2u") == 0) ||
+		(drvname && strcmp(drvname, "rdft2j") == 0) ||
+		(drvname && strcmp(drvname, "rdft2ja") == 0) ||
+		(drvname && strcmp(drvname, "rdft2jb") == 0) ||
+		(drvname && strcmp(drvname, "rdft2jc") == 0) ||
+		(drvname && strcmp(drvname, "rdft2it") == 0) ||
+		(drvname && strcmp(drvname, "rdft2a") == 0) ||
+		(drvname && strcmp(drvname, "rdft2aa") == 0) ||
+		(drvname && strcmp(drvname, "rdft2t") == 0) ||
+		(drvname && strcmp(drvname, "rdft2s") == 0)
+	) {
+		if (strcmp("Service", szn) == 0) {
+			GameInpDigital2RetroInpKey(pgi, 0, RETRO_DEVICE_ID_JOYPAD_R3, szn);
 		}
 	}
 
@@ -2502,10 +2444,6 @@ void InputMake(void)
 	struct GameInp* pgi;
 	UINT32 i;
 
-#ifdef RETRO_INPUT_DEPRECATED
-	InputTick();
-#endif
-
 	for (i = 0, pgi = GameInp; i < nGameInpCount; i++, pgi++) {
 		if (pgi->Input.pVal == NULL) {
 			continue;
@@ -2542,20 +2480,6 @@ void InputMake(void)
 
 				break;
 			}
-#ifdef RETRO_INPUT_DEPRECATED
-			case GIT_KEYSLIDER:						// Keyboard slider
-			case GIT_JOYSLIDER:	{					// Joystick slider
-				INT32 nSlider = pgi->Input.Slider.nSliderValue;
-				if (pgi->nType == BIT_ANALOG_REL) {
-					nSlider -= 0x8000;
-					nSlider >>= 4;
-				}
-
-				pgi->Input.nVal = (UINT16)nSlider;
-				*(pgi->Input.pShortVal) = pgi->Input.nVal;
-				break;
-			}
-#endif
 			case GIT_MOUSEAXIS:						// Mouse axis
 				pgi->Input.nVal = (UINT16)(CinpMouseAxis(pgi->Input.MouseAxis.nMouse, pgi->Input.MouseAxis.nAxis) * nAnalogSpeed);
 				*(pgi->Input.pShortVal) = pgi->Input.nVal;
@@ -2595,47 +2519,6 @@ void InputMake(void)
 
 				break;
 			}
-#ifdef RETRO_INPUT_DEPRECATED
-			case GIT_JOYAXIS_NEG:	{				// Joystick axis Lo
-				INT32 nJoy = CinpJoyAxis(pgi->Input.JoyAxis.nJoy, pgi->Input.JoyAxis.nAxis);
-				if (nJoy < 32767) {
-					nJoy = -nJoy;
-
-					if (nJoy < 0x0000) {
-						nJoy = 0x0000;
-					}
-					if (nJoy > 0xFFFF) {
-						nJoy = 0xFFFF;
-					}
-
-					pgi->Input.nVal = (UINT16)nJoy;
-				} else {
-					pgi->Input.nVal = 0;
-				}
-
-				*(pgi->Input.pShortVal) = pgi->Input.nVal;
-				break;
-			}
-			case GIT_JOYAXIS_POS:	{				// Joystick axis Hi
-				INT32 nJoy = CinpJoyAxis(pgi->Input.JoyAxis.nJoy, pgi->Input.JoyAxis.nAxis);
-				if (nJoy > 32767) {
-
-					if (nJoy < 0x0000) {
-						nJoy = 0x0000;
-					}
-					if (nJoy > 0xFFFF) {
-						nJoy = 0xFFFF;
-					}
-
-					pgi->Input.nVal = (UINT16)nJoy;
-				} else {
-					pgi->Input.nVal = 0;
-				}
-
-				*(pgi->Input.pShortVal) = pgi->Input.nVal;
-				break;
-			}
-#endif
 		}
 	}
 }
@@ -2668,6 +2551,9 @@ void RefreshLightgunCrosshair()
 
 void InputInit()
 {
+	for (int i = 0; i < MAX_PLAYERS; i++)
+		for (int j = 0; j < 8; j++)
+			sAxiBinds[i][j].index = -1;
 	nSwitchCode = 0;
 
 	normal_input_descriptors.clear();

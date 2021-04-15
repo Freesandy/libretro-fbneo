@@ -23,6 +23,7 @@
 #define RETRO_GAME_TYPE_FDS		12
 #define RETRO_GAME_TYPE_NEOCD	13
 #define RETRO_GAME_TYPE_NGP		14
+#define RETRO_GAME_TYPE_CHF		15
 
 #define PERCENT_VALUES \
       {"25%", NULL }, \
@@ -129,6 +130,7 @@ extern bool bAllowDepth32;
 extern bool bLightgunHideCrosshairEnabled;
 extern bool bPatchedRomsetsEnabled;
 extern bool bLibretroSupportsAudioBuffStatus;
+extern bool bLowPassFilterEnabled;
 extern UINT32 nVerticalMode;
 extern UINT32 nFrameskip;
 extern UINT32 nFrameskipType;

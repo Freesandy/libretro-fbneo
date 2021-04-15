@@ -6,6 +6,7 @@
 #include "m6809_intf.h"
 #include "hd6309_intf.h"
 #include "k007121.h"
+#include "k007452.h"
 
 static UINT8 *AllMem;
 static UINT8 *MemEnd;
@@ -207,6 +208,16 @@ UINT8 DrvContraHD6309ReadByte(UINT16 address)
 {
 	switch (address)
 	{
+		case 0x0008:
+		case 0x0009:
+		case 0x000A:
+		case 0x000B:
+		case 0x000C:
+		case 0x000D:
+		case 0x000E:
+		case 0x000F:
+			return K007452Read(address & 7);
+
 		case 0x0010:
 		case 0x0011:
 		case 0x0012:
@@ -260,6 +271,17 @@ void DrvContraHD6309WriteByte(UINT16 address, UINT8 data)
 		case 0x0006:
 		case 0x0007:
 			contra_K007121_ctrl_0_w(address & 7, data);
+		return;
+
+		case 0x0008:
+		case 0x0009:
+		case 0x000A:
+		case 0x000B:
+		case 0x000C:
+		case 0x000D:
+		case 0x000E:
+		case 0x000F:
+			K007452Write(address & 7, data);
 		return;
 
 		case 0x0018:
@@ -405,6 +427,8 @@ static INT32 DrvDoReset()
 	M6809Close();
 
 	k007121_reset();
+
+	K007452Reset();
 
 	soundlatch = 0;
 	nBankData = 0;
@@ -830,6 +854,7 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 		M6809Scan(nAction);
 
 		k007121_scan(nAction);
+		K007452Scan(nAction);
 
 		BurnYM2151Scan(nAction, pnMin);
 

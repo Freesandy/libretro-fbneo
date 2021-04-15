@@ -16,6 +16,8 @@ HAVE_NEON = 0
 USE_EXPERIMENTAL_FLAGS = 0
 USE_CYCLONE = 0
 HAVE_UWP = 0
+# make the core smaller by removing some demanding drivers
+LIGHT = 0
 SPLIT_UP_LINK ?= 0
 
 SPACE :=
@@ -157,19 +159,18 @@ else ifneq (,$(findstring ios,$(platform)))
 		CXX = c++ -arch armv7 -isysroot $(IOSSDK)
 	endif
 	ENDIANNESS_DEFINES := -DLSB_FIRST
+        MINVERSION :=
 	ifeq ($(platform),$(filter $(platform),ios9 ios-arm64))
 		CFLAGS += -DIOS9
 		CXXFLAGS += -DIOS9
-		CC += -miphoneos-version-min=8.0
-		CXX +=  -miphoneos-version-min=8.0
-		CFLAGS += -miphoneos-version-min=8.0
+                MINVERSION = -miphoneos-version-min=8.0
 	else
 		CFLAGS += -DIOS
 		CXXFLAGS += -DIOS
-		CC += -miphoneos-version-min=5.0
-		CXX +=  -miphoneos-version-min=5.0
-		CFLAGS += -miphoneos-version-min=5.0
+                MINVERSION = -miphoneos-version-min=5.0
 	endif
+        CFLAGS += $(MINVERSION)
+        CXXFLAGS += $(MINVERSION)
 
 else ifeq ($(platform), tvos-arm64)
 	TARGET := $(TARGET_NAME)_libretro_tvos.dylib
@@ -181,6 +182,8 @@ else ifeq ($(platform), tvos-arm64)
 	ENDIANNESS_DEFINES := -DLSB_FIRST
 	CFLAGS += -DIOS9
 	CXXFLAGS += -DIOS9
+	CC = cc -arch arm64 -isysroot $(IOSSDK)
+	CXX = c++ -arch arm64 -isysroot $(IOSSDK)
 
 # Theos iOS
 else ifeq ($(platform), theos_ios)
@@ -209,13 +212,18 @@ else ifeq ($(platform), qnx)
 	USE_CYCLONE = 1
 
 # PS3
-else ifneq (,$(filter $(platform), psl1ght))
-	TARGET := $(TARGET_NAME)_libretro_ps3.a
+else ifneq (,$(filter $(platform), ps3 psl1ght))
+	TARGET := $(TARGET_NAME)_libretro_$(platform).a
 	ENDIANNESS_DEFINES =  -DWORDS_BIGENDIAN
-	PLATFORM_DEFINES += -D__PSL1GHT__
 	EXTERNAL_ZLIB = 1
 	STATIC_LINKING = 1
 
+	ifneq ($(platdef),)
+        PLATFORM_DEFINES += -D$(platdef)
+    else
+        PLATFORM_DEFINES += -D__PSL1GHT__
+    endif
+	
 	# sncps3
 	ifneq (,$(findstring sncps3,$(platform)))
 		PLATFORM_DEFINES += -DSN_TARGET_PS3
@@ -231,7 +239,6 @@ else ifneq (,$(filter $(platform), psl1ght))
 
 	# Lightweight PS3 Homebrew SDK
 	else ifneq (,$(findstring psl1ght,$(platform)))
-		TARGET := $(TARGET_NAME)_libretro_$(platform).a
 		CC = $(PS3DEV)/ppu/bin/ppu-gcc$(EXE_EXT)
 		CXX = $(PS3DEV)/ppu/bin/ppu-g++$(EXE_EXT)
 		AR = $(PS3DEV)/ppu/bin/ppu-ar$(EXE_EXT)
@@ -265,6 +272,7 @@ else ifeq ($(platform), ctr)
 	EXTERNAL_ZLIB = 1
 	STATIC_LINKING = 1
 	USE_CYCLONE = 1
+	LIGHT = 1
 	INCLUDE_7Z_SUPPORT = 0
 
 # Xbox 360
@@ -366,18 +374,12 @@ else ifneq (,$(filter $(platform), ngc wii wiiu))
 	# Nintendo Wii
 	else ifneq (,$(findstring wii,$(platform)))
 		PLATFORM_DEFINES += -DGEKKO -DHW_RVL -mrvl -mcpu=750 -meabi -mhard-float
-		NO_MD = 1
-		NO_CAPCOM = 1
-		NO_NEOGEO = 1
-		NO_PCE = 1
+		LIGHT = 1
 
 	# Nintendo Game Cube
 	else ifneq (,$(findstring ngc,$(platform)))
 		PLATFORM_DEFINES += -DGEKKO -DHW_DOL -mrvl -mcpu=750 -meabi -mhard-float
-		NO_MD = 1
-		NO_CAPCOM = 1
-		NO_NEOGEO = 1
-		NO_PCE = 1
+		LIGHT = 1
 	endif
 
 # Emscripten
@@ -558,6 +560,7 @@ ifeq ($(DEBUG), 1)
 	CXXFLAGS += -O0 -g -DFBNEO_DEBUG
 else
 	ifeq (,$(findstring msvc,$(platform)))
+		# sadly, we can't use -Os for memory constrained systems here, the performance impact is too big
 		CFLAGS += -O3 -DNDEBUG -fomit-frame-pointer
 		CXXFLAGS += -O3 -DNDEBUG -fomit-frame-pointer
 	else
@@ -614,7 +617,11 @@ generate-files:
 	@mkdir -p $(FBNEO_GENERATED_DIR) 2>/dev/null || /bin/true
 	@echo "Generating $(FBNEO_GENERATED_DIR)/driverlist.h..."
 	@echo ""
+ifeq ($(LIGHT), 0)
 	$(PERL) $(FBNEO_SCRIPTS_DIR)/gamelist.pl -o $(FBNEO_GENERATED_DIR)/driverlist.h -l $(MAIN_FBNEO_DIR)/../gamelist.txt $(FBNEO_BURN_DRIVERS_DIRS)
+else
+	$(PERL) $(FBNEO_SCRIPTS_DIR)/gamelist.pl -o $(FBNEO_GENERATED_DIR)/driverlist.h -l $(MAIN_FBNEO_DIR)/../gamelist.txt $(filter-out $(BURN_BLACKLIST),$(foreach dir,$(FBNEO_BURN_DRIVERS_DIRS),$(wildcard $(dir)/*.cpp)))
+endif
 	@echo ""
 	@echo "Generating $(FBNEO_GENERATED_DIR)/neo_sprite_func.h..."
 	@echo ""

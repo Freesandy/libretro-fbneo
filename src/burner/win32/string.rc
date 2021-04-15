@@ -207,6 +207,7 @@ BEGIN
 	IDS_SEL_NES                 "NES"
 	IDS_SEL_FDS                 "FDS"
 	IDS_SEL_NGP                 "Neo Geo Pocket"
+	IDS_SEL_CHANNELF            "Fairchild Channel F"
 	IDS_SEL_SPECTRUM			"ZX Spectrum"
 	IDS_SEL_MIDWAY				"Midway"
 	IDS_SEL_CAPCOM_GRP			"Capcom"
@@ -239,6 +240,7 @@ BEGIN
     IDS_GENRE_ACTION            "Action (Classic)"
     IDS_GENRE_RPG               "RPG"
     IDS_GENRE_SIM               "Simulator"
+    IDS_GENRE_ADV               "Adventure"
 
 	IDS_FAMILY					"Family"
 	IDS_FAMILY_MSLUG			"Metal Slug"

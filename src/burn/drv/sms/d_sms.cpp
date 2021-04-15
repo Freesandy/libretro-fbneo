@@ -7943,6 +7943,24 @@ struct BurnDriver BurnDrvsms_rbislandb = {
 	256, 192, 4, 3
 };
 
+// Rainbow Islands - The Story of Bubble Bobble 2 (Over the Rainbow Hack)
+
+static struct BurnRomInfo sms_rbislandoRomDesc[] = {
+	{ "rainbow islands - the story of bubble bobble 2 (over the rainbow hack).bin",	0x40000, 0x62AF2901, BRF_PRG | BRF_ESS },
+};
+
+STD_ROM_PICK(sms_rbislando)
+STD_ROM_FN(sms_rbislando)
+
+struct BurnDriver BurnDrvsms_rbislando = {
+	"sms_rbislando", "sms_rbisland", NULL, NULL, "1993",
+	"Rainbow Islands - The Story of Bubble Bobble 2 (Over the Rainbow Hack)\0", NULL, "Sega", "Sega Master System",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HACK, 1, HARDWARE_SEGA_MASTER_SYSTEM, GBF_PLATFORM, 0,
+	SMSGetZipName, sms_rbislandoRomInfo, sms_rbislandoRomName, NULL, NULL, NULL, NULL, SMSInputInfo, SMSDIPInfo,
+	SMSInit, SMSExit, SMSFrame, SMSDraw, SMSScan, &SMSPaletteRecalc, 0x1E00,
+	256, 192, 4, 3
+};
 
 // Rambo - First Blood Part II (USA)
 
@@ -28266,7 +28284,26 @@ struct BurnDriver BurnDrvgg_madoumn2e = {
 	256, 192, 4, 3
 };
 
-// Alex Kidd 3 - Curse in Miracle World (Hack)
+// Alex Kidd 3 - Curse in Miracle World (Global Hack, final version)
+
+static struct BurnRomInfo sms_alexkidd3fRomDesc[] = {
+	{ "alex kidd 3 - curse in miracle world v3.0 (2021)(yeti).sms",	524288, 0x2096b9f1, BRF_PRG | BRF_ESS },
+};
+
+STD_ROM_PICK(sms_alexkidd3f)
+STD_ROM_FN(sms_alexkidd3f)
+
+struct BurnDriver BurnDrvsms_alexkidd3f = {
+	"sms_alexkidd3f", NULL, NULL, NULL, "2021",
+	"Alex Kidd 3 - Curse in Miracle World (HB, Hack v3.0)\0", NULL, "Yeti", "Sega Master System",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_HOMEBREW, 1, HARDWARE_SEGA_MASTER_SYSTEM, GBF_PLATFORM, 0,
+	SMSGetZipName, sms_alexkidd3fRomInfo, sms_alexkidd3fRomName, NULL, NULL, NULL, NULL, SMSInputInfo, SMSDIPInfo,
+	SMSInit, SMSExit, SMSFrame, SMSDraw, SMSScan, &SMSPaletteRecalc, 0x1E00,
+	256, 192, 4, 3
+};
+
+// Alex Kidd 3 - Curse in Miracle World (Global Hack, demo version)
 
 static struct BurnRomInfo sms_alexkidd3RomDesc[] = {
 	{ "alex kidd 3 - curse in miracle world (2016)(yeti-demo4).sms",	1048576, 0x35b498a4, BRF_PRG | BRF_ESS },
@@ -28276,10 +28313,10 @@ STD_ROM_PICK(sms_alexkidd3)
 STD_ROM_FN(sms_alexkidd3)
 
 struct BurnDriver BurnDrvsms_alexkidd3 = {
-	"sms_alexkidd3", NULL, NULL, NULL, "2016",
-	"Alex Kidd 3 - Curse in Miracle World (HB, Hack Demo4)\0", NULL, "Yeti", "Sega Master System",
+	"sms_alexkidd3", "sms_alexkidd3f", NULL, NULL, "2016",
+	"Alex Kidd 3 - Curse in Miracle World (HB, Hack Demo-4)\0", NULL, "Yeti", "Sega Master System",
 	NULL, NULL, NULL, NULL,
-	BDF_GAME_WORKING | BDF_HOMEBREW, 1, HARDWARE_SEGA_MASTER_SYSTEM, GBF_PLATFORM, 0,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_HOMEBREW, 1, HARDWARE_SEGA_MASTER_SYSTEM, GBF_PLATFORM, 0,
 	SMSGetZipName, sms_alexkidd3RomInfo, sms_alexkidd3RomName, NULL, NULL, NULL, NULL, SMSInputInfo, SMSDIPInfo,
 	SMSInit, SMSExit, SMSFrame, SMSDraw, SMSScan, &SMSPaletteRecalc, 0x1E00,
 	256, 192, 4, 3
